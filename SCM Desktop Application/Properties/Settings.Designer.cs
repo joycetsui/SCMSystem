@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SCM_Windows_Form_App.Properties
+namespace SCM_Desktop_Application.Properties
 {
 
 
