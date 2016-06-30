@@ -55,9 +55,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Sidebar.xaml.cs">
-      <DependentUpon>Sidebar.xaml</DependentUpon>
+    <Compile Include="RetailOrders.xaml.cs">
+      <DependentUpon>RetailOrders.xaml</DependentUpon>
     </Compile>
+    <Page Include="CustomerOrders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -66,11 +70,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CustomerOrders.xaml.cs">
+      <DependentUpon>CustomerOrders.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Sidebar.xaml">
+    <Page Include="RetailOrders.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

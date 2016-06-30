@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace SCM_Desktop_Application
 {
     /// <summary>
-    /// Interaction logic for Sidebar.xaml
+    /// Interaction logic for CustomerOrders.xaml
     /// </summary>
-    public partial class Sidebar : Page
+    public partial class CustomerOrders : Page
     {
-        public Sidebar()
+        public CustomerOrders()
         {
             InitializeComponent();
         }

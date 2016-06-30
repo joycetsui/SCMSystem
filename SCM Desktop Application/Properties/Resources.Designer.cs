@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SCM_Desktop_Application.Properties
-{
-
-
+namespace SCM_Desktop_Application.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,49 +22,176 @@ namespace SCM_Desktop_Application.Properties
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
-    {
-
+    internal class Resources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources()
-        {
+        internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if ((resourceMan == null))
-                {
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SCM_Desktop_Application.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Analytics.
+        /// </summary>
+        internal static string Analytics_Heading {
+            get {
+                return ResourceManager.GetString("Analytics_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer Orders.
+        /// </summary>
+        internal static string CustomerOrders_Heading {
+            get {
+                return ResourceManager.GetString("CustomerOrders_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finished Goods Inventory.
+        /// </summary>
+        internal static string FinishedGoodsInv_Heading {
+            get {
+                return ResourceManager.GetString("FinishedGoodsInv_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forecasts.
+        /// </summary>
+        internal static string Forecasts_Heading {
+            get {
+                return ResourceManager.GetString("Forecasts_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory.
+        /// </summary>
+        internal static string Inventory_Heading {
+            get {
+                return ResourceManager.GetString("Inventory_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Summary.
+        /// </summary>
+        internal static string OrderSummary_Heading {
+            get {
+                return ResourceManager.GetString("OrderSummary_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Procurement.
+        /// </summary>
+        internal static string Procurement_Heading {
+            get {
+                return ResourceManager.GetString("Procurement_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Raw Material Inventory.
+        /// </summary>
+        internal static string RawMaterialsInv_Heading {
+            get {
+                return ResourceManager.GetString("RawMaterialsInv_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reports.
+        /// </summary>
+        internal static string Reports_Heading {
+            get {
+                return ResourceManager.GetString("Reports_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retail/Distributor Orders.
+        /// </summary>
+        internal static string RetailOrders_Heading {
+            get {
+                return ResourceManager.GetString("RetailOrders_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sales Order.
+        /// </summary>
+        internal static string SalesOrder_Heading {
+            get {
+                return ResourceManager.GetString("SalesOrder_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shipping Companies.
+        /// </summary>
+        internal static string ShippingCompanies_Heading {
+            get {
+                return ResourceManager.GetString("ShippingCompanies_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Supplier List.
+        /// </summary>
+        internal static string SupplierList_Heading {
+            get {
+                return ResourceManager.GetString("SupplierList_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warehouses.
+        /// </summary>
+        internal static string Warehouses_Heading {
+            get {
+                return ResourceManager.GetString("Warehouses_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WIP Inventory.
+        /// </summary>
+        internal static string WIPInv_Heading {
+            get {
+                return ResourceManager.GetString("WIPInv_Heading", resourceCulture);
             }
         }
     }

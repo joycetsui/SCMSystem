@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\Documents\GitHub\cs490-scm\SCM Desktop Application\App.xaml
-2-1117846093
+3-215047653
 
-101947175008
+11-1471617120
 13738642453
-MainWindow.xaml;Sidebar.xaml;
+CustomerOrders.xaml;MainWindow.xaml;RetailOrders.xaml;
 
-True
+False
 
