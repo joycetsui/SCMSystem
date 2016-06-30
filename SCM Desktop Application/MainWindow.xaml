@@ -8,10 +8,6 @@
         Title="MainWindow" Height="350" Width="525">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
 
         <TabControl Grid.Column="0" HorizontalContentAlignment="Left" TabStripPlacement="Left">
             <TabControl.Resources>
@@ -37,16 +33,22 @@
                     </Style.Triggers>
                 </Style>
             </TabControl.Resources>
-  
+
             <TabItem Header="Procurement" Style="{StaticResource SideBarSectionStyle}" />
-            <TabItem Header="Order Summary" IsSelected="True" Style="{StaticResource SideBarSubsectionStyle}"/>
+            <TabItem Header= "Order Summary" IsSelected="True" Style="{StaticResource SideBarSubsectionStyle}">
+                
+            </TabItem>
             <TabItem Header="Forecasts" Style="{StaticResource SideBarSubsectionStyle}"/>
             <TabItem Header="Raw Material Inventory" Style="{StaticResource SideBarSubsectionStyle}"/>
             <TabItem Header="Supplier List" Style="{StaticResource SideBarSubsectionStyle}"/>
 
             <TabItem Header="Sales Orders" Style="{StaticResource SideBarSectionStyle}" />
-            <TabItem Header="Customer Orders" Style="{StaticResource SideBarSubsectionStyle}"/>
-            <TabItem Header="Retail/Distributor Orders" Style="{StaticResource SideBarSubsectionStyle}"/>
+            <TabItem Header="Customer Orders" Style="{StaticResource SideBarSubsectionStyle}">
+                <Frame Source="CustomerOrders.xaml"></Frame>
+            </TabItem>
+            <TabItem Header="Retail/Distributor Orders" Style="{StaticResource SideBarSubsectionStyle}">
+                <Frame Source="RetailOrders.xaml"></Frame>
+            </TabItem>
             <TabItem Header="Shipping Companies" Style="{StaticResource SideBarSubsectionStyle}"/>
 
             <TabItem Header="Inventory" Style="{StaticResource SideBarSectionStyle}" />
