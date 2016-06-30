@@ -6,7 +6,59 @@
         xmlns:local="clr-namespace:SCM_Desktop_Application"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TabControl Grid.Column="0" HorizontalContentAlignment="Left" TabStripPlacement="Left">
+            <TabControl.Resources>
+                <Style TargetType="TabItem" x:Key="SideBarSectionStyle">
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+
+                <Style TargetType="TabItem" x:Key="SideBarSubsectionStyle">
+                    <Setter Property="FontSize" Value="10" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Margin" Value="5,0,0,0" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="Black" />
+                            <Setter Property="Margin" Value="2,0,0,0" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TabControl.Resources>
+  
+            <TabItem Header="Procurement" Style="{StaticResource SideBarSectionStyle}" />
+            <TabItem Header="Order Summary" IsSelected="True" Style="{StaticResource SideBarSubsectionStyle}"/>
+            <TabItem Header="Forecasts" Style="{StaticResource SideBarSubsectionStyle}"/>
+            <TabItem Header="Raw Material Inventory" Style="{StaticResource SideBarSubsectionStyle}"/>
+            <TabItem Header="Supplier List" Style="{StaticResource SideBarSubsectionStyle}"/>
+
+            <TabItem Header="Sales Orders" Style="{StaticResource SideBarSectionStyle}" />
+            <TabItem Header="Customer Orders" Style="{StaticResource SideBarSubsectionStyle}"/>
+            <TabItem Header="Retail/Distributor Orders" Style="{StaticResource SideBarSubsectionStyle}"/>
+            <TabItem Header="Shipping Companies" Style="{StaticResource SideBarSubsectionStyle}"/>
+
+            <TabItem Header="Inventory" Style="{StaticResource SideBarSectionStyle}" />
+            <TabItem Header="WIP Inventory" Style="{StaticResource SideBarSubsectionStyle}"/>
+            <TabItem Header="Finished Goods Inventory" Style="{StaticResource SideBarSubsectionStyle}"/>
+            <TabItem Header="Warehouses" Style="{StaticResource SideBarSubsectionStyle}"/>
+
+            <TabItem Header="Analytics" Style="{StaticResource SideBarSectionStyle}" />
+            <TabItem Header="Reports" Style="{StaticResource SideBarSubsectionStyle}"/>
+
+        </TabControl>
+
     </Grid>
+    
 </Window>
