@@ -16,14 +16,13 @@ using System.Windows.Shapes;
 namespace SCM_Desktop_Application
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Sidebar.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Sidebar : Page
     {
-        public MainWindow()
+        public Sidebar()
         {
             InitializeComponent();
         }
-
     }
 }
