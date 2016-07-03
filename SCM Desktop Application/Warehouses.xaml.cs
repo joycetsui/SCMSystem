@@ -16,21 +16,18 @@ using System.Windows.Shapes;
 namespace SCM_Desktop_Application
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Warehouses.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Warehouses : Page
     {
-        static public string selectedTabName = "";
-
-        public MainWindow()
+        public Warehouses()
         {
             InitializeComponent();
         }
 
-        private void TabControl_SelectedIndexChanged(Object sender, EventArgs e)
+        public void loadTable(object sender, RoutedEventArgs e)
         {
-            var current = (sender as TabControl).SelectedItem;
-            MainWindow.selectedTabName = (current as TabItem).Header.ToString();
+            warehousesDataGrid.ItemsSource = Database.WarehouseList;
         }
     }
 }
