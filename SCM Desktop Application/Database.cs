@@ -21,7 +21,7 @@ namespace SCM_Desktop_Application
                 }
                 else
                 {
-                    return Database.Products[this.id];
+                    return Database.ProductsName[this.id];
                 }
             }
 
@@ -156,10 +156,40 @@ namespace SCM_Desktop_Application
         public string Location { get; set; }
     }
 
+    public static class Product
+    {
+        public static int SKU { get; set; }
+        public static string Name
+        {
+            get
+            {
+                return Database.ProductsName[SKU];
+            }
+            set
+            {
+                Name = value;
+            }
+        }
+        public static string Description { get; set; }
+        public static string Type { get; set; }
+        public static string Style { get; set; }
+        public static string Colour { get; set; }
+        public static int Price { get; set; }
+    }
+    public static class ProductOrderItem
+    {
+        public static int orderId {get; set;}
+        public static int customerId { get; set; }
+
+        public static int Quantity { get; set; }
+        public static int BatchPrice { get; set; }
+    }
+
     public static class Database
     {
         public static string[] RawMaterials = { "Wood", "Rubber", "Eraser", "Lead" };
-        public static string[] Products = { "Product 1", "Product 2", "Product 3" };
+        public static string[] ProductsName = { "Product 1", "Product 2", "Product 3" };
+
 
         public static string[] SuppliersListName = { "Supplier 1", "Supplier 2", "Supplier 3" };
         public static string[] WarehousesListName = { "Warehouse 1", "Warehouse 2", "Warehouse 3" };
