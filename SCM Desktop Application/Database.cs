@@ -391,11 +391,22 @@ namespace SCM_Desktop_Application
             set
             {
                 Customer = value;
-                NotifyPropertyChanged();
             }
         }
 
-        public string Status { get; set; }
+        public string _Status;
+        public string Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                _Status = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public int OriginWarehouseId;
         public string OriginWarehouse
@@ -444,31 +455,27 @@ namespace SCM_Desktop_Application
         public string DateShipped;
     }
 
-    public class DistributorShipping
+    public class DistributorShipping : INotifyPropertyChanged
     {
-        public int trackingNumber { get; set; }
-        public int stockTransferID;
 
-        public int originWarehouseId;
-        public string originWarehouse
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
-            get
+            if (PropertyChanged != null)
             {
-                return Database.WarehousesListName[originWarehouseId];
-            }
-            set
-            {
-                originWarehouse = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
-        public int orderId { get; set; }
-        public int customerId;
+
+        public int OrderId { get; set; }
+
+        public int CustomerId;
         public string Customer
         {
             get
             {
-                return Database.CustomersName[customerId];
+                return Database.CustomersName[CustomerId];
             }
             set
             {
@@ -476,20 +483,52 @@ namespace SCM_Desktop_Application
             }
         }
 
+        public string _Status;
+        public string Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                _Status = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public int StockTransferID { get; set; }
+        public int OriginWarehouseId;
+        public string OriginWarehouse
+        {
+            get
+            {
+                return Database.WarehousesListName[OriginWarehouseId];
+            }
+            set
+            {
+                OriginWarehouse = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public string Destination { get; set; }
-        public string DateShipped { get; set; }
+
+        //public int Quantity;
+        //public int Weight;
+        //public int Volume;
     }
 
     public class InternalTransfer
     {
-        public int stockTransferId;
+        public int StockTransferId;
 
-        public int originSiteId;
+        public int OriginSiteId;
         public string OriginSite
         {
             get
             {
-                return Database.WarehousesListName[originSiteId];
+                return Database.WarehousesListName[OriginSiteId];
             }
             set
             {
@@ -497,12 +536,12 @@ namespace SCM_Desktop_Application
             }
         }
 
-        public int destinationSiteId;
+        public int DestinationSiteId;
         public string DestinationSite
         {
             get
             {
-                return Database.WarehousesListName[destinationSiteId];
+                return Database.WarehousesListName[DestinationSiteId];
             }
             set
             {
@@ -510,11 +549,22 @@ namespace SCM_Desktop_Application
             }
         }
 
-        public string deliveryMethod { get; set; }
+        public int DeliveryMethodID;
+        public string DeliveryMethod
+        {
+            get
+            {
+                return Database.InternalShippingMethod[DeliveryMethodID];
+            }
+            set
+            {
+                DeliveryMethod = value;
+            }
+        }
 
-        public double totalCost { get; set; }
-        public string departureDate { get; set; }
-        public string arrivalDate { get; set; }
+        public double TotalCost;
+        public string DepartureDate;
+        public string ArrivalDate;
     }
 
     public class RawMaterial
@@ -553,6 +603,7 @@ namespace SCM_Desktop_Application
         public static string[] SuppliersListName = { "Supplier 1", "Supplier 2", "Supplier 3", "Supplier 4" };
         public static string[] WarehousesListName = { "Warehouse 1", "Warehouse 2", "Warehouse 3" };
         public static string[] ShippingCompaniesName = { "Shipping 1", "Shipping 2" };
+        public static string[] InternalShippingMethod = { "Truck", "Train", "Airplane", "Pigeon" };
 
         // Raw Materials Tables
         public static RawMaterial[] RawMaterialsList = new[]
@@ -654,6 +705,7 @@ namespace SCM_Desktop_Application
             new ProductOrderItem {orderId = 0, customerId = 0, CustomerType = "Customer", DatePlaced = "January 1, 2016", DateCompleted = "January 30, 2016", Destination = "Address 1", ShipDateRequested = "January 28, 2016", productsList = productsList0 },
             new ProductOrderItem {orderId = 1, customerId = 1, CustomerType = "Customer", DatePlaced = "April 1, 2016", DateCompleted = "April 24, 2016", Destination = "Address 2", ShipDateRequested = "April 15, 2016", productsList = productsList1 },
             new ProductOrderItem {orderId = 2, customerId = 2, CustomerType = "Retailer", DatePlaced = "June 1, 2016", DateCompleted = "June 30, 2016", Destination = "Address 3", ShipDateRequested = "June 28, 2016", productsList = productsList2 },
+            new ProductOrderItem {orderId = 3, customerId = 3, CustomerType = "Distributor", DatePlaced = "July 1, 2016", DateCompleted = "July 30, 2016", Destination = "Address 4", ShipDateRequested = "July 28, 2016", productsList = productsList2 },
         };
 
         // Shipping Company Table
@@ -670,18 +722,18 @@ namespace SCM_Desktop_Application
             new CustomerShipping {OrderId = 2, CustomerId = 2, Status = "Shipped", OriginWarehouseId = 1, Destination = "Address 3", TrackingNumber = 32, ShippingCompanyId = 0, DateShipped = "May 20, 2016" },
         };
 
-        public static DistributorShipping[] DistributorShipping = new[]
+        public static ObservableCollection<DistributorShipping> DistributorShipping = new ObservableCollection<DistributorShipping>
         {
-            new DistributorShipping {trackingNumber = 0, stockTransferID = 0, customerId = 0, orderId = 0, originWarehouseId = 0, DateShipped = "March 2, 2016", Destination = "Address 1" },
-            new DistributorShipping {trackingNumber = 1, stockTransferID = 2, customerId = 1, orderId = 1, originWarehouseId = 1, DateShipped = "May 20, 2016", Destination = "Address 2" },
-            new DistributorShipping {trackingNumber = 2, stockTransferID = 1, customerId = 2, orderId = 2, originWarehouseId = 1, DateShipped = "June 20, 2016", Destination = "Address 3" },
+            new DistributorShipping {OrderId = 0, CustomerId = 0, Status = "Not Shipped" },
+            new DistributorShipping {OrderId = 1, CustomerId = 1, Status = "Shipped", StockTransferID = 2, OriginWarehouseId = 1,  Destination = "Address 2" },
+            new DistributorShipping {OrderId = 3, CustomerId = 3, Status = "Shipped", StockTransferID = 1, OriginWarehouseId = 1, Destination = "Address 3" },
         };
 
-        public static InternalTransfer[] InternalTransfer = new[]
+        public static ObservableCollection<InternalTransfer> InternalTransfer = new ObservableCollection<InternalTransfer>
         {
-            new InternalTransfer {stockTransferId = 0, originSiteId = 0, destinationSiteId = 1, deliveryMethod = "Truck 1", totalCost = 10, departureDate = "March 2, 2016", arrivalDate = "March 10, 2016"},
-            new InternalTransfer {stockTransferId = 1, originSiteId = 1, destinationSiteId = 0, deliveryMethod = "Truck 2", totalCost = 100, departureDate = "May 20, 2016", arrivalDate = "May 30, 2016"},
-            new InternalTransfer {stockTransferId = 2, originSiteId = 1, destinationSiteId = 0, deliveryMethod = "Train 3", totalCost = 50, departureDate = "June 20, 2016", arrivalDate = "June 30, 2016"}
+            new InternalTransfer {StockTransferId = 0, OriginSiteId = 0, DestinationSiteId = 1, DeliveryMethodID = 0, TotalCost = 10, DepartureDate = "March 2, 2016", ArrivalDate = "March 10, 2016"},
+            new InternalTransfer {StockTransferId = 1, OriginSiteId = 1, DestinationSiteId = 0, DeliveryMethodID = 1, TotalCost = 100, DepartureDate = "May 20, 2016", ArrivalDate = "May 30, 2016"},
+            new InternalTransfer {StockTransferId = 2, OriginSiteId = 1, DestinationSiteId = 0, DeliveryMethodID = 2, TotalCost = 50, DepartureDate = "June 20, 2016", ArrivalDate = "June 30, 2016"}
         };
 
         //Analytics

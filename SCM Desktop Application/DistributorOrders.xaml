@@ -18,9 +18,37 @@
         <Label x:Name="PageTitle" Content="Retail and Distributor Orders" 
                Grid.Row="0"
                HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
-        <Button x:Name="addOrderBtn" Content="Place New Order" 
-                Grid.Row="1"
-                HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="Auto"/>
+
+        <Grid x:Name="distributorOrderDetails" Grid.Row ="1" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0">Order Details</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="0">Order ID:</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="0">Shipping Method:</TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="0">Date Shipped:</TextBlock>
+            <CheckBox x:Name="ShippingStatus" Grid.Row="4" Grid.Column="0">Shipped</CheckBox>
+
+            <Button Grid.Row="0" Grid.Column="1" x:Name="addOrderBtn" Content="Update" 
+                HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="Auto" Click="updateDetails"/>
+
+            <TextBlock x:Name="OrderIdTextBlock" Grid.Row="1" Grid.Column="1"/>
+            <TextBlock x:Name="ShippingMethodTextBlock" Grid.Row="2" Grid.Column="1" Text=""/>
+            <TextBlock x:Name="DepartureDateTextBox" Grid.Row="3" Grid.Column="1"/>
+
+        </Grid>
+
+
         <DataGrid x:Name="distributorOrderDataGrid" 
                   Grid.Row="2"
                   HorizontalAlignment="Stretch" Width="Auto"
@@ -29,6 +57,9 @@
                   AutoGenerateColumns="True"
                   Loaded="loadTable"
                   Margin="10"
-        />
+                  IsReadOnly="True" >
+
+        </DataGrid>
+
     </Grid>
 </Page>

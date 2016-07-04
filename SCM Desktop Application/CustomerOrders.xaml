@@ -19,7 +19,7 @@
                Grid.Row="0"
                HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
 
-        <Grid x:Name="customerOrderDetails" Grid.Row ="1">
+        <Grid x:Name="customerOrderDetails" Grid.Row ="1" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -30,7 +30,7 @@
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
@@ -39,12 +39,12 @@
             <TextBlock Grid.Row="2" Grid.Column="0">Tracking #:</TextBlock>
             <TextBlock Grid.Row="3" Grid.Column="0">Shipping Company:</TextBlock>
             <TextBlock Grid.Row="4" Grid.Column="0">Date Shipped:</TextBlock>
-            <CheckBox x:Name="ShippingStatus" Grid.Row="5" Grid.Column="0">Shipped</CheckBox>
+            <CheckBox x:Name="cShippingStatus" Grid.Row="5" Grid.Column="0">Shipped</CheckBox>
             
             <Button Grid.Row="0" Grid.Column="1" x:Name="addOrderBtn" Content="Update" 
                 HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="Auto" Click="updateDetails"/>
 
-            <TextBox x:Name="OrderIdTextBox" Grid.Row="1" Grid.Column="1"></TextBox>
+            <TextBlock x:Name="OrderIdTextBlock" Grid.Row="1" Grid.Column="1"></TextBlock>
             <TextBox x:Name="TrackingTextBox" Grid.Row="2" Grid.Column="1"></TextBox>
             <ComboBox x:Name="ShippingCompanyComboBox" Grid.Row="3" Grid.Column="1" Text="">
             </ComboBox>

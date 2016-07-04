@@ -69,7 +69,7 @@ namespace SCM_Desktop_Application
             if (selectedRow != null)
             {
                 int index = selectedRow.GetIndex();
-                OrderIdTextBox.Text = Database.CustomerShipping[index].OrderId.ToString();
+                OrderIdTextBlock.Text = Database.CustomerShipping[index].OrderId.ToString();
 
                 if (TrackingTextBox.Text != null)
                 {
@@ -85,11 +85,11 @@ namespace SCM_Desktop_Application
                 }
                 if (Database.CustomerShipping[index].Status == "Shipped")
                 {
-                    ShippingStatus.IsChecked = true;
+                    cShippingStatus.IsChecked = true;
                 }
                 else
                 {
-                    ShippingStatus.IsChecked = false;
+                    cShippingStatus.IsChecked = false;
                 }
                 return;
             }            
@@ -128,12 +128,12 @@ namespace SCM_Desktop_Application
                     Database.CustomerShipping[index].DateShipped = DateShippedTextBox.Text;
 
                 }
-                if (ShippingStatus.IsChecked == true)
+                if (cShippingStatus.IsChecked == true)
                 {
                     Database.CustomerShipping[index].Status = "Shipped";
 
                 }
-                if (ShippingStatus.IsChecked == false)
+                if (cShippingStatus.IsChecked == false)
                         {
                     Database.CustomerShipping[index].Status = "Not Shipped";
 
