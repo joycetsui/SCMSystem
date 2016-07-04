@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -246,8 +248,9 @@ namespace SCM_Desktop_Application
         public string ShipDateRequested { get; set; }
     }
 
-    public class ShippingCompany
+    public class ShippingCompany 
     {
+        
         public int companyId;
         public string CompanyName
         {
@@ -289,8 +292,18 @@ namespace SCM_Desktop_Application
         public int ShippingRate { get; set; }
     }
 
-    public class CustomerShipping
+    public class CustomerShipping : INotifyPropertyChanged
     {
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         public int OrderId { get; set; }
 
         public int CustomerId;
@@ -303,6 +316,7 @@ namespace SCM_Desktop_Application
             set
             {
                 Customer = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -318,14 +332,27 @@ namespace SCM_Desktop_Application
             set
             {
                 OriginWarehouse = value;
+                NotifyPropertyChanged();
             }
         }
 
         public string Destination { get; set; }
 
         public int TrackingNumber;
-        
-        public int ShippingCompanyId;
+        public int _ShippingCompanyId;
+        public int ShippingCompanyId
+        {
+            get
+            {
+                return _ShippingCompanyId;
+            }
+            set
+            {
+                _ShippingCompanyId = value;
+                ShippingCompany = Database.ShippingCompaniesName[_ShippingCompanyId];
+                NotifyPropertyChanged();
+            }
+        }
         public string ShippingCompany
         {
             get
@@ -334,7 +361,7 @@ namespace SCM_Desktop_Application
             }
             set
             {
-                ShippingCompany = value;
+                NotifyPropertyChanged();
             }
         }
 

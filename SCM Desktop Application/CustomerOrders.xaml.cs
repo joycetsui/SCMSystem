@@ -25,7 +25,7 @@ namespace SCM_Desktop_Application
         {
             InitializeComponent();
             this.customerOrderDataGrid.MouseLeftButtonUp += new MouseButtonEventHandler(customerOrderDataGrid_MouseClick);
-            for (int i = 0; i < Database.ShippingCompanies.Length; i++)
+            for (int i = 0; i < Database.ShippingCompanies.Count; i++)
             {
                 ComboBoxItem cboxitem = new ComboBoxItem();
                 cboxitem.Content = Database.ShippingCompanies[i].CompanyName;
@@ -111,11 +111,12 @@ namespace SCM_Desktop_Application
                 if (ShippingCompanyComboBox.Text != "")
                 {
                     int i;
-                    for (i = 0; i < Database.ShippingCompanies.Length; i++)
+                    for (i = 0; i < Database.ShippingCompanies.Count; i++)
                     {
                         if (ShippingCompanyComboBox.Text == Database.ShippingCompanies[i].CompanyName)
                         {
                             Database.CustomerShipping[index].ShippingCompanyId = Database.ShippingCompanies[i].companyId;
+                         //   Database.CustomerShipping[index].ShippingCompany = Database.ShippingCompanies[i].CompanyName;
                             break;
                         }
                     }
