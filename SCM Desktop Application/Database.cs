@@ -291,19 +291,61 @@ namespace SCM_Desktop_Application
 
     public class CustomerShipping
     {
-        public int trackingNumber { get; set; }
-        public int shippingCompanyId;
+        public int OrderId { get; set; }
+
+        public int CustomerId;
+        public string Customer
+        {
+            get
+            {
+                return Database.CustomersName[CustomerId];
+            }
+            set
+            {
+                Customer = value;
+            }
+        }
+
+        public string Status { get; set; }
+
+        public int OriginWarehouseId;
+        public string OriginWarehouse
+        {
+            get
+            {
+                return Database.WarehousesListName[OriginWarehouseId];
+            }
+            set
+            {
+                OriginWarehouse = value;
+            }
+        }
+
+        public string Destination { get; set; }
+
+        public int TrackingNumber;
+        
+        public int ShippingCompanyId;
         public string ShippingCompany
         {
             get
             {
-                return Database.ShippingCompaniesName[shippingCompanyId];
+                return Database.ShippingCompaniesName[ShippingCompanyId];
             }
             set
             {
                 ShippingCompany = value;
             }
         }
+
+
+        public string DateShipped;
+    }
+
+    public class DistributorShipping
+    {
+        public int trackingNumber { get; set; }
+        public int stockTransferID;
 
         public int originWarehouseId;
         public string originWarehouse
@@ -335,6 +377,44 @@ namespace SCM_Desktop_Application
         public string Destination { get; set; }
         public string DateShipped { get; set; }
     }
+
+    public class InternalTransfer
+    {
+        public int stockTransferId;
+
+        public int originSiteId;
+        public string OriginSite
+        {
+            get
+            {
+                return Database.WarehousesListName[originSiteId];
+            }
+            set
+            {
+                OriginSite = value;
+            }
+        }
+
+        public int destinationSiteId;
+        public string DestinationSite
+        {
+            get
+            {
+                return Database.WarehousesListName[destinationSiteId];
+            }
+            set
+            {
+                DestinationSite = value;
+            }
+        }
+
+        public string deliveryMethod { get; set; }
+
+        public double totalCost { get; set; }
+        public string departureDate { get; set; }
+        public string arrivalDate { get; set; }
+    }
+
 
     public static class Database
     {
@@ -446,9 +526,24 @@ namespace SCM_Desktop_Application
 
         public static ObservableCollection<CustomerShipping> CustomerShipping = new ObservableCollection<CustomerShipping>
         {
-            new CustomerShipping {trackingNumber = 0, shippingCompanyId = 0, customerId = 0, orderId = 0, originWarehouseId = 0, DateShipped = "January 20, 2016", Destination = "Address 1" },
-            new CustomerShipping {trackingNumber = 1, shippingCompanyId = 0, customerId = 1, orderId = 1, originWarehouseId = 1, DateShipped = "April 20, 2016", Destination = "Address 2" },
-            new CustomerShipping {trackingNumber = 2, shippingCompanyId = -1, customerId = 2, orderId = 2, originWarehouseId = 1, DateShipped = "June 20, 2016", Destination = "Address 3" },
+            new CustomerShipping {OrderId = 0, CustomerId = 0, Status = "Not Shipped", OriginWarehouseId = 0, Destination = "Address 1" },
+            new CustomerShipping {OrderId = 1, CustomerId = 1, Status = "Shipped", OriginWarehouseId = 1, Destination = "Address 2", TrackingNumber = 2, ShippingCompanyId = 0, DateShipped = "April 20, 2016"},
+            new CustomerShipping {OrderId = 2, CustomerId = 2, Status = "Shipped", OriginWarehouseId = 1, Destination = "Address 3", TrackingNumber = 32, ShippingCompanyId = 0, DateShipped = "May 20, 2016" },
         };
+
+        public static DistributorShipping[] DistributorShipping = new[]
+        {
+            new DistributorShipping {trackingNumber = 0, stockTransferID = 0, customerId = 0, orderId = 0, originWarehouseId = 0, DateShipped = "March 2, 2016", Destination = "Address 1" },
+            new DistributorShipping {trackingNumber = 1, stockTransferID = 2, customerId = 1, orderId = 1, originWarehouseId = 1, DateShipped = "May 20, 2016", Destination = "Address 2" },
+            new DistributorShipping {trackingNumber = 2, stockTransferID = 1, customerId = 2, orderId = 2, originWarehouseId = 1, DateShipped = "June 20, 2016", Destination = "Address 3" },
+        };
+
+        public static InternalTransfer[] InternalTransfer = new[]
+        {
+            new InternalTransfer {stockTransferId = 0, originSiteId = 0, destinationSiteId = 1, deliveryMethod = "Truck 1", totalCost = 10, departureDate = "March 2, 2016", arrivalDate = "March 10, 2016"},
+            new InternalTransfer {stockTransferId = 1, originSiteId = 1, destinationSiteId = 0, deliveryMethod = "Truck 2", totalCost = 100, departureDate = "May 20, 2016", arrivalDate = "May 30, 2016"},
+            new InternalTransfer {stockTransferId = 2, originSiteId = 1, destinationSiteId = 0, deliveryMethod = "Train 3", totalCost = 50, departureDate = "June 20, 2016", arrivalDate = "June 30, 2016"}
+        };
+
     }
 }

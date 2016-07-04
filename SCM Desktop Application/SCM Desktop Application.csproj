@@ -57,6 +57,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Database.cs" />
+    <Compile Include="DistributorOrders.xaml.cs">
+      <DependentUpon>DistributorOrders.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Inventory.xaml.cs">
       <DependentUpon>Inventory.xaml</DependentUpon>
     </Compile>
@@ -66,9 +69,6 @@
     <Compile Include="ProcurementOrders.xaml.cs">
       <DependentUpon>ProcurementOrders.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RetailOrders.xaml.cs">
-      <DependentUpon>RetailOrders.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SuppliersList.xaml.cs">
       <DependentUpon>SuppliersList.xaml</DependentUpon>
     </Compile>
@@ -76,6 +76,10 @@
       <DependentUpon>Warehouses.xaml</DependentUpon>
     </Compile>
     <Page Include="CustomerOrders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DistributorOrders.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -103,10 +107,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ProcurementOrders.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RetailOrders.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

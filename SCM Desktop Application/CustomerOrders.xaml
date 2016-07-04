@@ -9,7 +9,62 @@
       Title="CustomerOrders">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-        <TextBlock>Customer Orders</TextBlock>
+        <Label x:Name="PageTitle" Content="Customer Orders" 
+               Grid.Row="0"
+               HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
+
+        <Grid x:Name="customerOrderDetails" Grid.Row ="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0">Order Details</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="0">Order ID:</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="0">Tracking #:</TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="0">Shipping Company:</TextBlock>
+            <TextBlock Grid.Row="4" Grid.Column="0">Date Shipped:</TextBlock>
+            <CheckBox x:Name="ShippingStatus" Grid.Row="5" Grid.Column="0">Shipped</CheckBox>
+            
+            <Button Grid.Row="0" Grid.Column="1" x:Name="addOrderBtn" Content="Update" 
+                HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="Auto" Click="updateDetails"/>
+
+            <TextBox x:Name="OrderIdTextBox" Grid.Row="1" Grid.Column="1"></TextBox>
+            <TextBox x:Name="TrackingTextBox" Grid.Row="2" Grid.Column="1"></TextBox>
+            <ComboBox x:Name="ShippingCompanyComboBox" Grid.Row="3" Grid.Column="1" Text="">
+            </ComboBox>
+
+            <TextBox x:Name="DateShippedTextBox" Grid.Row="4" Grid.Column="1"></TextBox>
+
+        </Grid>
+        
+       
+        <DataGrid x:Name="customerOrderDataGrid" 
+                  Grid.Row="2"
+                  HorizontalAlignment="Stretch" Width="Auto"
+                  ColumnWidth="*"
+                  ItemsSource="{Binding}"
+                  AutoGenerateColumns="True"
+                  Loaded="loadTable"
+                  Margin="10"
+                  IsReadOnly="True" >
+
+        </DataGrid>
+
     </Grid>
 </Page>

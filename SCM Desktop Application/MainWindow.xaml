@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SCM_Desktop_Application"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="700">
+        Title="MainWindow" Height="400" Width="1000">
 
     <Grid>
 
@@ -59,7 +59,7 @@
                 <Frame Source="CustomerOrders.xaml"></Frame>
             </TabItem>
             <TabItem Header="Retail/Distributor Orders" Style="{StaticResource SideBarSubsectionStyle}">
-                <Frame Source="RetailOrders.xaml"></Frame>
+                <Frame Source="DistributorOrders.xaml"></Frame>
             </TabItem>
             <TabItem Header="Shipping Companies" Style="{StaticResource SideBarSubsectionStyle}"/>
 

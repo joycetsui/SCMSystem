@@ -16,13 +16,18 @@ using System.Windows.Shapes;
 namespace SCM_Desktop_Application
 {
     /// <summary>
-    /// Interaction logic for RetailOrders.xaml
+    /// Interaction logic for DistributorOrders.xaml
     /// </summary>
-    public partial class RetailOrders : Page
+    public partial class DistributorOrders : Page
     {
-        public RetailOrders()
+        public DistributorOrders()
         {
             InitializeComponent();
+        }
+
+        public void loadTable(object sender, RoutedEventArgs e)
+        {
+            distributorOrderDataGrid.ItemsSource = Database.DistributorShipping;
         }
     }
 }
