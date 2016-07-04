@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -345,7 +346,7 @@ namespace SCM_Desktop_Application
         public static string[] ShippingCompaniesName = { "Shipping 1", "Shipping 2" };
 
         // Warehouses Table
-        public static Warehouse[] WarehouseList = new[]
+        public static ObservableCollection<Warehouse> WarehouseList = new ObservableCollection<Warehouse>
         {
             new Warehouse { id = 0, RentCost = 400, Location = "Address 1", StockLevel = 200, Capacity = 300 },
             new Warehouse { id = 1, RentCost = 700, Location = "Address 2", StockLevel = 500, Capacity = 1000 },
@@ -353,7 +354,7 @@ namespace SCM_Desktop_Application
         };
 
         // Suppliers Table
-        public static Supplier[] SuppliersList = new[]
+        public static ObservableCollection<Supplier> SuppliersList = new ObservableCollection<Supplier>
         {
             new Supplier {SupplierId = 0, Location = "Address 1" },
             new Supplier {SupplierId = 1, Location = "Address 2" },
@@ -361,7 +362,7 @@ namespace SCM_Desktop_Application
         };
 
         // Procurement Forecasts Table
-        public static ProcurementForecastItem[] ProcurementForecasts = new[]
+        public static ObservableCollection<ProcurementForecastItem> ProcurementForecasts = new ObservableCollection<ProcurementForecastItem>
         {
             new ProcurementForecastItem { Year = 2016, Week = 1, rawMaterialId = 0, Quantity = 0},
             new ProcurementForecastItem { Year = 2016, Week = 2, rawMaterialId = 1, Quantity = 1},
@@ -372,34 +373,34 @@ namespace SCM_Desktop_Application
         };
 
         // Procurement Orders Table
-        public static ProcurementOrderItem[] ProcurementOrders = new[]
+        public static ObservableCollection<ProcurementOrderItem> ProcurementOrders = new ObservableCollection<ProcurementOrderItem>
         {
-            new ProcurementOrderItem { orderId = 1, supplierId = 0, destinationSiteId = 1, rawMaterialId = 1 , Cost = 100},
-            new ProcurementOrderItem { orderId = 2, supplierId = 0, destinationSiteId = 0, rawMaterialId = 0 , Cost = 200},
-            new ProcurementOrderItem { orderId = 3, supplierId = 1, destinationSiteId = 1, rawMaterialId = 2 , Cost = 300},
-            new ProcurementOrderItem { orderId = 4, supplierId = 0, destinationSiteId = 2, rawMaterialId = 3 , Cost = 400},
-            new ProcurementOrderItem { orderId = 5, supplierId = 2, destinationSiteId = 0, rawMaterialId = 0 , Cost = 200},
-            new ProcurementOrderItem { orderId = 6, supplierId = 0, destinationSiteId = 1, rawMaterialId = 1 , Cost = 100},
+            new ProcurementOrderItem { orderId = 0, supplierId = 0, destinationSiteId = 1, rawMaterialId = 1 , Cost = 100},
+            new ProcurementOrderItem { orderId = 1, supplierId = 0, destinationSiteId = 0, rawMaterialId = 0 , Cost = 200},
+            new ProcurementOrderItem { orderId = 2, supplierId = 1, destinationSiteId = 1, rawMaterialId = 2 , Cost = 300},
+            new ProcurementOrderItem { orderId = 3, supplierId = 0, destinationSiteId = 2, rawMaterialId = 3 , Cost = 400},
+            new ProcurementOrderItem { orderId = 4, supplierId = 2, destinationSiteId = 0, rawMaterialId = 0 , Cost = 200},
+            new ProcurementOrderItem { orderId = 5, supplierId = 0, destinationSiteId = 1, rawMaterialId = 1 , Cost = 100},
         };
 
         // Inventory Tables
-        public static InventoryItem[] RawMaterialsInventory = new[]
+        public static ObservableCollection<InventoryItem> RawMaterialsInventory = new ObservableCollection<InventoryItem>
         {
-            new InventoryItem { id = 1, siteId = 1, unitsOnHand = 10, status = "Status", unitsOnOrder = 2,
+            new InventoryItem { id = 0, siteId = 0, unitsOnHand = 10, status = "Status", unitsOnOrder = 2,
             reorderPoint = 0},
-            new InventoryItem { id = 2, siteId = 1, unitsOnHand = 20, status = "Status", unitsOnOrder = 4,
+            new InventoryItem { id = 1, siteId = 1, unitsOnHand = 20, status = "Status", unitsOnOrder = 4,
             reorderPoint = 2},
         };
 
-        public static InventoryItem[] WIPInventory = new[]
+        public static ObservableCollection<InventoryItem> WIPInventory = new ObservableCollection<InventoryItem>
         {
-            new InventoryItem { id = 1, siteId = 1, unitsOnHand = 10, status = "Status", unitsOnOrder = 2,
+            new InventoryItem { id = 0, siteId = 1, unitsOnHand = 10, status = "Status", unitsOnOrder = 2,
             reorderPoint = 0, type = "WIP"},
-            new InventoryItem { id = 2, siteId = 1, unitsOnHand = 20, status = "Status", unitsOnOrder = 4,
+            new InventoryItem { id = 1, siteId = 1, unitsOnHand = 20, status = "Status", unitsOnOrder = 4,
             reorderPoint = 2, type = "WIP"},
         };
 
-        public static InventoryItem[] FinishedGoodsInventory = new[]
+        public static ObservableCollection<InventoryItem> FinishedGoodsInventory = new ObservableCollection<InventoryItem>
         {
             new InventoryItem { id = 0, siteId = 0, unitsOnHand = 10, status = "Status", unitsOnOrder = 20,
             reorderPoint = 0, type = "Finished Goods"},
@@ -408,6 +409,7 @@ namespace SCM_Desktop_Application
         };
 
         // Product Orders Table
+
         public static ProductOrderContent[] productsList0 = new[]
         {
             new ProductOrderContent {orderId = 0, SKU = 0, Quantity = 4 },
@@ -427,7 +429,8 @@ namespace SCM_Desktop_Application
             new ProductOrderContent {orderId = 2, SKU = 2, Quantity = 40 },
             new ProductOrderContent {orderId = 2, SKU = 3, Quantity = 52 },
         };
-        public static ProductOrderItem[] ProductOrders = new[]
+
+        public static ObservableCollection<ProductOrderItem> ProductOrders = new ObservableCollection<ProductOrderItem>
         {
             new ProductOrderItem {orderId = 0, customerId = 0, CustomerType = "Customer", DatePlaced = "January 1, 2016", DateCompleted = "January 30, 2016", Destination = "Address 1", ShipDateRequested = "January 28, 2016", productsList = productsList0 },
             new ProductOrderItem {orderId = 1, customerId = 1, CustomerType = "Customer", DatePlaced = "April 1, 2016", DateCompleted = "April 24, 2016", Destination = "Address 2", ShipDateRequested = "April 15, 2016", productsList = productsList1 },
@@ -435,13 +438,13 @@ namespace SCM_Desktop_Application
         };
 
         // Shipping Company Table
-        public static ShippingCompany[] ShippingCompanies = new[]
+        public static ObservableCollection<ShippingCompany> ShippingCompanies = new ObservableCollection<ShippingCompany>
         {
             new ShippingCompany {companyId = 0, ContactInfo = "555-555-5555", ShippingRate = 10},
             new ShippingCompany {companyId = 1, ContactInfo = "666-666-6666", ShippingRate = 15 },
         };
 
-        public static CustomerShipping[] CustomerShipping = new[]
+        public static ObservableCollection<CustomerShipping> CustomerShipping = new ObservableCollection<CustomerShipping>
         {
             new CustomerShipping {trackingNumber = 0, shippingCompanyId = 0, customerId = 0, orderId = 0, originWarehouseId = 0, DateShipped = "January 20, 2016", Destination = "Address 1" },
             new CustomerShipping {trackingNumber = 1, shippingCompanyId = 0, customerId = 1, orderId = 1, originWarehouseId = 1, DateShipped = "April 20, 2016", Destination = "Address 2" },

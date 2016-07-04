@@ -37,6 +37,8 @@
                   AutoGenerateColumns="True"
                   Loaded="loadTable"
                   Margin="10"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
         />
     </Grid>
 </Page>

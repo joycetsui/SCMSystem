@@ -20,6 +20,15 @@ namespace SCM_Desktop_Application
     /// </summary>
     public partial class ProcurementOrders : Page
     {
+        public ICommand Edit
+        {
+            get
+            {
+               showEditDetails();
+               return Edit;
+            }
+            set { }
+        }
         public ProcurementOrders()
         {
             InitializeComponent();
@@ -28,6 +37,24 @@ namespace SCM_Desktop_Application
         public void loadTable(object sender, RoutedEventArgs e)
         {
             procurementOrderDataGrid.ItemsSource = Database.ProcurementOrders;
+
+            //DataGridButtonColumn btn = new DataGridViewButtonColumn();
+            //procurementOrderDataGrid.Columns.Add(btn)
+            //btn.HeaderText = "Click Data";
+            //btn.Text = "Click Here";
+            //btn.Name = "btn";
+            //btn.UseColumnTextForButtonValue = true;
+        }
+
+        public void addNewOrder(object sender, RoutedEventArgs e)
+        {
+            MainWindow main = Application.Current.MainWindow as MainWindow;
+            main.addNewProcurementOrder(0, 0, 0, 900);
+        }
+
+        public void showEditDetails()
+        {
+            var temp = 0;
         }
     }
 }

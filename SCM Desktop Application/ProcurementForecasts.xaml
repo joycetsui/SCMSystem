@@ -30,12 +30,12 @@
                 HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
         <DataGrid x:Name="procurementForecastDataGrid" 
                   Grid.Row="2" Grid.ColumnSpan="2"
-                  HorizontalAlignment="Stretch" Width="Auto"
+                  HorizontalAlignment="Stretch" Width="Auto" Margin="10"
                   ColumnWidth="*"
                   ItemsSource="{Binding}"
                   AutoGenerateColumns="True"
                   Loaded="loadTable"
-                  Margin="10"
-        />
+                  CanUserAddRows="False"
+                  IsReadOnly="True"/>
     </Grid>
 </Page>

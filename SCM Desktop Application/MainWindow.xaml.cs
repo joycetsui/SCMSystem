@@ -32,5 +32,13 @@ namespace SCM_Desktop_Application
             var current = (sender as TabControl).SelectedItem;
             MainWindow.selectedTabName = (current as TabItem).Header.ToString();
         }
+
+        public void addNewProcurementOrder(int supplierId, int destinationSiteId, int rawMaterialId, int cost)
+        {
+            int newOrderId = Database.ProcurementOrders.Last().orderId + 1;
+            Database.ProcurementOrders.Add(
+                new ProcurementOrderItem { orderId = newOrderId, supplierId = supplierId, destinationSiteId = destinationSiteId, rawMaterialId = rawMaterialId, Cost = cost }
+            );
+        }
     }
 }

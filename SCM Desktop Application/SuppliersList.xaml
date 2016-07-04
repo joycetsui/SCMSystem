@@ -23,12 +23,30 @@
                 HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="Auto"/>
         <DataGrid x:Name="suppliersDataGrid" 
                   Grid.Row="2"
-                  HorizontalAlignment="Stretch" Width="Auto"
+                  HorizontalAlignment="Stretch" Width="Auto" Margin="10"
                   ColumnWidth="*"
                   ItemsSource="{Binding}"
                   AutoGenerateColumns="True"
                   Loaded="loadTable"
-                  Margin="10"
-        />
+                  CanUserAddRows="False"
+                  IsReadOnly="True">
+                  
+            <DataGrid.Columns>
+            <DataGridTemplateColumn Header="">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button Command="Delete" Content="X"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button Command="Delete"  Content="Edit"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>
