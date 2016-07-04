@@ -52,7 +52,7 @@ namespace SCM_Desktop_Application
             supplierCb.Text = item.Supplier;
             destinationCb.Text = item.Destination;
             rawMaterialCb.Text = item.rawMaterial;
-            costTb.Text = item.Cost.ToString();
+            quantityTb.Text = item.Quantity.ToString();
             pageTitle.Content = title;
 
             if (title == "Update Order Details")
@@ -107,9 +107,9 @@ namespace SCM_Desktop_Application
                     }
                 }
 
-                if (costTb.Text != "" && order.Cost.ToString() != costTb.Text)
+                if (quantityTb.Text != "" && order.Quantity.ToString() != quantityTb.Text)
                 {
-                    Database.ProcurementOrders[index].Cost = int.Parse(costTb.Text);
+                    Database.ProcurementOrders[index].Quantity = int.Parse(quantityTb.Text);
                 }
             }
             else
@@ -117,7 +117,7 @@ namespace SCM_Desktop_Application
                 int supplierId = order.supplierId;
                 int destinationId = order.destinationSiteId;
                 int rawMaterialId = order.rawMaterialId;
-                int cost = order.Cost;
+                int quantity = order.Quantity;
 
                 for (int i = 0; i < Database.SuppliersListName.Length; i++)
                 {
@@ -152,13 +152,13 @@ namespace SCM_Desktop_Application
                     }
                 }
 
-                if (costTb.Text != "" && order.Cost.ToString() != costTb.Text)
+                if (quantityTb.Text != "" && order.Quantity.ToString() != quantityTb.Text)
                 {
-                    cost = int.Parse(costTb.Text);
+                    quantity = int.Parse(quantityTb.Text);
                 }
 
                 MainWindow main = Application.Current.MainWindow as MainWindow;
-                main.addNewProcurementOrder(supplierId, destinationId, rawMaterialId, cost);
+                main.addNewProcurementOrder(supplierId, destinationId, rawMaterialId, quantity);
             }
 
             this.Close();

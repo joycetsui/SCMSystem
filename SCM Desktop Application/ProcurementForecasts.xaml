@@ -24,9 +24,11 @@
                HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
         <Button x:Name="updateBtn" Content="Update Forecasts" 
                 Grid.Row="1" Grid.Column="0"
+                Tag="{Binding}" Click="updateForecats"
                 HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
         <Button x:Name="placeOrdersBtn" Content="Auto Place Orders" 
                 Grid.Row="1" Grid.Column="1"
+                Tag="{Binding}" Click="placeOrders"
                 HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
         <DataGrid x:Name="procurementForecastDataGrid" 
                   Grid.Row="2" Grid.ColumnSpan="2"

@@ -60,6 +60,7 @@
     <Compile Include="DistributorOrders.xaml.cs">
       <DependentUpon>DistributorOrders.xaml</DependentUpon>
     </Compile>
+    <Compile Include="External.cs" />
     <Compile Include="Inventory.xaml.cs">
       <DependentUpon>Inventory.xaml</DependentUpon>
     </Compile>

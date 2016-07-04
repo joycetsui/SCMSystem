@@ -25,12 +25,12 @@
         <Label Name="supplierLb"  Grid.Row="1" Grid.Column="0" Content="Supplier" Margin="10,0, 10, 0" ></Label>
         <Label Name="destinationLb"  Grid.Row="2" Grid.Column="0" Content="Destination" Margin="10,0, 10, 0" ></Label>
         <Label Name="rawMaterialLb"  Grid.Row="3" Grid.Column="0" Content="Raw Material" Margin="10,0, 10, 0" ></Label>
-        <Label Name="costLb"  Grid.Row="4" Grid.Column="0" Content="Cost" Margin="10,0, 10, 0"></Label>
+        <Label Name="quantityLb"  Grid.Row="4" Grid.Column="0" Content="Quantity" Margin="10,0, 10, 0"></Label>
 
         <ComboBox Name="supplierCb"  Grid.Row="1" Grid.Column="1" Margin="10,0, 10, 0" ></ComboBox>
         <ComboBox Name="destinationCb"  Grid.Row="2" Grid.Column="1" Margin="10,0, 10, 0" ></ComboBox>
         <ComboBox Name="rawMaterialCb"  Grid.Row="3" Grid.Column="1" Margin="10,0, 10, 0" ></ComboBox>
-        <TextBox Name="costTb"  Grid.Row="4" Grid.Column="1" Margin="10,0, 10, 0" ></TextBox>
+        <TextBox Name="quantityTb"  Grid.Row="4" Grid.Column="1" Margin="10,0, 10, 0" ></TextBox>
 
         <Button Name="updateBtn" Tag="{Binding}" Click="updateOrder" Content="Update"
                 Margin="10"

@@ -165,16 +165,30 @@ namespace SCM_Desktop_Application
             }
         }
 
-        private int _cost;
-        public int Cost
+        private int _quantity;
+        public int Quantity
         {
             get
             {
-                return _cost;
+                return _quantity;
             }
             set
             {
-                _cost = value;
+                _quantity = value;
+                Cost = _quantity * Database.RawMaterialsList[_rawMaterialId].cost;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private double _cost;
+        public double Cost
+        {
+            get
+            {
+                return Database.RawMaterialsList[_rawMaterialId].cost * Quantity;
+            }
+            set
+            {
                 NotifyPropertyChanged();
             }
         }
@@ -503,15 +517,44 @@ namespace SCM_Desktop_Application
         public string arrivalDate { get; set; }
     }
 
+    public class RawMaterial
+    {
+        public int rawMaterialId;
+        public int supplierId;
+        public string type
+        {
+            get
+            {
+                return Database.RawMaterials[rawMaterialId];
+            }
+            set
+            {
+
+            }
+        }
+
+        public double cost; 
+    }
+
 
     public static class Database
     {
-        public static string[] RawMaterials = { "Wood", "Rubber", "Eraser", "Lead" };
+        public static string[] RawMaterials = { "Wood", "Ink", "Eraser", "Lead", "Metal" };
         public static string[] ProductsName = { "Product 1", "Product 2", "Product 3", "Prodcut 4" };
         public static string[] CustomersName = { "Customer 1", "Customer 2", "Retailer 1", "Retailer 2" };
-        public static string[] SuppliersListName = { "Supplier 1", "Supplier 2", "Supplier 3" };
+        public static string[] SuppliersListName = { "Supplier 1", "Supplier 2", "Supplier 3", "Supplier 4" };
         public static string[] WarehousesListName = { "Warehouse 1", "Warehouse 2", "Warehouse 3" };
         public static string[] ShippingCompaniesName = { "Shipping 1", "Shipping 2" };
+
+        // Raw Materials Tables
+        public static RawMaterial[] RawMaterialsList = new[]
+        {
+            new RawMaterial {rawMaterialId = 0, supplierId = 0, cost = 5 },
+            new RawMaterial {rawMaterialId = 1, supplierId = 1, cost = 10 },
+            new RawMaterial {rawMaterialId = 2, supplierId = 2, cost = 0.05 },
+            new RawMaterial {rawMaterialId = 3, supplierId = 3, cost = 2 },
+            new RawMaterial {rawMaterialId = 4, supplierId = 0, cost = 6 },
+        };
 
         // Warehouses Table
         public static ObservableCollection<Warehouse> WarehouseList = new ObservableCollection<Warehouse>
@@ -543,12 +586,12 @@ namespace SCM_Desktop_Application
         // Procurement Orders Table
         public static ObservableCollection<ProcurementOrderItem> ProcurementOrders = new ObservableCollection<ProcurementOrderItem>
         {
-            new ProcurementOrderItem { orderId = 0, supplierId = 0, destinationSiteId = 1, rawMaterialId = 1 , Cost = 100},
-            new ProcurementOrderItem { orderId = 1, supplierId = 0, destinationSiteId = 0, rawMaterialId = 0 , Cost = 200},
-            new ProcurementOrderItem { orderId = 2, supplierId = 1, destinationSiteId = 1, rawMaterialId = 2 , Cost = 300},
-            new ProcurementOrderItem { orderId = 3, supplierId = 0, destinationSiteId = 2, rawMaterialId = 3 , Cost = 400},
-            new ProcurementOrderItem { orderId = 4, supplierId = 2, destinationSiteId = 0, rawMaterialId = 0 , Cost = 200},
-            new ProcurementOrderItem { orderId = 5, supplierId = 0, destinationSiteId = 1, rawMaterialId = 1 , Cost = 100},
+            new ProcurementOrderItem { orderId = 0, supplierId = 0, destinationSiteId = 1, rawMaterialId = 1 , Quantity = 100},
+            new ProcurementOrderItem { orderId = 1, supplierId = 0, destinationSiteId = 0, rawMaterialId = 0 , Quantity = 200},
+            new ProcurementOrderItem { orderId = 2, supplierId = 1, destinationSiteId = 1, rawMaterialId = 2 , Quantity = 300},
+            new ProcurementOrderItem { orderId = 3, supplierId = 0, destinationSiteId = 2, rawMaterialId = 3 , Quantity = 400},
+            new ProcurementOrderItem { orderId = 4, supplierId = 2, destinationSiteId = 0, rawMaterialId = 0 , Quantity = 200},
+            new ProcurementOrderItem { orderId = 5, supplierId = 0, destinationSiteId = 1, rawMaterialId = 1 , Quantity = 100},
         };
 
         // Inventory Tables
