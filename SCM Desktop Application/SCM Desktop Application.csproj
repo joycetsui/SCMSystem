@@ -66,6 +66,9 @@
     <Compile Include="ProcurementForecasts.xaml.cs">
       <DependentUpon>ProcurementForecasts.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProcurementOrderDetails.xaml.cs">
+      <DependentUpon>ProcurementOrderDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProcurementOrders.xaml.cs">
       <DependentUpon>ProcurementOrders.xaml</DependentUpon>
     </Compile>
@@ -103,6 +106,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ProcurementForecasts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProcurementOrderDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

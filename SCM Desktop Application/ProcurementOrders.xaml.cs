@@ -20,15 +20,6 @@ namespace SCM_Desktop_Application
     /// </summary>
     public partial class ProcurementOrders : Page
     {
-        public ICommand Edit
-        {
-            get
-            {
-               showEditDetails();
-               return Edit;
-            }
-            set { }
-        }
         public ProcurementOrders()
         {
             InitializeComponent();
@@ -37,24 +28,26 @@ namespace SCM_Desktop_Application
         public void loadTable(object sender, RoutedEventArgs e)
         {
             procurementOrderDataGrid.ItemsSource = Database.ProcurementOrders;
-
-            //DataGridButtonColumn btn = new DataGridViewButtonColumn();
-            //procurementOrderDataGrid.Columns.Add(btn)
-            //btn.HeaderText = "Click Data";
-            //btn.Text = "Click Here";
-            //btn.Name = "btn";
-            //btn.UseColumnTextForButtonValue = true;
         }
 
         public void addNewOrder(object sender, RoutedEventArgs e)
         {
-            MainWindow main = Application.Current.MainWindow as MainWindow;
-            main.addNewProcurementOrder(0, 0, 0, 900);
+            ProcurementOrderItem item = new ProcurementOrderItem();
+            ProcurementOrderDetails detailsWindow = new ProcurementOrderDetails(item, "Create New Order");
+            detailsWindow.Show();
         }
 
-        public void showEditDetails()
+        public void editRow(object sender, RoutedEventArgs e)
         {
-            var temp = 0;
+            ProcurementOrderItem item = (sender as Button).DataContext as ProcurementOrderItem;
+            ProcurementOrderDetails detailsWindow = new ProcurementOrderDetails(item, "Update Order Details");
+            detailsWindow.Show();
+        }
+
+        public void deleteRow(object sender, RoutedEventArgs e)
+        {
+            ProcurementOrderItem item = (sender as Button).DataContext as ProcurementOrderItem;
+            Database.ProcurementOrders.Remove(item);
         }
     }
 }

@@ -30,42 +30,20 @@
                   AutoGenerateColumns="True"
                   Loaded="loadTable"
                   CanUserAddRows="False"
-                  CanUserDeleteRows="True"
                   IsReadOnly="True">
 
-            <!--<DataGrid.Template>
-                <ControlTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="64"/>
-                        </Grid.ColumnDefinitions>
-                        <ContentControl Grid.Column="0"/>
-                        <Grid Grid.Column="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Name="btnAdd" Content="Add" Margin="8,4,8,0" Click="addNewOrder"/>
-                            <Button Grid.Row="1" Name="btnEdit" Content="Edit" Margin="8,4,8,0" Click="addNewOrder"/>
-                            <Button Grid.Row="2" Name="btnDelete" Content="Delete" Margin="8,4,8,0" Click="addNewOrder"/>
-                        </Grid>
-                    </Grid>
-                </ControlTemplate>
-            </DataGrid.Template>-->
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="">
+                <DataGridTemplateColumn Header="" Width="40">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="Delete" Content="X"/>
+                            <Button Content="X" Tag="{Binding}" Click="deleteRow"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="">
+                <DataGridTemplateColumn Header="" Width="40">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding Edit}"  Content="Edit"/>
+                            <Button Content="Edit" Tag="{Binding}" Click="editRow"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

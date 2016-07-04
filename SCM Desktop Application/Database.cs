@@ -73,11 +73,34 @@ namespace SCM_Desktop_Application
         public int Quantity { get; set; }
     }
 
-    public class ProcurementOrderItem
+    public class ProcurementOrderItem : INotifyPropertyChanged
     {
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         public int orderId { get; set; }
 
-        public int supplierId;
+        private int _suplierId;
+        public int supplierId
+        {
+            get
+            {
+                return _suplierId;
+            }
+            set
+            {
+                _suplierId = value;
+                Supplier = Database.SuppliersListName[_suplierId];
+                NotifyPropertyChanged();
+            }
+        }
         public string Supplier {
             get
             {
@@ -86,11 +109,24 @@ namespace SCM_Desktop_Application
 
             set
             {
-                this.Supplier = value;
+                NotifyPropertyChanged();
             }
         }
 
-        public int destinationSiteId;
+        private int _destinationSiteId;
+        public int destinationSiteId
+        {
+            get
+            {
+                return _destinationSiteId;
+            }
+            set
+            {
+                _destinationSiteId = value;
+                Destination = Database.WarehousesListName[_destinationSiteId];
+                NotifyPropertyChanged();
+            }
+        }
         public string Destination {
             get
             {
@@ -99,11 +135,24 @@ namespace SCM_Desktop_Application
 
             set
             {
-                this.Destination = value;
+                NotifyPropertyChanged();
             }
         }
 
-        public int rawMaterialId;
+        private int _rawMaterialId;
+        public int rawMaterialId
+        {
+            get
+            {
+                return _rawMaterialId;
+            }
+            set
+            {
+                _rawMaterialId = value;
+                rawMaterial = Database.RawMaterials[_rawMaterialId];
+                NotifyPropertyChanged();
+            }
+        }
         public string rawMaterial {
             get
             {
@@ -112,11 +161,23 @@ namespace SCM_Desktop_Application
 
             set
             {
-                this.rawMaterial = value;
+                NotifyPropertyChanged();
             }
         }
 
-        public int Cost { get; set; }
+        private int _cost;
+        public int Cost
+        {
+            get
+            {
+                return _cost;
+            }
+            set
+            {
+                _cost = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 
     public class Warehouse
