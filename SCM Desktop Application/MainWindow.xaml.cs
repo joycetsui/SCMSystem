@@ -33,11 +33,11 @@ namespace SCM_Desktop_Application
             MainWindow.selectedTabName = (current as TabItem).Header.ToString();
         }
 
-        public void addNewProcurementOrder(int supplierId, int destinationSiteId, int rawMaterialId, double cost)
+        public void addNewProcurementOrder(int supplierId, int destinationSiteId, int rawMaterialId, int quantity)
         {
             int newOrderId = Database.ProcurementOrders.Last().orderId + 1;
             Database.ProcurementOrders.Add(
-                new ProcurementOrderItem { orderId = newOrderId, supplierId = supplierId, destinationSiteId = destinationSiteId, rawMaterialId = rawMaterialId, Cost = cost }
+                new ProcurementOrderItem { orderId = newOrderId, supplierId = supplierId, destinationSiteId = destinationSiteId, rawMaterialId = rawMaterialId, Quantity = quantity }
             );
         }
     }

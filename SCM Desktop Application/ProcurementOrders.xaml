@@ -8,21 +8,22 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="ProcurementOrders">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <Label x:Name="PageTitle" Content="Procurement Orders" 
+            <Label x:Name="PageTitle" Content="Procurement Orders" 
                Grid.Row="0"
                HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
-        <Button x:Name="addOrderBtn" Content="Place New Order" 
+            <Button x:Name="addOrderBtn" Content="Place New Order" 
                 Grid.Row="1"
                 HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="Auto"
                 Click="addNewOrder"/>
-        <DataGrid x:Name="procurementOrderDataGrid" 
+            <DataGrid x:Name="procurementOrderDataGrid" 
                   Grid.Row="2"
                   HorizontalAlignment="Stretch" Width="Auto" Margin="10"
                   ColumnWidth="*"
@@ -32,22 +33,23 @@
                   CanUserAddRows="False"
                   IsReadOnly="True">
 
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="" Width="40">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="X" Tag="{Binding}" Click="deleteRow"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="" Width="40">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Edit" Tag="{Binding}" Click="editRow"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="" Width="40">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="X" Tag="{Binding}" Click="deleteRow"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="" Width="40">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Edit" Tag="{Binding}" Click="editRow"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </ScrollViewer>
 </Page>

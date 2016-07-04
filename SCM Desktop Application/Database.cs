@@ -150,6 +150,7 @@ namespace SCM_Desktop_Application
             {
                 _rawMaterialId = value;
                 rawMaterial = Database.RawMaterials[_rawMaterialId];
+                Cost = _quantity * Database.RawMaterialsList[_rawMaterialId].cost;
                 NotifyPropertyChanged();
             }
         }
@@ -189,6 +190,7 @@ namespace SCM_Desktop_Application
             }
             set
             {
+                _cost = value;
                 NotifyPropertyChanged();
             }
         }
@@ -695,12 +697,12 @@ namespace SCM_Desktop_Application
         // Procurement Forecasts Table
         public static ObservableCollection<ProcurementForecastItem> ProcurementForecasts = new ObservableCollection<ProcurementForecastItem>
         {
-            new ProcurementForecastItem { Year = 2016, Week = 1, rawMaterialId = 0, Quantity = 0},
-            new ProcurementForecastItem { Year = 2016, Week = 2, rawMaterialId = 1, Quantity = 1},
-            new ProcurementForecastItem { Year = 2016, Week = 3, rawMaterialId = 2, Quantity = 2},
-            new ProcurementForecastItem { Year = 2016, Week = 4, rawMaterialId = 3, Quantity = 3},
-            new ProcurementForecastItem { Year = 2016, Week = 5, rawMaterialId = 1, Quantity = 4},
-            new ProcurementForecastItem { Year = 2016, Week = 6, rawMaterialId = 1, Quantity = 5},
+            new ProcurementForecastItem { Year = 2016, Week = 1, rawMaterialId = 0, Quantity = 400},
+            new ProcurementForecastItem { Year = 2016, Week = 2, rawMaterialId = 1, Quantity = 100},
+            new ProcurementForecastItem { Year = 2016, Week = 3, rawMaterialId = 2, Quantity = 25},
+            new ProcurementForecastItem { Year = 2016, Week = 4, rawMaterialId = 3, Quantity = 340},
+            new ProcurementForecastItem { Year = 2016, Week = 5, rawMaterialId = 1, Quantity = 490},
+            new ProcurementForecastItem { Year = 2016, Week = 6, rawMaterialId = 1, Quantity = 510},
         };
 
         // Procurement Orders Table

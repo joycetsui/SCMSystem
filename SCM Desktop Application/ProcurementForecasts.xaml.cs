@@ -39,29 +39,39 @@ namespace SCM_Desktop_Application
             }
         }
 
-        private int currentWeek = 3;
+        private int currentWeek = 0;
 
         public void placeOrders(object sender, RoutedEventArgs e)
         {
-            int beginForecast = currentWeek;
-            int endForecast = currentWeek + 4;
+            MessageBoxResult confirmation = MessageBox.Show("Do you want to place orders from Week " + (currentWeek+1) + " to Week " + (currentWeek + 4), "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-            MainWindow main = Application.Current.MainWindow as MainWindow;
-
-            for (int i = 0; i < Database.ProcurementForecasts.Count; i++)
+            if (confirmation == MessageBoxResult.Yes)
             {
-                ProcurementForecastItem item = Database.ProcurementForecasts[i];
-                if (item.Week >= beginForecast && item.Week <= endForecast)
-                {
-                    int supplierId = Database.RawMaterialsList[item.rawMaterialId].supplierId;
-                    double unitCost = Database.RawMaterialsList[item.rawMaterialId].cost;
-                    double totalCost = item.Quantity * unitCost;
+                int beginForecast = currentWeek;
+                int endForecast = currentWeek + 4;
 
-                    main.addNewProcurementOrder(supplierId, 0, item.rawMaterialId, totalCost);
-                }
-                {
+                MainWindow main = Application.Current.MainWindow as MainWindow;
 
+                for (int i = 0; i < Database.ProcurementForecasts.Count;)
+                {
+                    ProcurementForecastItem item = Database.ProcurementForecasts[i];
+                    if (item.Week > beginForecast && item.Week <= endForecast)
+                    {
+                        int supplierId = Database.RawMaterialsList[item.rawMaterialId].supplierId;
+                        int quantity = item.Quantity;
+                        double unitCost = Database.RawMaterialsList[item.rawMaterialId].cost;
+                        double totalCost = item.Quantity * unitCost;
+
+                        main.addNewProcurementOrder(supplierId, 0, item.rawMaterialId, quantity);
+                        Database.ProcurementForecasts.RemoveAt(i);
+                    }
+                    else
+                    {
+                        i++;
+                    }
                 }
+
+                MessageBoxResult msg = MessageBox.Show("Created Orders from week " + (currentWeek+1) + " to week " + (currentWeek + 4) + ". Forecasts for these weeks will be removed from the Forecast table.", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Question);
             }
         }
     }
