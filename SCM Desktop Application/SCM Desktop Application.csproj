@@ -94,7 +94,16 @@
     <Compile Include="Reports.xaml.cs">
       <DependentUpon>Reports.xaml</DependentUpon>
     </Compile>
+<<<<<<< 8dca2a81d7636a78887677d45c5f82f1193e6772
     <Compile Include="ServicesOffered.cs" />
+=======
+    <Compile Include="ShippingCompanies.xaml.cs">
+      <DependentUpon>ShippingCompanies.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShippingCompaniesDetail.xaml.cs">
+      <DependentUpon>ShippingCompaniesDetail.xaml</DependentUpon>
+    </Compile>
+>>>>>>> help
     <Compile Include="SuppliersList.xaml.cs">
       <DependentUpon>SuppliersList.xaml</DependentUpon>
     </Compile>
@@ -168,6 +177,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShippingCompanies.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShippingCompaniesDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

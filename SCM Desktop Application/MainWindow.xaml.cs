@@ -112,5 +112,20 @@ namespace SCM_Desktop_Application
 
             return "Retailer order id " + orderId + " does not exist.";
         }
+
+        public void addNewShippingCompany(string companyName, string shippingMethod, string contactInfo, double shippingRate)
+        {
+            int newCompanyId = Database.ShippingCompanies.Last().companyId + 1;
+            Database.ShippingCompaniesName.Add(companyName);
+            Database.ShippingCompanies.Add(
+                new ShippingCompany {
+                    companyId = newCompanyId,
+                    CompanyName = companyName,
+                    ShippingMethod = shippingMethod,
+                    ContactInfo = contactInfo,
+                    ShippingRate = shippingRate }
+            );
+          
+        }
     }
 }

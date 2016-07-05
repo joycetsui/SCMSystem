@@ -62,9 +62,11 @@
             <TabItem Header="Retail/Distributor Orders" Style="{StaticResource SideBarSubsectionStyle}">
                 <Frame Source="DistributorOrders.xaml"></Frame>
             </TabItem>
-            <TabItem Header="Shipping Companies" Style="{StaticResource SideBarSubsectionStyle}"/>
+            <TabItem Header="Shipping Companies" Style="{StaticResource SideBarSubsectionStyle}">
+                <Frame Source="ShippingCompanies.xaml"></Frame>
+            </TabItem>
 
-            <TabItem Header="Inventory" Style="{StaticResource SideBarSectionStyle}" />
+                <TabItem Header="Inventory" Style="{StaticResource SideBarSectionStyle}" />
             <TabItem Header="WIP Inventory" Style="{StaticResource SideBarSubsectionStyle}">
                 <Frame Source="Inventory.xaml"></Frame>
             </TabItem>

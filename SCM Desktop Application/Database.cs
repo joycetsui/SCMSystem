@@ -401,9 +401,18 @@ namespace SCM_Desktop_Application
         public string ShipDateRequested { get; set; }
     }
 
-    public class ShippingCompany 
+    public class ShippingCompany : INotifyPropertyChanged
     {
-        
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         public int companyId;
         public string CompanyName
         {
@@ -442,7 +451,7 @@ namespace SCM_Desktop_Application
             }
         }
         public string ContactInfo { get; set; }
-        public int ShippingRate { get; set; }
+        public double ShippingRate { get; set; }
     }
 
     public class CustomerShipping : INotifyPropertyChanged
@@ -796,7 +805,7 @@ namespace SCM_Desktop_Application
         public static string[] CustomersName = { "Customer 1", "Customer 2", "Retailer 1", "Retailer 2" };
         public static string[] SuppliersListName = { "Supplier 1", "Supplier 2", "Supplier 3", "Supplier 4" };
         public static string[] WarehousesListName = { "Warehouse 1", "Warehouse 2", "Warehouse 3" };
-        public static string[] ShippingCompaniesName = { "Shipping 1", "Shipping 2" };
+        public static List<string> ShippingCompaniesName = new List<string> { "Shipping 1", "Shipping 2" };
         public static string[] InternalShippingMethod = { "Truck", "Train", "Airplane", "Pigeon" };
         public static int[] InternalShippingMethodTransferTime = { 5, 2, 1, 10 };
 
