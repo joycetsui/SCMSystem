@@ -100,6 +100,7 @@
     </Compile>
     <Compile Include="ShippingCompaniesDetail.xaml.cs">
       <DependentUpon>ShippingCompaniesDetail.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SupplierDetail.xaml.cs">
       <DependentUpon>SupplierDetail.xaml</DependentUpon>
     </Compile>
@@ -179,15 +180,16 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-<<<<<<< 4eaeeb68e96a85b4d637d44974c76f9bad930bf9
     <Page Include="ShippingCompanies.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ShippingCompaniesDetail.xaml">
-=======
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+
     <Page Include="SupplierDetail.xaml">
->>>>>>> Supplier edits
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
