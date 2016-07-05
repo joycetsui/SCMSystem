@@ -35,7 +35,7 @@ namespace SCM_Desktop_Application
                 destinationCb.Items.Add(cb);
             }
 
-            for (int i = 0; i < Database.SuppliersListName.Length; i++)
+            for (int i = 0; i < Database.SuppliersListName.Count; i++)
             {
                 ComboBoxItem cb = new ComboBoxItem();
                 cb.Content = Database.SuppliersListName[i];
@@ -73,7 +73,7 @@ namespace SCM_Desktop_Application
 
                 if (supplierCb.Text != "" && order.Supplier != supplierCb.Text)
                 {
-                    for (int i = 0; i < Database.SuppliersListName.Length; i++)
+                    for (int i = 0; i < Database.SuppliersListName.Count; i++)
                     {
                         if (supplierCb.Text == Database.SuppliersListName[i])
                         {
@@ -119,7 +119,7 @@ namespace SCM_Desktop_Application
                 int rawMaterialId = order.rawMaterialId;
                 int quantity = order.Quantity;
 
-                for (int i = 0; i < Database.SuppliersListName.Length; i++)
+                for (int i = 0; i < Database.SuppliersListName.Count; i++)
                 {
                     if (supplierCb.Text == Database.SuppliersListName[i])
                     {

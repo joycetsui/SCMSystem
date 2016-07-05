@@ -101,6 +101,46 @@ namespace SCM_Desktop_Application
         public int Quantity { get; set; }
     }
 
+    /*public class SupplierItem : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        private int _suplierId;
+        public int supplierId
+        {
+            get
+            {
+                return _suplierId;
+            }
+            set
+            {
+                _suplierId = value;
+                Supplier = Database.SuppliersListName[_suplierId];
+                NotifyPropertyChanged();
+            }
+        }
+        public string Supplier
+        {
+            get
+            {
+                return Database.SuppliersListName[this.supplierId];
+            }
+
+            set
+            {
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string Location { get; set; }
+    }*/
+
     public class ProcurementOrderItem : INotifyPropertyChanged
     {
 
@@ -295,8 +335,17 @@ namespace SCM_Desktop_Application
         public int Capacity { get; set; }
     }
 
-    public class Supplier
+    public class Supplier: INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+ 
         public int SupplierId { get; set; }
         public string Name
         {
@@ -306,7 +355,7 @@ namespace SCM_Desktop_Application
             }
             set
             {
-                this.Name = value;
+                NotifyPropertyChanged();
             }
         }
         public string Location { get; set; }
@@ -826,7 +875,7 @@ namespace SCM_Desktop_Application
         public static string[] RawMaterials = { "Wood", "Ink", "Eraser", "Lead", "Metal" };
         public static string[] ProductsName = { "Product 1", "Product 2", "Product 3", "Product 4" };
         public static string[] CustomersName = { "Customer 1", "Customer 2", "Retailer 1", "Retailer 2" };
-        public static string[] SuppliersListName = { "Supplier 1", "Supplier 2", "Supplier 3", "Supplier 4" };
+        public static List <string> SuppliersListName = new List<string> { "Supplier 1", "Supplier 2", "Supplier 3" };
         public static string[] WarehousesListName = { "Warehouse 1", "Warehouse 2", "Warehouse 3" };
         public static List<string> ShippingCompaniesName = new List<string> { "Shipping 1", "Shipping 2" };
         public static string[] InternalShippingMethod = { "Truck", "Train", "Airplane", "Pigeon" };

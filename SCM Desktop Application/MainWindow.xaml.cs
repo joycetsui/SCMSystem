@@ -127,5 +127,14 @@ namespace SCM_Desktop_Application
             );
           
         }
+
+        public void addNewSupplier(string supplierName, string location)
+        {
+            int newSupplierId = Database.SuppliersList.Last().SupplierId + 1;
+            Database.SuppliersList.Add(
+                new Supplier { SupplierId = newSupplierId, Location = location, Name = supplierName }
+            );
+        }
+
     }
 }

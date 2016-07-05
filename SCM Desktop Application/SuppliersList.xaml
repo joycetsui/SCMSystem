@@ -18,7 +18,7 @@
         <Label x:Name="PageTitle" Content="Suppliers List" 
                Grid.Row="0"
                HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
-        <Button x:Name="addSupplierBtn" Content="Add Supplier" 
+        <Button x:Name="addSupplierBtn" Content="Add Supplier" Click="addNewSupplier" 
                 Grid.Row="1"
                 HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="Auto"/>
         <DataGrid x:Name="suppliersDataGrid" 
@@ -32,17 +32,17 @@
                   IsReadOnly="True">
                   
             <DataGrid.Columns>
-            <DataGridTemplateColumn Header="">
+                <DataGridTemplateColumn Header="" Width="40">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <Button Command="Delete" Content="X"/>
+                        <Button Click="deleteSupplier" Content="X"/>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="">
+                <DataGridTemplateColumn Header="" Width="40">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <Button Command="Delete"  Content="Edit"/>
+                        <Button Content="Edit" Click="editSupplier"/>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>

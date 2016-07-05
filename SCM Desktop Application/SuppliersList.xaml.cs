@@ -29,5 +29,26 @@ namespace SCM_Desktop_Application
         {
             suppliersDataGrid.ItemsSource = Database.SuppliersList;
         }
+
+        public void addNewSupplier(object sender, RoutedEventArgs e)
+        {
+            Supplier item = new Supplier();
+            SupplierDetail detail = new SupplierDetail(item, "Create New Supplier");
+            detail.Show();
+        }
+
+        public void editSupplier(object sender, RoutedEventArgs e)
+        {
+            Supplier item = (sender as Button).DataContext as Supplier ;
+            SupplierDetail detail = new SupplierDetail(item, "Update Supplier Details");
+            detail.Show();
+        }
+
+        public void deleteSupplier(object sender, RoutedEventArgs e)
+        {
+            Supplier item = (sender as Button).DataContext as Supplier;
+            Database.SuppliersList.Remove(item);
+            Database.SuppliersListName.Remove(item.Name);
+        }
     }
 }
