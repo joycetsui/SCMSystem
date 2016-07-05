@@ -26,6 +26,20 @@ namespace SCM_Desktop_Application
         {
             InitializeComponent();
             reportCounter = 0;
+
+            //Generate Reports
+            ReportDetails details = new ReportDetails(reportCounter);
+            reportCounter++;
+            reportList.Add(details);
+            String date = details.reportDate;
+            ReportList.Items.Add(date);
+
+            //Generate Reports
+            details = new ReportDetails(reportCounter);
+            reportCounter++;
+            reportList.Add(details);
+            date = details.reportDate;
+            ReportList.Items.Add(date);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

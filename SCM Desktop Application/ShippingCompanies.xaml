@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Label x:Name="PageTitle" Content="Procurement Orders" 
+        <Label x:Name="PageTitle" Content="Shipping Companies" 
                Grid.Row="0"
                HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
         <Button x:Name="addOrderBtn" Content="Add New Shipping Company" 

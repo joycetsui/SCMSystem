@@ -165,7 +165,10 @@ namespace SCM_Desktop_Application
             set
             {
                 _suplierId = value;
-                Supplier = Database.SuppliersListName[_suplierId];
+                if (_suplierId < Database.SuppliersListName.Count)
+                {
+                    Supplier = Database.SuppliersListName[_suplierId];
+                }
                 NotifyPropertyChanged();
             }
         }
@@ -887,7 +890,7 @@ namespace SCM_Desktop_Application
             new RawMaterial {rawMaterialId = 0, supplierId = 0, cost = 5 },
             new RawMaterial {rawMaterialId = 1, supplierId = 1, cost = 10 },
             new RawMaterial {rawMaterialId = 2, supplierId = 2, cost = 0.05 },
-            new RawMaterial {rawMaterialId = 3, supplierId = 3, cost = 2 },
+            new RawMaterial {rawMaterialId = 3, supplierId = 2, cost = 2 },
             new RawMaterial {rawMaterialId = 4, supplierId = 0, cost = 6 },
         };
 
@@ -1019,13 +1022,11 @@ namespace SCM_Desktop_Application
         {
             new CustomerShipping {OrderId = 0, CustomerId = 0, Status = "Not Shipped", OriginWarehouseId = 0, Destination = "Address 1" },
             new CustomerShipping {OrderId = 1, CustomerId = 1, Status = "Shipped", OriginWarehouseId = 1, Destination = "Address 2", TrackingNumber = 2, ShippingCompanyId = 0, DateShipped = "April 20, 2016"},
-            new CustomerShipping {OrderId = 2, CustomerId = 2, Status = "Shipped", OriginWarehouseId = 1, Destination = "Address 3", TrackingNumber = 32, ShippingCompanyId = 0, DateShipped = "May 20, 2016" },
         };
 
         public static ObservableCollection<DistributorShipping> DistributorShipping = new ObservableCollection<DistributorShipping>
         {
-            new DistributorShipping {OrderId = 0, CustomerId = 0, Status = "Not Shipped", StockTransferID = -1},
-            new DistributorShipping {OrderId = 1, CustomerId = 1, Status = "Shipped", StockTransferID = 2, OriginWarehouseId = 1,  Destination = "Address 2" },
+            new DistributorShipping {OrderId = 0, CustomerId = 2, Status = "Not Shipped", StockTransferID = -1, Destination = "Address 1"},
             new DistributorShipping {OrderId = 3, CustomerId = 3, Status = "Shipped", StockTransferID = 1, OriginWarehouseId = 1, Destination = "Address 3" },
         };
 
