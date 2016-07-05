@@ -45,8 +45,72 @@ namespace SCM_Desktop_Application
         {
             int newtransferId = Database.InternalTransfer.Last().StockTransferId + 1;
             Database.InternalTransfer.Add(
-                            new InternalTransfer { StockTransferId = newtransferId, OriginSiteId = originSiteId, DestinationSiteId = destinationSiteId, DeliveryMethodID = deliveryMethodId, TotalCost = 10, DepartureDate = departureDate, ArrivalDate = arrivalDate}
+                            new InternalTransfer { StockTransferId = newtransferId, OriginSiteId = originSiteId, DestinationSiteId = destinationSiteId, DeliveryMethodID = deliveryMethodId, TotalCost = 10, DepartureDate = departureDate, ArrivalDate = arrivalDate, Quantity = quantity}
             );
+        }
+
+        public Expense[] getExpenses()
+        {
+            int transpCost = getTransportationCost();
+            int procCost = getProcurementCost();
+            int rentCost = 5000;
+
+            Expense[] expenses = new[]
+            {
+                new Expense { Name = "Procurement Cost", amount = procCost },
+                new Expense {Name = "Transportation Cost", amount = transpCost },
+                new Expense {Name = "Warehouse Rent Cost", amount = rentCost },
+            };
+
+            return expenses;
+        }
+
+        public int getProcurementCost()
+        {
+            return 500;
+        }
+
+        public int getTransportationCost()
+        {
+            return 100;
+        }
+
+        public int getRawMaterialsOnHandForId(int rawMaterialId)
+        {
+            if (rawMaterialId < Database.RawMaterialsInventory.Count)
+            {
+                return Database.RawMaterialsInventory[rawMaterialId].unitsOnHand;
+            }
+
+            return 0;
+        }
+
+        public void updateRawMaterialsOnHandForId(int rawMaterialId, int newAmount)
+        {
+            if (rawMaterialId < Database.RawMaterialsInventory.Count)
+            {
+                Database.RawMaterialsInventory[rawMaterialId].unitsOnHand = newAmount;
+            }
+        }
+
+        public string getCustomerOrderStatus(int orderId)
+        {
+            if (orderId < Database.ProductOrders.Count)
+            {
+               return Database.CustomerShipping[orderId].Status;
+            }
+
+            return "Customer order id " + orderId + " does not exist.";
+        }
+
+        public string getRetailerOrderStatus(int orderId)
+        {
+            if (orderId < Database.DistributorShipping.Count)
+            {
+                return Database.DistributorShipping[orderId].Status;
+            }
+
+            return "Retailer order id " + orderId + " does not exist.";
         }
     }
 }

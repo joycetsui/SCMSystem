@@ -783,6 +783,12 @@ namespace SCM_Desktop_Application
         public int Quantity { get; set; }
     }
 
+    public class Expense
+    {
+        public string Name;
+        public int amount;
+    }
+
     public static class Database
     {
         public static string[] RawMaterials = { "Wood", "Ink", "Eraser", "Lead", "Metal" };
