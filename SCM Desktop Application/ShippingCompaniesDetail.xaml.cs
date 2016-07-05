@@ -60,6 +60,7 @@ namespace SCM_Desktop_Application
 
                 if (CompanyNameTextBox.Text != "")
                 {
+                    Database.ShippingCompaniesName[Database.ShippingCompanies[i].companyId] = CompanyNameTextBox.Text;
                     Database.ShippingCompanies[i].CompanyName = CompanyNameTextBox.Text;
                 }
 

@@ -47,6 +47,7 @@ namespace SCM_Desktop_Application
         public void deleteShipping(object sender, RoutedEventArgs e)
         {
             ShippingCompany item = (sender as Button).DataContext as ShippingCompany;
+            Database.ShippingCompaniesName.RemoveAt(item.companyId);
             Database.ShippingCompanies.Remove(item);
         }
     }

@@ -414,44 +414,67 @@ namespace SCM_Desktop_Application
         }
 
         public int companyId;
+
+        private string _companyName;
         public string CompanyName
         {
             get
             {
-                if (companyId != -1)
+                if (companyId < Database.ShippingCompaniesName.Count)
                 {
                     return Database.ShippingCompaniesName[companyId];
                 }
                 else
                 {
-                    return "Company Delivery";
+                    return _companyName;
                 }
             }
             set
             {
-                CompanyName = value;
+                _companyName = value;
+                NotifyPropertyChanged();
             }
         }
+        private string _shippingMethod;
         public string ShippingMethod
         {
             get
             {
-                if (CompanyName == "Company Delivery")
-                {
-                    return "Own Truck";
-                }
-                else
-                {
-                    return "Shipping Company";
-                }
+                return _shippingMethod;
             }
             set
             {
-                ShippingMethod = value;
+                _shippingMethod = value;
+                NotifyPropertyChanged();
             }
         }
-        public string ContactInfo { get; set; }
-        public double ShippingRate { get; set; }
+        private string _contactInfo;
+        public string ContactInfo
+        {
+            get
+            {
+                return _contactInfo;
+            }
+            set
+            {
+                _contactInfo = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private double _shippingRate;
+        public double ShippingRate
+        {
+            get
+            {
+                return _shippingRate;
+            }
+            set
+            {
+                _shippingRate = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 
     public class CustomerShipping : INotifyPropertyChanged
@@ -939,8 +962,8 @@ namespace SCM_Desktop_Application
         // Shipping Company Table
         public static ObservableCollection<ShippingCompany> ShippingCompanies = new ObservableCollection<ShippingCompany>
         {
-            new ShippingCompany {companyId = 0, ContactInfo = "555-555-5555", ShippingRate = 10},
-            new ShippingCompany {companyId = 1, ContactInfo = "666-666-6666", ShippingRate = 15 },
+            new ShippingCompany {companyId = 0, ContactInfo = "555-555-5555", ShippingRate = 10, ShippingMethod = "Ground"},
+            new ShippingCompany {companyId = 1, ContactInfo = "666-666-6666", ShippingRate = 15, ShippingMethod = "Air" },
         };
 
         public static ObservableCollection<CustomerShipping> CustomerShipping = new ObservableCollection<CustomerShipping>
