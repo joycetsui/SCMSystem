@@ -9,10 +9,10 @@ namespace SCM_Desktop_Application
 {
     class ServicesOffered
     {
-        
+
         ServicesOffered(string apiUrl)
         {
-            string url =apiUrl;
+            string url = apiUrl;
             url = "ip/expenses";
 
             MainWindow main = Application.Current.MainWindow as MainWindow;
@@ -66,7 +66,7 @@ namespace SCM_Desktop_Application
                 string type = "Cusotmer";
                 string status = "";
 
-                if  (type == "Cutomer")
+                if (type == "Cutomer")
                 {
                     status = main.getCustomerOrderStatus(orderId);
                 }
@@ -76,4 +76,5 @@ namespace SCM_Desktop_Application
                 }
             }
         }
+    }
 }

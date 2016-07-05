@@ -94,6 +94,7 @@
     <Compile Include="Reports.xaml.cs">
       <DependentUpon>Reports.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ServicesOffered.cs" />
     <Compile Include="SuppliersList.xaml.cs">
       <DependentUpon>SuppliersList.xaml</DependentUpon>
     </Compile>
