@@ -497,7 +497,19 @@ namespace SCM_Desktop_Application
             }
         }
 
-        public int StockTransferID { get; set; }
+        public int _StockTransferID;
+        public int StockTransferID
+        {
+            get
+            {
+                return _StockTransferID;
+            }
+            set
+            {
+                _StockTransferID = value;
+                NotifyPropertyChanged();
+            }
+        }
         public int OriginWarehouseId;
         public string OriginWarehouse
         {
@@ -724,7 +736,7 @@ namespace SCM_Desktop_Application
 
         public static ObservableCollection<DistributorShipping> DistributorShipping = new ObservableCollection<DistributorShipping>
         {
-            new DistributorShipping {OrderId = 0, CustomerId = 0, Status = "Not Shipped" },
+            new DistributorShipping {OrderId = 0, CustomerId = 0, Status = "Not Shipped", StockTransferID = -1},
             new DistributorShipping {OrderId = 1, CustomerId = 1, Status = "Shipped", StockTransferID = 2, OriginWarehouseId = 1,  Destination = "Address 2" },
             new DistributorShipping {OrderId = 3, CustomerId = 3, Status = "Shipped", StockTransferID = 1, OriginWarehouseId = 1, Destination = "Address 3" },
         };

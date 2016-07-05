@@ -1,0 +1,43 @@
+﻿<Window x:Class="SCM_Desktop_Application.CustomerOrderDetails"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SCM_Desktop_Application"
+        mc:Ignorable="d"
+        Title="CustomerOrderDetails" Height="300" Width="300">
+    <Grid x:Name="customerOrderDetails" Grid.Row ="1" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0">Order ID:</TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="0">Tracking #:</TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="0">Shipping Company:</TextBlock>
+        <TextBlock Grid.Row="3" Grid.Column="0">Date Shipped:</TextBlock>
+        <CheckBox x:Name="cShippingStatus" Grid.Row="4" Grid.Column="0">Shipped</CheckBox>
+
+
+
+        <TextBlock x:Name="OrderIdTextBlock2" Grid.Row="0" Grid.Column="1"></TextBlock>
+        <TextBox x:Name="TrackingTextBox" Grid.Row="1" Grid.Column="1"></TextBox>
+        <ComboBox x:Name="ShippingCompanyComboBox" Grid.Row="2" Grid.Column="1" Text="">
+        </ComboBox>
+
+        <TextBox x:Name="DateShippedTextBox" Grid.Row="3" Grid.Column="1"></TextBox>
+
+        <Button Grid.Row="4" Grid.Column="1" x:Name="addOrderBtn" Content="Update" 
+                HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="Auto" Click="updateDetails"/>
+        
+    </Grid>
+</Window>

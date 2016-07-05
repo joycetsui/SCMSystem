@@ -35,16 +35,15 @@
 
             <TextBlock Grid.Row="0" Grid.Column="0">Order Details</TextBlock>
             <TextBlock Grid.Row="1" Grid.Column="0">Order ID:</TextBlock>
-            <TextBlock Grid.Row="2" Grid.Column="0">Shipping Method:</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="0">Delivery Method:</TextBlock>
             <TextBlock Grid.Row="3" Grid.Column="0">Date Shipped:</TextBlock>
-            <CheckBox x:Name="ShippingStatus" Grid.Row="4" Grid.Column="0">Shipped</CheckBox>
 
-            <Button Grid.Row="0" Grid.Column="1" x:Name="addOrderBtn" Content="Update" 
-                HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="Auto" Click="updateDetails"/>
+            <Button Grid.Row="0" Grid.Column="1" x:Name="daddOrderBtn" Content="Update" 
+                HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="Auto" Click="openDetailsWindow"/>
 
-            <TextBlock x:Name="OrderIdTextBlock" Grid.Row="1" Grid.Column="1"/>
-            <TextBlock x:Name="ShippingMethodTextBlock" Grid.Row="2" Grid.Column="1" Text=""/>
-            <TextBlock x:Name="DepartureDateTextBox" Grid.Row="3" Grid.Column="1"/>
+            <TextBlock x:Name="dOrderIdTextBlock" Grid.Row="1" Grid.Column="1"/>
+            <TextBlock x:Name="dShippingMethodTextBlock" x:FieldModifier="public" Grid.Row="2" Grid.Column="1" Text=""/>
+            <TextBlock x:Name="dDepartureDateTextBox" x:FieldModifier="public" Grid.Row="3" Grid.Column="1"/>
 
         </Grid>
 

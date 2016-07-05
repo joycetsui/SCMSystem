@@ -25,14 +25,7 @@ namespace SCM_Desktop_Application
         {
             InitializeComponent();
             this.customerOrderDataGrid.MouseLeftButtonUp += new MouseButtonEventHandler(customerOrderDataGrid_MouseClick);
-            for (int i = 0; i < Database.ShippingCompanies.Count; i++)
-            {
-                ComboBoxItem cboxitem = new ComboBoxItem();
-                cboxitem.Content = Database.ShippingCompanies[i].CompanyName;
-                ShippingCompanyComboBox.Items.Add(cboxitem);
-            }
-
-
+            
         }
 
         public void loadTable(object sender, RoutedEventArgs e)
@@ -71,76 +64,32 @@ namespace SCM_Desktop_Application
                 int index = selectedRow.GetIndex();
                 OrderIdTextBlock.Text = Database.CustomerShipping[index].OrderId.ToString();
 
-                if (TrackingTextBox.Text != null)
+                if (TrackingTextBlock.Text != null)
                 {
-                    TrackingTextBox.Text = Database.CustomerShipping[index].TrackingNumber.ToString();
+                    TrackingTextBlock.Text = Database.CustomerShipping[index].TrackingNumber.ToString();
                 }
-                if (ShippingCompanyComboBox.Text != null)
+                if (ShippingCompanyTextBlock.Text != null)
                 {
-                    ShippingCompanyComboBox.Text = Database.CustomerShipping[index].ShippingCompany;
+                    ShippingCompanyTextBlock.Text = Database.CustomerShipping[index].ShippingCompany;
                 }
-                if (DateShippedTextBox.Text != null)
+                if (DateShippedTextBlock.Text != null)
                 {
-                    DateShippedTextBox.Text = Database.CustomerShipping[index].DateShipped;
+                    DateShippedTextBlock.Text = Database.CustomerShipping[index].DateShipped;
                 }
-                if (Database.CustomerShipping[index].Status == "Shipped")
-                {
-                    cShippingStatus.IsChecked = true;
-                }
-                else
-                {
-                    cShippingStatus.IsChecked = false;
-                }
-                return;
+;
             }            
             
         }
 
-        // Update database
-        void updateDetails(object sender, RoutedEventArgs e)
+        public void openDetailsWindow(object sender, RoutedEventArgs e)
         {
             if (selectedRow != null)
             {
                 int index = selectedRow.GetIndex();
+                CustomerOrderDetails detailsWindow = new CustomerOrderDetails(index, "Update Customer Order Details");
+                detailsWindow.Show();
 
-                if (TrackingTextBox.Text != "")
-                {
-                    Database.CustomerShipping[index].TrackingNumber = int.Parse(TrackingTextBox.Text);       
-                }
-
-                if (ShippingCompanyComboBox.Text != "")
-                {
-                    int i;
-                    for (i = 0; i < Database.ShippingCompanies.Count; i++)
-                    {
-                        if (ShippingCompanyComboBox.Text == Database.ShippingCompanies[i].CompanyName)
-                        {
-                            Database.CustomerShipping[index].ShippingCompanyId = Database.ShippingCompanies[i].companyId;
-                         //   Database.CustomerShipping[index].ShippingCompany = Database.ShippingCompanies[i].CompanyName;
-                            break;
-                        }
-                    }
-                    
-
-                }
-                if (DateShippedTextBox.Text != "")
-                {
-                    Database.CustomerShipping[index].DateShipped = DateShippedTextBox.Text;
-
-                }
-                if (cShippingStatus.IsChecked == true)
-                {
-                    Database.CustomerShipping[index].Status = "Shipped";
-
-                }
-                if (cShippingStatus.IsChecked == false)
-                        {
-                    Database.CustomerShipping[index].Status = "Not Shipped";
-
-                }                  
-                
             }
-            
         }
     }
 }

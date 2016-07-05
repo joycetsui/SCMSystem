@@ -55,73 +55,37 @@ namespace SCM_Desktop_Application
         }
 
         // Display order details
-        void getDetails()
+        public void getDetails()
         {
             if (selectedRow != null)
             {
                 int index = selectedRow.GetIndex();
-                OrderIdTextBlock.Text = Database.DistributorShipping[index].OrderId.ToString();
+                dOrderIdTextBlock.Text = Database.DistributorShipping[index].OrderId.ToString();
 
                 int i;
                 for (i = 0; i < Database.InternalTransfer.Count; i++)
                 {
                     if (Database.InternalTransfer[i].StockTransferId == Database.DistributorShipping[index].StockTransferID)
                     {
-                        ShippingMethodTextBlock.Text = Database.InternalTransfer[i].DeliveryMethod;
-                        DepartureDateTextBox.Text = Database.InternalTransfer[index].DepartureDate;
+                        dShippingMethodTextBlock.Text = Database.InternalTransfer[i].DeliveryMethod;
+                        dDepartureDateTextBox.Text = Database.InternalTransfer[index].DepartureDate;
                         return;
                     }
                 }
 
-                if (Database.DistributorShipping[index].Status == "Shipped")
-                {
-                    ShippingStatus.IsChecked = true;
-                }
-                else
-                {
-                    ShippingStatus.IsChecked = false;
-                }
                 return;
             }
 
         }
 
         // Update database
-        void updateDetails(object sender, RoutedEventArgs e)
+        void openDetailsWindow(object sender, RoutedEventArgs e)
         {
             if (selectedRow != null)
             {
                 int index = selectedRow.GetIndex();
-
-                //if (ShippingCompanyComboBox.Text != "")
-                //{
-                //    int i;
-                //    for (i = 0; i < Database.ShippingCompanies.Count; i++)
-                //    {
-                //        if (ShippingCompanyComboBox.Text == Database.ShippingCompanies[i].CompanyName)
-                //        {
-                //            Database.CustomerShipping[index].ShippingCompanyId = Database.ShippingCompanies[i].companyId;
-                //            break;
-                //        }
-                //    }
-
-
-                //}
-                //if (DateShippedTextBox.Text != "")
-                //{
-                //    Database.CustomerShipping[index].DateShipped = DateShippedTextBox.Text;
-
-                //}
-                if (ShippingStatus.IsChecked == true)
-                {
-                    Database.CustomerShipping[index].Status = "Shipped";
-
-                }
-                if (ShippingStatus.IsChecked == false)
-                {
-                    Database.CustomerShipping[index].Status = "Not Shipped";
-
-                }
+                DistributorOrdersDetails detailsWindow = new DistributorOrdersDetails(index, "Update Distributor/Retail Order Details");
+                detailsWindow.Show();
 
             }
 
