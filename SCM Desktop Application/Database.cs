@@ -249,7 +249,9 @@ namespace SCM_Desktop_Application
 
         public int RentCost { get; set; }
 
-        private int[] rawMaterialCount = new int[5] { 0, 0, 0, 0, 0 };
+        public WarehouseDetailItem[] rawMaterials;
+        public WarehouseDetailItem[] WIPs;
+        public WarehouseDetailItem[] FinishedGoods;
 
         public string Location { get; set; }
 
@@ -266,7 +268,6 @@ namespace SCM_Desktop_Application
                         total += Database.RawMaterialsInventory[i].unitsOnHand;
                     }
                 }
-                total = 0;
                 for (int i = 0; i < Database.WIPInventory.Count; i++)
                 {
                     if (Database.WIPInventory[i].siteId == id)
@@ -275,7 +276,6 @@ namespace SCM_Desktop_Application
                     }
                 }
 
-                total = 0;
                 for (int i = 0; i < Database.FinishedGoodsInventory.Count; i++)
                 {
                     if (Database.FinishedGoodsInventory[i].siteId == id)
@@ -760,10 +760,33 @@ namespace SCM_Desktop_Application
         public string date;
     }
 
+    public class WarehouseDetailItem
+    {
+        public int id;
+        public string type = "raw materials";
+        public string Name
+        {
+            get
+            {
+                if (type == "raw materials")
+                {
+                    return Database.RawMaterials[id];
+                }
+                else
+                {
+                    return Database.ProductsName[id];
+                }
+            }
+            set { }
+        }
+
+        public int Quantity { get; set; }
+    }
+
     public static class Database
     {
         public static string[] RawMaterials = { "Wood", "Ink", "Eraser", "Lead", "Metal" };
-        public static string[] ProductsName = { "Product 1", "Product 2", "Product 3", "Prodcut 4" };
+        public static string[] ProductsName = { "Product 1", "Product 2", "Product 3", "Product 4" };
         public static string[] CustomersName = { "Customer 1", "Customer 2", "Retailer 1", "Retailer 2" };
         public static string[] SuppliersListName = { "Supplier 1", "Supplier 2", "Supplier 3", "Supplier 4" };
         public static string[] WarehousesListName = { "Warehouse 1", "Warehouse 2", "Warehouse 3" };
@@ -782,11 +805,31 @@ namespace SCM_Desktop_Application
         };
 
         // Warehouses Table
+        public static WarehouseDetailItem[] rawMaterials = new []
+        {
+            new WarehouseDetailItem {id = 0, Quantity = 10 },
+            new WarehouseDetailItem {id = 1, Quantity = 5 },
+            new WarehouseDetailItem {id = 2, Quantity = 20 },
+            new WarehouseDetailItem {id = 3, Quantity = 50 },
+            new WarehouseDetailItem {id = 4, Quantity = 3 },
+        };
+        public static WarehouseDetailItem[] WIP = new []
+        {
+            new WarehouseDetailItem {id = 0, Quantity = 1, type = "WIP"},
+            new WarehouseDetailItem {id = 1, Quantity = 2, type = "WIP" },
+            new WarehouseDetailItem {id = 2, Quantity = 3, type = "WIP" },
+        };
+        public static WarehouseDetailItem[] finishedGoods = new []
+        {
+            new WarehouseDetailItem {id = 0, Quantity = 10, type = "Finished Goods" },
+            new WarehouseDetailItem {id = 1, Quantity = 20, type = "Finished Goods" },
+            new WarehouseDetailItem {id = 3, Quantity = 40, type = "Finished Goods" },
+        };
         public static ObservableCollection<Warehouse> WarehouseList = new ObservableCollection<Warehouse>
         {
-            new Warehouse { id = 0, RentCost = 400, Location = "Address 1", Capacity = 300 },
-            new Warehouse { id = 1, RentCost = 700, Location = "Address 2", Capacity = 1000 },
-            new Warehouse { id = 2, RentCost = 500, Location = "Address 3", Capacity = 300 },
+            new Warehouse { id = 0, RentCost = 400, Location = "Address 1", Capacity = 300, rawMaterials = rawMaterials, FinishedGoods = finishedGoods, WIPs = WIP},
+            new Warehouse { id = 1, RentCost = 700, Location = "Address 2", Capacity = 1000 , rawMaterials = rawMaterials, FinishedGoods = finishedGoods, WIPs = WIP},
+            new Warehouse { id = 2, RentCost = 500, Location = "Address 3", Capacity = 300 , rawMaterials = rawMaterials, FinishedGoods = finishedGoods, WIPs = WIP},
         };
 
         // Suppliers Table
@@ -826,6 +869,8 @@ namespace SCM_Desktop_Application
             reorderPoint = 0},
             new InventoryItem { id = 1, siteId = 1, unitsOnHand = 20, unitsOnOrder = 4,
             reorderPoint = 2},
+             new InventoryItem { id = 2, siteId = 0, unitsOnHand = 68, unitsOnOrder = 2,
+            reorderPoint = 5},
         };
 
         public static ObservableCollection<InventoryItem> WIPInventory = new ObservableCollection<InventoryItem>

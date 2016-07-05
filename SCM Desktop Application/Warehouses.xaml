@@ -14,13 +14,10 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <Label x:Name="PageTitle" Content="Warehouses List" 
                Grid.Row="0"
                HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
-        <Button x:Name="transferBtn" Content="Request Transfer" 
-                Grid.Row="1"
-                HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="Auto"/>
         <DataGrid x:Name="warehousesDataGrid" 
                   Grid.Row="2"
                   HorizontalAlignment="Stretch" Width="Auto" Margin="10"
@@ -29,7 +26,13 @@
                   AutoGenerateColumns="True"
                   Loaded="loadTable"
                   CanUserAddRows="False"
-                  IsReadOnly="True"
-        />
+                  IsReadOnly="True">
+
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="row_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+        </DataGrid>
     </Grid>
 </Page>

@@ -29,5 +29,12 @@ namespace SCM_Desktop_Application
         {
             warehousesDataGrid.ItemsSource = Database.WarehouseList;
         }
+
+        public void row_DoubleClick(object sender, RoutedEventArgs e)
+        {
+            Warehouse item = (sender as DataGridRow).DataContext as Warehouse;
+            WarehouseDetails detailsWindow = new WarehouseDetails(item);
+            detailsWindow.Show();
+        }
     }
 }
