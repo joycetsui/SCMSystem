@@ -23,11 +23,47 @@ namespace SCM_Desktop_Application
         public InternalTransfers()
         {
             InitializeComponent();
+            this.internalTransfersDataGrid.MouseLeftButtonUp += new MouseButtonEventHandler(internalTransfersDataGrid_MouseClick);
         }
 
         public void loadTable(object sender, RoutedEventArgs e)
         {
             internalTransfersDataGrid.DataContext = Database.InternalTransfer;
         }
+
+        private DataGridRow selectedRow;
+
+        void internalTransfersDataGrid_MouseClick(object sender, MouseEventArgs e)
+        {
+            DependencyObject dep = (DependencyObject)e.OriginalSource;
+            // iteratively traverse the visual tree
+            while ((dep != null) &&
+                    !(dep is DataGridRow))
+            {
+                dep = VisualTreeHelper.GetParent(dep);
+            }
+            if (dep == null)
+                return;
+
+            if (dep is DataGridRow)
+            {
+                DataGridRow row = dep as DataGridRow;
+                selectedRow = row;
+            }
+        }
+
+
+        void editTransfer(object sender, RoutedEventArgs e)
+        {
+            if (selectedRow != null)
+            {
+                int index = selectedRow.GetIndex();
+                InternalTransfersDetails detailsWindow = new InternalTransfersDetails(index, "Update Internal Transfer Details");
+                detailsWindow.Show();
+
+            }
+        }
+
+
     }
 }

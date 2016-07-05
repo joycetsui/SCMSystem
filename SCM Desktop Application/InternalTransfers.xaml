@@ -22,13 +22,9 @@
         <Label x:Name="PageTitle" Content="Internal Transfers" 
                Grid.Row="0" Grid.ColumnSpan="2"
                HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
-        <Button x:Name="updateBtn" Content="Update Forecasts" 
-                Grid.Row="1" Grid.Column="0"
-                Tag="{Binding}"
-                HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
-        <Button x:Name="placeOrdersBtn" Content="Auto Place Orders" 
+        <Button x:Name="editTransfersBtn" Content="Edit" 
                 Grid.Row="1" Grid.Column="1"
-                Tag="{Binding}"
+                Tag="{Binding}" Click="editTransfer"
                 HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
         <DataGrid x:Name="internalTransfersDataGrid" 
                   Grid.Row="2" Grid.ColumnSpan="2"

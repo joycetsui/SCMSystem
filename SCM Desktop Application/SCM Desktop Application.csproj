@@ -70,6 +70,9 @@
     <Compile Include="InternalTransfers.xaml.cs">
       <DependentUpon>InternalTransfers.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InternalTransfersDetails.xaml.cs">
+      <DependentUpon>InternalTransfersDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Inventory.xaml.cs">
       <DependentUpon>Inventory.xaml</DependentUpon>
     </Compile>
@@ -114,6 +117,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InternalTransfers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InternalTransfersDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
