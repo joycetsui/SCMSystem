@@ -10,13 +10,19 @@
     <Grid>
         <Label Content="Reports" HorizontalAlignment="Left" Margin="123,29,0,0" VerticalAlignment="Top"/>
         <Button Content="Generate Report" HorizontalAlignment="Left" Margin="90,204,0,0" VerticalAlignment="Top" Width="120" Click="Button_Click"/>
-        <ListView HorizontalAlignment="Left" Height="115" Margin="53,69,0,0" VerticalAlignment="Top" Width="200" SelectionChanged="ListView_SelectionChanged" Name="ReportList">
+        <ListView HorizontalAlignment="Left" Height="115" Margin="53,69,0,0" VerticalAlignment="Top" Width="200" Name="ReportList">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <EventSetter Event="MouseDoubleClick" Handler="openReport" />
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
+        
 
     </Grid>
 </Page>

@@ -68,7 +68,23 @@ namespace SCM_Desktop_Application
         {
             get
             {
-                return _inboundUnits;
+                if (type == "raw material")
+                {
+                    int total = 0;
+                    for (int i = 0; i < Database.ProcurementOrders.Count; i++)
+                    {
+                        if (Database.ProcurementOrders[i].rawMaterialId == id && Database.ProcurementOrders[i].destinationSiteId == siteId)
+                        {
+                            total += Database.ProcurementOrders[i].Quantity;
+                        }
+                    }
+
+                    return total + _inboundUnits;
+                }
+                else
+                {
+                    return _inboundUnits;
+                }
             }
             set
             {

@@ -53,7 +53,7 @@ namespace SCM_Desktop_Application
             ReportList.Items.Add(date);
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void openReport(object sender, MouseButtonEventArgs e)
         {
             int index = ReportList.SelectedIndex;
             ReportDetails details = new ReportDetails(index);
