@@ -664,6 +664,20 @@ namespace SCM_Desktop_Application
             }
         }
 
+        private int _quantity;
+        public int Quantity
+        {
+            get
+            {
+                return _quantity;
+            }
+            set
+            {
+                _quantity = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public double _TotalCost;
         public double TotalCost
         {
@@ -743,6 +757,7 @@ namespace SCM_Desktop_Application
         public static string[] WarehousesListName = { "Warehouse 1", "Warehouse 2", "Warehouse 3" };
         public static string[] ShippingCompaniesName = { "Shipping 1", "Shipping 2" };
         public static string[] InternalShippingMethod = { "Truck", "Train", "Airplane", "Pigeon" };
+        public static int[] InternalShippingMethodTransferTime = { 5, 2, 1, 10 };
 
         // Raw Materials Tables
         public static RawMaterial[] RawMaterialsList = new[]
@@ -872,9 +887,9 @@ namespace SCM_Desktop_Application
 
         public static ObservableCollection<InternalTransfer> InternalTransfer = new ObservableCollection<InternalTransfer>
         {
-            new InternalTransfer {StockTransferId = 0, OriginSiteId = 0, DestinationSiteId = 1, DeliveryMethodID = 0, TotalCost = 10, DepartureDate = "March 2, 2016", ArrivalDate = "March 10, 2016"},
-            new InternalTransfer {StockTransferId = 1, OriginSiteId = 1, DestinationSiteId = 0, DeliveryMethodID = 1, TotalCost = 100, DepartureDate = "May 20, 2016", ArrivalDate = "May 30, 2016"},
-            new InternalTransfer {StockTransferId = 2, OriginSiteId = 1, DestinationSiteId = 0, DeliveryMethodID = 2, TotalCost = 50, DepartureDate = "June 20, 2016", ArrivalDate = "June 30, 2016"}
+            new InternalTransfer {StockTransferId = 0, OriginSiteId = 0, DestinationSiteId = 1, DeliveryMethodID = 0, Quantity = 100, TotalCost = 10, DepartureDate = "March 2, 2016", ArrivalDate = "March 10, 2016"},
+            new InternalTransfer {StockTransferId = 1, OriginSiteId = 1, DestinationSiteId = 0, DeliveryMethodID = 1, Quantity = 20, TotalCost = 100, DepartureDate = "May 20, 2016", ArrivalDate = "May 30, 2016"},
+            new InternalTransfer {StockTransferId = 2, OriginSiteId = 1, DestinationSiteId = 0, DeliveryMethodID = 2, Quantity = 350, TotalCost = 50, DepartureDate = "June 20, 2016", ArrivalDate = "June 30, 2016"}
         };
 
         //Analytics

@@ -66,6 +66,13 @@ namespace SCM_Desktop_Application
                 cb.Content = options[i];
                 rawMaterialCb.Items.Add(cb);
             }
+
+            for (int i = 0; i < Database.InternalShippingMethod.Length; i++)
+            {
+                ComboBoxItem cb = new ComboBoxItem();
+                cb.Content = Database.InternalShippingMethod[i];
+                transferMethodCB.Items.Add(cb);
+            }
         }
 
         public void requestTransfer(object sender, RoutedEventArgs e)
@@ -80,6 +87,10 @@ namespace SCM_Desktop_Application
                 int rawMaterialId = 0;
                 int warehouseFromId = 0;
                 int warehouseToId = 0;
+                int transferMethodId = 0;
+                string departureDate = "July 4, 2016";
+
+                MainWindow main = Application.Current.MainWindow as MainWindow;
 
                 for (int i = 0; i < options.Length; i++)
                 {
@@ -108,6 +119,19 @@ namespace SCM_Desktop_Application
                     }
                 }
 
+                for (int i = 0; i < Database.InternalShippingMethod.Length; i++)
+                {
+                    if (Database.InternalShippingMethod[i] == transferMethodCB.Text)
+                    {
+                        transferMethodId = i;
+                        break;
+                    }
+                }
+
+                departureDate = departureDateTb.Text;
+                DateTime departureDateTime = Convert.ToDateTime(departureDate);
+                DateTime arrivalDateTime = departureDateTime.AddDays(Database.InternalShippingMethodTransferTime[transferMethodId]);
+
                 bool found = false;
                 bool itemAlreadyInWarehouse = false;
 
@@ -127,6 +151,7 @@ namespace SCM_Desktop_Application
                                 {
                                     itemAlreadyInWarehouse = true;
                                     data[j].InboundUnits += quantity;
+                                    main.addNewInternalTransferOrder(warehouseFromId, warehouseToId, transferMethodId, departureDate, arrivalDateTime.ToLongDateString(), rawMaterialId, quantity);
                                     break;
                                 }
                             }
@@ -145,7 +170,9 @@ namespace SCM_Desktop_Application
                                 {
                                     newItem = new InventoryItem { id = rawMaterialId, siteId = warehouseToId, unitsOnHand = 0, InboundUnits = quantity, unitsOnOrder = 0, reorderPoint = data[i].reorderPoint };
                                 }
+
                                 data.Add(newItem);
+                                main.addNewInternalTransferOrder(warehouseFromId, warehouseToId, transferMethodId, departureDate, arrivalDateTime.ToLongDateString(), rawMaterialId, quantity);
                             }
                             
                             this.Close();

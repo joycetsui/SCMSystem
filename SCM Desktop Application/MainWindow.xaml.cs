@@ -40,5 +40,13 @@ namespace SCM_Desktop_Application
                 new ProcurementOrderItem { orderId = newOrderId, supplierId = supplierId, destinationSiteId = destinationSiteId, rawMaterialId = rawMaterialId, Quantity = quantity }
             );
         }
+
+        public void addNewInternalTransferOrder(int originSiteId, int destinationSiteId, int deliveryMethodId, string departureDate, string arrivalDate, int rawMaterialId, int quantity)
+        {
+            int newtransferId = Database.InternalTransfer.Last().StockTransferId + 1;
+            Database.InternalTransfer.Add(
+                            new InternalTransfer { StockTransferId = newtransferId, OriginSiteId = originSiteId, DestinationSiteId = destinationSiteId, DeliveryMethodID = deliveryMethodId, TotalCost = 10, DepartureDate = departureDate, ArrivalDate = arrivalDate}
+            );
+        }
     }
 }
