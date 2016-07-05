@@ -536,6 +536,14 @@ namespace SCM_Desktop_Application
         public double cost; 
     }
 
+    public class AnalyticsData
+    {
+        public int supplierResponseTime;
+        public int productionTime;
+        public int orderFullfillmentTime;
+        public int scmCost;
+        public string date;
+    }
 
     public static class Database
     {
@@ -676,5 +684,12 @@ namespace SCM_Desktop_Application
             new InternalTransfer {stockTransferId = 2, originSiteId = 1, destinationSiteId = 0, deliveryMethod = "Train 3", totalCost = 50, departureDate = "June 20, 2016", arrivalDate = "June 30, 2016"}
         };
 
+        //Analytics
+        public static ObservableCollection<AnalyticsData> Analytics = new ObservableCollection<AnalyticsData>
+        {
+            new AnalyticsData {supplierResponseTime = 3, productionTime = 1, orderFullfillmentTime = 4, scmCost = 4000, date = "May 15"}, 
+            new AnalyticsData {supplierResponseTime = 1, productionTime = 5, orderFullfillmentTime = 9, scmCost = 5000, date = "June 5"},
+            new AnalyticsData {supplierResponseTime = 5, productionTime = 1, orderFullfillmentTime = 8, scmCost = 8000, date = "April 4"}
+        };
     }
 }
