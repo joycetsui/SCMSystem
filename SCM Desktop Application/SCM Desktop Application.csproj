@@ -67,6 +67,9 @@
       <DependentUpon>DistributorOrdersDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="External.cs" />
+    <Compile Include="InternalTransfers.xaml.cs">
+      <DependentUpon>InternalTransfers.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Inventory.xaml.cs">
       <DependentUpon>Inventory.xaml</DependentUpon>
     </Compile>
@@ -104,6 +107,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DistributorOrdersDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InternalTransfers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

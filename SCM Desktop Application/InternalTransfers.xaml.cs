@@ -24,5 +24,10 @@ namespace SCM_Desktop_Application
         {
             InitializeComponent();
         }
+
+        public void loadTable(object sender, RoutedEventArgs e)
+        {
+            internalTransfersDataGrid.DataContext = Database.InternalTransfer;
+        }
     }
 }

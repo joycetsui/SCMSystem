@@ -9,6 +9,35 @@
       Title="InternalTransfers">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50*" />
+            <ColumnDefinition Width="50*" />
+        </Grid.ColumnDefinitions>
+
+        <Label x:Name="PageTitle" Content="Internal Transfers" 
+               Grid.Row="0" Grid.ColumnSpan="2"
+               HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
+        <Button x:Name="updateBtn" Content="Update Forecasts" 
+                Grid.Row="1" Grid.Column="0"
+                Tag="{Binding}"
+                HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
+        <Button x:Name="placeOrdersBtn" Content="Auto Place Orders" 
+                Grid.Row="1" Grid.Column="1"
+                Tag="{Binding}"
+                HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
+        <DataGrid x:Name="internalTransfersDataGrid" 
+                  Grid.Row="2" Grid.ColumnSpan="2"
+                  HorizontalAlignment="Stretch" Width="Auto" Margin="10"
+                  ColumnWidth="*"
+                  ItemsSource="{Binding}"
+                  AutoGenerateColumns="True"
+                  Loaded="loadTable"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"/>
     </Grid>
 </Page>

@@ -76,6 +76,10 @@
                 <Frame Source="Warehouses.xaml"></Frame>
             </TabItem>
 
+            <TabItem Header="Internal Transfers" Style="{StaticResource SideBarSubsectionStyle}">
+                <Frame Source="InternalTransfers.xaml"></Frame>
+            </TabItem>
+
             <TabItem Header="Analytics" Style="{StaticResource SideBarSectionStyle}" />
             <TabItem Header="Reports" Style="{StaticResource SideBarSubsectionStyle}">
                 <Frame Source="Reports.xaml"></Frame>

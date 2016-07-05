@@ -531,9 +531,19 @@ namespace SCM_Desktop_Application
         //public int Volume;
     }
 
-    public class InternalTransfer
+    public class InternalTransfer : INotifyPropertyChanged
     {
-        public int StockTransferId;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public int StockTransferId { get; set; }
 
         public int OriginSiteId;
         public string OriginSite
@@ -558,6 +568,7 @@ namespace SCM_Desktop_Application
             set
             {
                 DestinationSite = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -571,12 +582,50 @@ namespace SCM_Desktop_Application
             set
             {
                 DeliveryMethod = value;
+                NotifyPropertyChanged();
             }
         }
 
-        public double TotalCost;
-        public string DepartureDate;
-        public string ArrivalDate;
+        public double _TotalCost;
+        public double TotalCost
+        {
+            get
+            {
+                return _TotalCost;
+            }
+            set
+            {
+                _TotalCost = value;
+                NotifyPropertyChanged();
+            }
+        }
+        public string _DepartureDate;
+        public string DepartureDate
+        {
+            get
+            {
+                return _DepartureDate;
+            }
+            set
+            {
+                _DepartureDate = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string _ArrivalDate;
+        public string ArrivalDate
+        {
+            get
+            {
+                return _ArrivalDate;
+            }
+            set
+            {
+                _ArrivalDate = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 
     public class RawMaterial
