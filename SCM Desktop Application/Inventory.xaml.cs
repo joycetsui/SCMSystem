@@ -43,5 +43,28 @@ namespace SCM_Desktop_Application
                 inventoryDataGrid.DataContext = Database.FinishedGoodsInventory;
             }
         }
+
+        public void requestTransfer(object sender, RoutedEventArgs e)
+        {
+            string title = "";
+            string header = MainWindow.selectedTabName;
+            PageTitle.Content = header;
+
+            if (header == "Raw Material Inventory")
+            {
+                title = "Raw Materials Transfer Request";
+            }
+            else if (header == "WIP Inventory")
+            {
+                title = "WIP Transfer Request";
+            }
+            else
+            {
+                title = "Finished Goods Transfer Request";
+            }
+
+            InventoryTransferDetails details = new InventoryTransferDetails(title);
+            details.Show();
+        }
     }
 }

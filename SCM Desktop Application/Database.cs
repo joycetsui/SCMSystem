@@ -9,8 +9,18 @@ using System.Threading.Tasks;
 
 namespace SCM_Desktop_Application
 {
-    public class InventoryItem
+    public class InventoryItem : INotifyPropertyChanged
     {
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         public int id;
 
         public string type = "raw material";
@@ -27,11 +37,7 @@ namespace SCM_Desktop_Application
                     return Database.ProductsName[this.id];
                 }
             }
-
-            set
-            {
-                this.Type = value;
-            }
+            set { }
         }
         public int siteId;
         public string Location
@@ -41,13 +47,35 @@ namespace SCM_Desktop_Application
                 return Database.WarehousesListName[this.siteId];
             }
 
+            set { }
+        }
+
+        private int _unitsOnHand;
+        public int unitsOnHand
+        {
+            get
+            {
+                return _unitsOnHand;
+            }
             set
             {
-                this.Location = value;
+                _unitsOnHand = value;
+                NotifyPropertyChanged();
             }
         }
-        public int unitsOnHand { get; set; }
-        public string status { get; set; }
+        private int _inboundUnits = 0;
+        public int InboundUnits
+        {
+            get
+            {
+                return _inboundUnits;
+            }
+            set
+            {
+                _inboundUnits = value;
+                NotifyPropertyChanged();
+            }
+        }
         public int unitsOnOrder { get; set; }
         public int reorderPoint { get; set; }
     }
@@ -196,8 +224,18 @@ namespace SCM_Desktop_Application
         }
     }
 
-    public class Warehouse
+    public class Warehouse : INotifyPropertyChanged
     {
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         public int id;
 
         public string Name
@@ -206,16 +244,54 @@ namespace SCM_Desktop_Application
             {
                 return Database.WarehousesListName[id];
             }
-            set
-            {
-                this.Name = value;
-            }
+            set { }
         }
 
         public int RentCost { get; set; }
 
+        private int[] rawMaterialCount = new int[5] { 0, 0, 0, 0, 0 };
+
         public string Location { get; set; }
-        public int StockLevel { get; set; }
+
+        private int _stockLevel;
+        public int StockLevel
+        {
+            get
+            {
+                int total = 0;
+                for (int i = 0; i < Database.RawMaterialsInventory.Count; i++)
+                {
+                    if (Database.RawMaterialsInventory[i].siteId == id)
+                    {
+                        total += Database.RawMaterialsInventory[i].unitsOnHand;
+                    }
+                }
+                total = 0;
+                for (int i = 0; i < Database.WIPInventory.Count; i++)
+                {
+                    if (Database.WIPInventory[i].siteId == id)
+                    {
+                        total += Database.WIPInventory[i].unitsOnHand;
+                    }
+                }
+
+                total = 0;
+                for (int i = 0; i < Database.FinishedGoodsInventory.Count; i++)
+                {
+                    if (Database.FinishedGoodsInventory[i].siteId == id)
+                    {
+                        total += Database.FinishedGoodsInventory[i].unitsOnHand;
+                    }
+                }
+
+                return total;
+            }
+            set
+            {
+                _stockLevel += value;
+                NotifyPropertyChanged();
+            }
+        }
         public int Capacity { get; set; }
     }
 
@@ -681,9 +757,9 @@ namespace SCM_Desktop_Application
         // Warehouses Table
         public static ObservableCollection<Warehouse> WarehouseList = new ObservableCollection<Warehouse>
         {
-            new Warehouse { id = 0, RentCost = 400, Location = "Address 1", StockLevel = 200, Capacity = 300 },
-            new Warehouse { id = 1, RentCost = 700, Location = "Address 2", StockLevel = 500, Capacity = 1000 },
-            new Warehouse { id = 2, RentCost = 500, Location = "Address 3", StockLevel = 300, Capacity = 300 },
+            new Warehouse { id = 0, RentCost = 400, Location = "Address 1", Capacity = 300 },
+            new Warehouse { id = 1, RentCost = 700, Location = "Address 2", Capacity = 1000 },
+            new Warehouse { id = 2, RentCost = 500, Location = "Address 3", Capacity = 300 },
         };
 
         // Suppliers Table
@@ -719,25 +795,27 @@ namespace SCM_Desktop_Application
         // Inventory Tables
         public static ObservableCollection<InventoryItem> RawMaterialsInventory = new ObservableCollection<InventoryItem>
         {
-            new InventoryItem { id = 0, siteId = 0, unitsOnHand = 10, status = "Status", unitsOnOrder = 2,
+            new InventoryItem { id = 0, siteId = 0, unitsOnHand = 10, unitsOnOrder = 2,
             reorderPoint = 0},
-            new InventoryItem { id = 1, siteId = 1, unitsOnHand = 20, status = "Status", unitsOnOrder = 4,
+            new InventoryItem { id = 1, siteId = 1, unitsOnHand = 20, unitsOnOrder = 4,
             reorderPoint = 2},
         };
 
         public static ObservableCollection<InventoryItem> WIPInventory = new ObservableCollection<InventoryItem>
         {
-            new InventoryItem { id = 0, siteId = 1, unitsOnHand = 10, status = "Status", unitsOnOrder = 2,
+            new InventoryItem { id = 0, siteId = 1, unitsOnHand = 10, unitsOnOrder = 2,
             reorderPoint = 0, type = "WIP"},
-            new InventoryItem { id = 1, siteId = 1, unitsOnHand = 20, status = "Status", unitsOnOrder = 4,
+            new InventoryItem { id = 1, siteId = 1, unitsOnHand = 20, unitsOnOrder = 4,
             reorderPoint = 2, type = "WIP"},
         };
 
         public static ObservableCollection<InventoryItem> FinishedGoodsInventory = new ObservableCollection<InventoryItem>
         {
-            new InventoryItem { id = 0, siteId = 0, unitsOnHand = 10, status = "Status", unitsOnOrder = 20,
+            new InventoryItem { id = 0, siteId = 0, unitsOnHand = 10, unitsOnOrder = 20,
             reorderPoint = 0, type = "Finished Goods"},
-            new InventoryItem { id = 2, siteId = 1, unitsOnHand = 20, status = "Status", unitsOnOrder = 40,
+            new InventoryItem { id = 0, siteId = 1, unitsOnHand = 5, unitsOnOrder = 20,
+            reorderPoint = 0, type = "Finished Goods"},
+            new InventoryItem { id = 2, siteId = 1, unitsOnHand = 20, unitsOnOrder = 40,
             reorderPoint = 2, type = "Finished Goods"},
         };
 

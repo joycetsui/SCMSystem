@@ -8,28 +8,27 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="Inventory">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*" />
-            <ColumnDefinition Width="50*" />
-        </Grid.ColumnDefinitions>
+    <ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*" />
+                <ColumnDefinition Width="50*" />
+            </Grid.ColumnDefinitions>
 
-        <Label x:Name="PageTitle" Content="Inventory" 
+            <Label x:Name="PageTitle" Content="Inventory" 
                Grid.Row="0" Grid.ColumnSpan="2"
                HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
-        <Button x:Name="addItemBtn" Content="Add New Item" 
-                Grid.Row="1" Grid.Column="0"
-                HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
-        <Button x:Name="transferBtn" Content="Request Transfer"
+            <Button x:Name="transferBtn" Content="Request Transfer"
                 Grid.Row="1" Grid.Column="1"
+                Tag="{Binding}" Click="requestTransfer"
                 HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
 
-        <DataGrid x:Name="inventoryDataGrid" 
+            <DataGrid x:Name="inventoryDataGrid" 
                   Grid.Row="2" Grid.ColumnSpan="2"
                   HorizontalAlignment="Stretch" Width="Auto"
                   ColumnWidth="*"
@@ -40,5 +39,6 @@
                   CanUserAddRows="False"
                   IsReadOnly="True"
         />
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </Page>

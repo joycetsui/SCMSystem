@@ -73,6 +73,9 @@
     <Compile Include="Inventory.xaml.cs">
       <DependentUpon>Inventory.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InventoryTransferDetails.xaml.cs">
+      <DependentUpon>InventoryTransferDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProcurementForecasts.xaml.cs">
       <DependentUpon>ProcurementForecasts.xaml</DependentUpon>
     </Compile>
@@ -115,6 +118,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Inventory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InventoryTransferDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
