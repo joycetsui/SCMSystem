@@ -76,9 +76,7 @@ namespace SCM_Desktop_Application
                 {
                     DateShippedTextBlock.Text = Database.CustomerShipping[index].DateShipped;
                 }
-;
-            }            
-            
+            }                    
         }
 
         public void openDetailsWindow(object sender, RoutedEventArgs e)

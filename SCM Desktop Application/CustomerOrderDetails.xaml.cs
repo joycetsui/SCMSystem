@@ -70,7 +70,6 @@ namespace SCM_Desktop_Application
                     if (ShippingCompanyComboBox.Text == Database.ShippingCompanies[i].CompanyName)
                     {
                         Database.CustomerShipping[index].ShippingCompanyId = Database.ShippingCompanies[i].companyId;
-                        //   Database.CustomerShipping[index].ShippingCompany = Database.ShippingCompanies[i].CompanyName;
                         break;
                     }
                 }

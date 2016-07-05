@@ -73,6 +73,7 @@ namespace SCM_Desktop_Application
                 cb.Content = Database.InternalShippingMethod[i];
                 transferMethodCB.Items.Add(cb);
             }
+            transferMethodCB.SelectedIndex = 0;
         }
 
         public void requestTransfer(object sender, RoutedEventArgs e)

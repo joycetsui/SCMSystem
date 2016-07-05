@@ -650,7 +650,20 @@ namespace SCM_Desktop_Application
             }
         }
 
-        public int DeliveryMethodID;
+        public int _DeliveryMethodID;
+        public int DeliveryMethodID
+        {
+            get
+            {
+                return _DeliveryMethodID;
+            }
+            set
+            {
+                _DeliveryMethodID = value;
+                DeliveryMethod = Database.InternalShippingMethod[_DeliveryMethodID];
+                NotifyPropertyChanged();
+            }
+        }
         public string DeliveryMethod
         {
             get
@@ -659,7 +672,6 @@ namespace SCM_Desktop_Application
             }
             set
             {
-                DeliveryMethod = value;
                 NotifyPropertyChanged();
             }
         }
