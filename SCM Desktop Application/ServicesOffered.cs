@@ -7,32 +7,30 @@ using System.Windows;
 
 namespace SCM_Desktop_Application
 {
-    class ServicesOffered
+    static class ServicesOffered
     {
 
-        ServicesOffered(string apiUrl)
+        static public void getService(string apiUrl)
         {
             string url = apiUrl;
             url = "ip/expenses";
 
-            MainWindow main = Application.Current.MainWindow as MainWindow;
-
             if (url == "ip/expenses")
             {
-                Expense[] expenses = main.getExpenses();
+                Expense[] expenses = External.getExpenses();
             }
             else if (url == "ip/expenses/procurement_cost")
             {
-                double procurementCost = main.getProcurementCost();
+                Expense procurementCost = External.getProcurementCost();
             }
             else if (url == "ip/expenses/transportation_cost")
             {
-                double transportationCost = main.getTransportationCost();
+                Expense transportationCost = External.getTransportationCost();
             }
             else if (url == "ip/inventory/raw_materials/{raw material id}")
             {
                 int rawMaterialId = 0;
-                int rawMaterialsOnHand = main.getRawMaterialsOnHandForId(rawMaterialId);
+                int rawMaterialsOnHand = External.getRawMaterialsOnHandForId(rawMaterialId);
             }
             else if (url == "ip/inventory/update_raw_materials/{raw material id}")
             {
@@ -50,7 +48,7 @@ namespace SCM_Desktop_Application
                 {
                     newAmount = 0;
                 }
-                main.updateRawMaterialsOnHandForId(rawMaterialId, newAmount);
+                External.updateRawMaterialsOnHandForId(rawMaterialId, newAmount);
             }
             else if (url == "ip/inventory/procurement_order")
             {
@@ -58,7 +56,7 @@ namespace SCM_Desktop_Application
                 int orderAmount = 5;
                 int destinationSiteId = 0;
 
-                main.addNewProcurementOrder(0, destinationSiteId, rawMaterialId, orderAmount);
+                External.addNewProcurementOrder(0, destinationSiteId, rawMaterialId, orderAmount);
             }
             else if (url == "ip/orders/status/{order id}")
             {
@@ -68,11 +66,11 @@ namespace SCM_Desktop_Application
 
                 if (type == "Cutomer")
                 {
-                    status = main.getCustomerOrderStatus(orderId);
+                    status = External.getCustomerOrderStatus(orderId);
                 }
                 else
                 {
-                    status = main.getRetailerOrderStatus(orderId);
+                    status = External.getRetailerOrderStatus(orderId);
                 }
             }
         }

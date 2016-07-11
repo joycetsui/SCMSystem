@@ -66,8 +66,7 @@ namespace SCM_Desktop_Application
             else
             {
                 Database.SuppliersListName.Add(name);
-                MainWindow main = Application.Current.MainWindow as MainWindow;
-                main.addNewSupplier(name, location);
+                External.addNewSupplier(name, location);
             }
             this.Close();
         }

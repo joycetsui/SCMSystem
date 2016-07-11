@@ -50,8 +50,6 @@ namespace SCM_Desktop_Application
                 int beginForecast = currentWeek;
                 int endForecast = currentWeek + 4;
 
-                MainWindow main = Application.Current.MainWindow as MainWindow;
-
                 for (int i = 0; i < Database.ProcurementForecasts.Count;)
                 {
                     ProcurementForecastItem item = Database.ProcurementForecasts[i];
@@ -62,7 +60,7 @@ namespace SCM_Desktop_Application
                         double unitCost = Database.RawMaterialsList[item.rawMaterialId].cost;
                         double totalCost = item.Quantity * unitCost;
 
-                        main.addNewProcurementOrder(supplierId, 0, item.rawMaterialId, quantity);
+                        External.addNewProcurementOrder(supplierId, 0, item.rawMaterialId, quantity);
                         Database.ProcurementForecasts.RemoveAt(i);
                     }
                     else

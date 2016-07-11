@@ -87,8 +87,7 @@ namespace SCM_Desktop_Application
                 string shippingMethod = ShippingMethodTextBox.Text;
                 string contactInfo = ContactInfoTextBox.Text;
                 double shippingRate = double.Parse(ShippingRateTextBox.Text);
-                MainWindow main = Application.Current.MainWindow as MainWindow;
-                main.addNewShippingCompany(companyName, shippingMethod, contactInfo, shippingRate);
+                External.addNewShippingCompany(companyName, shippingMethod, contactInfo, shippingRate);
             }
 
             this.Close();

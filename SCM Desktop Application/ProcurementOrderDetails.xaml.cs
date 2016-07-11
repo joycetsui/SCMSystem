@@ -157,8 +157,7 @@ namespace SCM_Desktop_Application
                     quantity = int.Parse(quantityTb.Text);
                 }
 
-                MainWindow main = Application.Current.MainWindow as MainWindow;
-                main.addNewProcurementOrder(supplierId, destinationId, rawMaterialId, quantity);
+                External.addNewProcurementOrder(supplierId, destinationId, rawMaterialId, quantity);
             }
 
             this.Close();

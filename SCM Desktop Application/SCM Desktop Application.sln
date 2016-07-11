@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCM Desktop Application", "SCM Desktop Application.csproj", "{66683B18-09B7-44CE-9DA9-A66C8B930F02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cs490-scm-API", "..\cs490-scm-API\cs490-scm-API.csproj", "{2708A91A-9084-4234-89E9-0A4A1C4BB16E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{66683B18-09B7-44CE-9DA9-A66C8B930F02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66683B18-09B7-44CE-9DA9-A66C8B930F02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66683B18-09B7-44CE-9DA9-A66C8B930F02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2708A91A-9084-4234-89E9-0A4A1C4BB16E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2708A91A-9084-4234-89E9-0A4A1C4BB16E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2708A91A-9084-4234-89E9-0A4A1C4BB16E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2708A91A-9084-4234-89E9-0A4A1C4BB16E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

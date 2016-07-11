@@ -91,8 +91,6 @@ namespace SCM_Desktop_Application
                 int transferMethodId = 0;
                 string departureDate = "July 4, 2016";
 
-                MainWindow main = Application.Current.MainWindow as MainWindow;
-
                 for (int i = 0; i < options.Length; i++)
                 {
                     if (options[i] == rawMaterialCb.Text)
@@ -152,7 +150,7 @@ namespace SCM_Desktop_Application
                                 {
                                     itemAlreadyInWarehouse = true;
                                     data[j].InboundUnits += quantity;
-                                    main.addNewInternalTransferOrder(warehouseFromId, warehouseToId, transferMethodId, departureDate, arrivalDateTime.ToLongDateString(), rawMaterialId, quantity);
+                                    External.addNewInternalTransferOrder(warehouseFromId, warehouseToId, transferMethodId, departureDate, arrivalDateTime.ToLongDateString(), rawMaterialId, quantity);
                                     break;
                                 }
                             }
@@ -173,7 +171,7 @@ namespace SCM_Desktop_Application
                                 }
 
                                 data.Add(newItem);
-                                main.addNewInternalTransferOrder(warehouseFromId, warehouseToId, transferMethodId, departureDate, arrivalDateTime.ToLongDateString(), rawMaterialId, quantity);
+                                External.addNewInternalTransferOrder(warehouseFromId, warehouseToId, transferMethodId, departureDate, arrivalDateTime.ToLongDateString(), rawMaterialId, quantity);
                             }
                             
                             this.Close();
