@@ -977,6 +977,8 @@ namespace SCM_Desktop_Application
             reorderPoint = 2},
              new InventoryItem { id = 2, siteId = 0, unitsOnHand = 68, unitsOnOrder = 2,
             reorderPoint = 5},
+             new InventoryItem { id = 3, siteId = 0, unitsOnHand = 500, unitsOnOrder = 2,
+            reorderPoint = 5}
         };
 
         public static ObservableCollection<InventoryItem> WIPInventory = new ObservableCollection<InventoryItem>

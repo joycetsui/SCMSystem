@@ -94,7 +94,6 @@
     <Compile Include="Reports.xaml.cs">
       <DependentUpon>Reports.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ServicesOffered.cs" />
     <Compile Include="ShippingCompanies.xaml.cs">
       <DependentUpon>ShippingCompanies.xaml</DependentUpon>
     </Compile>
@@ -188,7 +187,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-
     <Page Include="SupplierDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

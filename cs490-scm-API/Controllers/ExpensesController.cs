@@ -15,34 +15,22 @@ namespace cs490_scm_API.Controllers
         Expense[] expenses = External.getExpenses();
 
         // GET: Expenses
+        [System.Web.Http.Route("api/expenses")]
         public Expense[] Get()
         {
             return expenses;
         }
 
-        public Expense Get(string id)
+        [System.Web.Http.Route("api/expenses/transportation_cost")]
+        public Expense GetTransportationCost()
         {
-            Expense expense;
+            return External.getTransportationCost();
+        }
 
-            if (id == "procurement_cost")
-            {
-                expense = External.getProcurementCost();
-            }
-            else if (id == "transportation_cost")
-            {
-                expense = External.getTransportationCost();
-            }
-            else
-            {
-                var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
-                {
-                    Content = new StringContent(string.Format("No HTTP resource was found that matches the request URI: " + id)),
-                };
-
-                throw new HttpResponseException(resp);
-            }
-
-            return expense;
+        [System.Web.Http.Route("api/expenses/procurement_cost")]
+        public Expense GetProcurementCost()
+        {
+            return External.getProcurementCost();
         }
     }
 }

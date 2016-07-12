@@ -41,7 +41,7 @@ namespace SCM_Desktop_Application
         }
 
 
-        // Accounting Expenses
+        // Accounting API expenses helper methods
         static public Expense[] Expenses = new[]
         {
                 new Expense { Name = "Procurement Cost", amount = 500 },
@@ -80,14 +80,26 @@ namespace SCM_Desktop_Application
             return new Expense { Name = "Invalid", amount = 0 };
         }
 
-        static public int getRawMaterialsOnHandForId(int rawMaterialId)
+        // Production API helper methods
+
+        public struct InventoryResp
         {
+            public string ItemName;
+            public int AmountOnHand;
+        };
+
+        static public InventoryResp getRawMaterialsOnHandForId(int rawMaterialId)
+        {
+            int amount = 0;
+            string itemName = "Invalid";
+
             if (rawMaterialId < Database.RawMaterialsInventory.Count)
             {
-                return Database.RawMaterialsInventory[rawMaterialId].unitsOnHand;
+                amount = Database.RawMaterialsInventory[rawMaterialId].unitsOnHand;
+                itemName = Database.RawMaterialsInventory[rawMaterialId].Type;
             }
 
-            return 0;
+            return new InventoryResp { ItemName = itemName, AmountOnHand = amount};
         }
 
         static public void updateRawMaterialsOnHandForId(int rawMaterialId, int newAmount)
@@ -98,24 +110,34 @@ namespace SCM_Desktop_Application
             }
         }
 
-        static public string getCustomerOrderStatus(int orderId)
+        // Sales API helper methods
+        public struct OrderStatusResp
         {
-            if (orderId < Database.ProductOrders.Count)
+            public int OrderId;
+            public string Status;
+        };
+        static public OrderStatusResp getCustomerOrderStatus(int orderId)
+        {
+            string status = "Invalid";
+
+            if (orderId < Database.ProductOrders.Count && orderId < Database.CustomerShipping.Count)
             {
-                return Database.CustomerShipping[orderId].Status;
+                status = Database.CustomerShipping[orderId].Status;
             }
 
-            return "Customer order id " + orderId + " does not exist.";
+            return new OrderStatusResp { OrderId = orderId, Status = status };
         }
 
-        static public string getRetailerOrderStatus(int orderId)
+        static public OrderStatusResp getRetailerOrderStatus(int orderId)
         {
+            string status = "Invalid";
+
             if (orderId < Database.DistributorShipping.Count)
             {
-                return Database.DistributorShipping[orderId].Status;
+                status = Database.DistributorShipping[orderId].Status;
             }
 
-            return "Retailer order id " + orderId + " does not exist.";
+            return new OrderStatusResp { OrderId = orderId, Status = status };
         }
 
         static public void addNewShippingCompany(string companyName, string shippingMethod, string contactInfo, double shippingRate)
