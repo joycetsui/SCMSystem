@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +23,9 @@ namespace SCM_Desktop_Application
     /// </summary>
     public partial class CustomerOrders : Page
     {
+
+        string cnStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=../../../database/scm.accdb";
+        
         public CustomerOrders()
         {
             InitializeComponent();
@@ -30,6 +35,14 @@ namespace SCM_Desktop_Application
 
         public void loadTable(object sender, RoutedEventArgs e)
         {
+            //string query = "Select [Product Order ID] [Customer ID] [Status] [Origin Warehouse ID] [Destination] from [Customer Shipping]";
+            //https://www.microsoft.com/en-us/download/details.aspx?id=13255
+            //OleDbConnection conn = new OleDbConnection(cnStr);
+            //OleDbDataAdapter adapter = new OleDbDataAdapter(query, conn);
+            //DataSet ds = new DataSet();
+            //// if error at next line, download this (32 bit) https://www.microsoft.com/en-us/download/details.aspx?id=13255
+            //adapter.Fill(ds);
+            //customerOrderDataGrid.ItemsSource = ds.Tables[0].DefaultView;
             customerOrderDataGrid.ItemsSource = Database.CustomerShipping;
         }
 

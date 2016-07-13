@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +29,14 @@ namespace SCM_Desktop_Application
 
         public void loadTable(object sender, RoutedEventArgs e)
         {
+            //string cnStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=../../../database/scm.accdb";
+            //string query = "Select [Company Name],[Contact Info],[Standard Shipping Rate] from [Shipping Company]";
+            //OleDbConnection conn = new OleDbConnection(cnStr);
+            //OleDbDataAdapter adapter = new OleDbDataAdapter(query, conn);
+            //DataSet ds = new DataSet();
+            //// if error at next line, download this (32 bit) https://www.microsoft.com/en-us/download/details.aspx?id=13255
+            //adapter.Fill(ds);
+            //shippingDataGrid.ItemsSource = ds.Tables[0].DefaultView;
             shippingDataGrid.ItemsSource = Database.ShippingCompanies;
         }
 

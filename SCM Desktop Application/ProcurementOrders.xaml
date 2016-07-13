@@ -29,7 +29,7 @@
                   ColumnWidth="*"
                   ItemsSource="{Binding}"
                   AutoGenerateColumns="True"
-                  Loaded="loadTable"
+              
                   CanUserAddRows="False"
                   IsReadOnly="True">
 
