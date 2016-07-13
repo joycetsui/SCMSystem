@@ -1,6 +1,8 @@
-﻿using SCM_Desktop_Application;
+﻿using cs490_scm_API.Models;
+using cs490_scm_API.Providers;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,65 +16,77 @@ namespace cs490_scm_API.Controllers
     {
         // GET: Sales
         [System.Web.Http.Route("api/orders/status/{type}")]
-        public Object[] Get(string type)
+        public DataTable Get(string type)
         {
+            string query = "";
+
             if (type == "customer")
             {
-                return Database.CustomerShipping.ToArray();
+                query = "SELECT [Customer Order ID], [Tracking Number], [Status] " +
+                        "FROM[Customer Shipping];";
             }
             else if (type == "retailer")
             {
-                return Database.DistributorShipping.ToArray();
+                query = "SELECT [Product Order ID], [Stock Transfer ID], [Status] " +
+                        "FROM[Distributor Shipping];";
             }
             else
             {
-                var error = new HttpResponseMessage(HttpStatusCode.NotFound)
-                {
-                    Content = new StringContent(string.Format("Missing or Invalid Order Type.")),
-                    ReasonPhrase = "Invalid Order Type",
-                };
-
-                throw new HttpResponseException(error);
+                string msg = "Missing or Invalid Order Type";
+                string reason = "Invalid Order Type";
+                throwError(msg, reason);
             }
+
+            DataTable dt = ExternalService.executeSelectQuery(query);
+            return dt;
         }
 
         [System.Web.Http.Route("api/orders/status/{type}/{id}")]
-        public External.OrderStatusResp Get(string type, int id)
+        public DataTable Get(string type, int id)
         {
-            External.OrderStatusResp orderStatusResp;
+            string query = "";
 
             if (type == "customer")
             {
-                orderStatusResp = External.getCustomerOrderStatus(id);
+                query = "SELECT [Customer Order ID], [Tracking Number], [Status] " +
+                        "FROM[Customer Shipping] " +
+                        "WHERE[Customer Order ID] = " + id + ";";
             }
-
             else if (type == "retailer")
             {
-                orderStatusResp = External.getRetailerOrderStatus(id);
+                query = "SELECT [Product Order ID], [Stock Transfer ID], [Status] " +
+                        "FROM[Distributor Shipping] " +
+                        "WHERE[Product Order ID] = " + id + ";";
             }
             else
             {
-                var error = new HttpResponseMessage(HttpStatusCode.NotFound)
-                {
-                    Content = new StringContent(string.Format("Missing or Invalid Order Type.")),
-                    ReasonPhrase = "Invalid Order Type",
-                };
-
-                throw new HttpResponseException(error);
+                string msg = "Missing or Invalid Order Type.";
+                string reason = "Invalid Order Type";
+                throwError(msg, reason);
             }
 
-            if (orderStatusResp.Status == "Invalid")
+            DataTable dt = ExternalService.executeSelectQuery(query);
+
+            if (dt.Rows.Count == 0)
             {
-                var error = new HttpResponseMessage(HttpStatusCode.NotFound)
-                {
-                    Content = new StringContent(string.Format("No " + type + " order found for ID: " + id)),
-                    ReasonPhrase = "Invalid ID",
-                };
-
-                throw new HttpResponseException(error);
+                string msg = "No " + type + " order found for ID: " + id;
+                string reason = "Invalid ID";
+                throwError(msg, reason);
             }
 
-            return orderStatusResp;
+            return dt.Rows[0].Table;
+        }
+
+        // Helper Methods
+        private void throwError(string message, string reason)
+        {
+            var error = new HttpResponseMessage(HttpStatusCode.NotFound)
+            {
+                Content = new StringContent(string.Format(message)),
+                ReasonPhrase = reason,
+            };
+
+            throw new HttpResponseException(error);
         }
     }
 }

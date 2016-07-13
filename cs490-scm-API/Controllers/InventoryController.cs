@@ -1,7 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
-using SCM_Desktop_Application;
+﻿using cs490_scm_API.Models;
+using cs490_scm_API.Providers;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.OleDb;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -15,40 +18,54 @@ namespace cs490_scm_API.Controllers
     {
         // GET: Inventory
         [System.Web.Http.Route("api/inventory/raw_materials")]
-        public InventoryItem[] Get()
+        public DataTable Get()
         {
-            return Database.RawMaterialsInventory.ToArray();
+            string query = "SELECT inv.[Raw Material ID] as [Raw Material ID],  r.[Type] as [Type], w.[Name] as [Site], inv.[Units] as [Units], inv.[Inbound Units] as [Inbound Units] " +
+                            "FROM (([Raw Material Inventory] as inv " +
+                            "INNER JOIN [Raw Materials] as r ON inv.[Raw Material ID] = r.[Raw Material ID]) " +
+                            "INNER JOIN [Warehouse] as w ON inv.[Site ID] = w.[Site ID]);";
+            DataTable dt = ExternalService.executeSelectQuery(query);
+            return dt;
         }
 
         [System.Web.Http.Route("api/inventory/raw_materials/{id}")]
-        public External.InventoryResp Get(int id)
+        public DataTable Get(int id)
         {
-            External.InventoryResp inventoryResp = External.getRawMaterialsOnHandForId(id);
-            if (inventoryResp.ItemName == "Invalid")
-            {
-                var error = new HttpResponseMessage(HttpStatusCode.NotFound)
-                {
-                    Content = new StringContent(string.Format("No Raw Material Found for ID: " + id)),
-                    ReasonPhrase = "Invalid ID",
-                };
+            string query = "SELECT inv.[Raw Material ID] as [Raw Material ID],  r.[Type] as [Type], w.[Name] as [Site], inv.[Units] as [Units], inv.[Inbound Units] as [Inbound Units] " +
+                            "FROM(([Raw Material Inventory]  inv " +
+                            "INNER JOIN[Raw Materials]  r ON inv.[Raw Material ID] = r.[Raw Material ID]) " +
+                            "INNER JOIN[Warehouse]  w ON inv.[Site ID] = w.[Site ID]) " +
+                            "WHERE inv.[Raw Material ID] = " + id + ";";
 
-                throw new HttpResponseException(error);
+            DataTable dt = ExternalService.executeSelectQuery(query);
+
+            if (dt.Rows.Count == 0)
+            {
+                string msg = "No Raw Material Found for ID: " + id;
+                string reason = "Invalid ID";
+                throwError(msg, reason);
             }
 
-            return inventoryResp;
+            return dt;
         }
 
-        [System.Web.Http.Route("api/inventory/update_raw_materials/{id}/{amountUsed}")]
-        public HttpResponseMessage Put(int id, int amountUsed)
+        /// <summary>
+        /// Reduces the current amount for the given raw material id by the amount that was used up.
+        /// </summary>
+        /// <param name="id">The ID of the raw material.</param>
+        /// <param name="amountUsed">The amount that will be deducted from the current amount.</param>
+        /// 
+        [System.Web.Http.Route("api/inventory/update_raw_materials/{id}/{siteId}/{amountUsed}")]
+        public HttpResponseMessage Put(int id, int siteId, int amountUsed)
         {
-            int newAmount = calculateNewRawMaterialAmountForId(id, amountUsed);
-            External.updateRawMaterialsOnHandForId(id, newAmount);
+            int newAmount = calculateNewRawMaterialAmountForId(id, siteId, amountUsed);
+ 
+            string query = "update [Raw Material Inventory] set [Units] ='" + newAmount + "' where [Raw Material ID]=" + id + " AND [Site ID] = " + siteId + ";";
 
-            External.InventoryResp newRawMaterialItem = Get(id);
-
+            ExternalService.executeInsertUpdateQuery(query);
             var response = new HttpResponseMessage(HttpStatusCode.OK)
             {
-                Content = new StringContent(string.Format("Raw Material Amount was updated for ID: " + id + ". New amount is " + newAmount)),
+                Content = new StringContent(string.Format("Raw Material Amount was updated for [ID: " + id + "]. New amount is " + newAmount)),
                 ReasonPhrase = "Success",
             };
 
@@ -61,63 +78,37 @@ namespace cs490_scm_API.Controllers
             int newAmount = 0;
             dynamic json = data;
 
-            int amountUsedUp = json.amount_used_up;
-            int rawMaterialId = json.raw_material_id;
+            int amountUsedUp = json.amount_used_up ?? -1;
+            int rawMaterialId = json.raw_material_id ?? -1;
+            int siteId = json.site_id ?? -1;
 
-            if (rawMaterialId == id)
+            if (rawMaterialId == id && amountUsedUp != -1 && rawMaterialId != -1 && siteId != -1)
             {
-                newAmount = calculateNewRawMaterialAmountForId(id, amountUsedUp);
-                External.updateRawMaterialsOnHandForId(id, newAmount);
+                newAmount = calculateNewRawMaterialAmountForId(id, siteId, amountUsedUp);
 
-                External.InventoryResp newRawMaterialItem = Get(id);
+                string query = "update [Raw Material Inventory] set [Units] ='" + newAmount + "' where [Raw Material ID]=" + id + " AND [Site ID] = " + siteId + ";";
+                ExternalService.executeInsertUpdateQuery(query);
+            }
+            else if (rawMaterialId == id)
+            {
+                string msg = "Missing parameters in the body request.";
+                string reason = "Missing or Invalid Body Params";
+                throwError(msg, reason);
             }
             else
             {
-                var error = new HttpResponseMessage(HttpStatusCode.NotFound)
-                {
-                    Content = new StringContent(string.Format("Raw Material ID: " + id + " given in the URI does not match Raw Material ID: " + rawMaterialId + " given in the body request.")),
-                    ReasonPhrase = "Invalid ID",
-                };
-
-                throw new HttpResponseException(error);
+                string msg = "Raw Material ID: " + id + " given in the URI does not match Raw Material ID: " + rawMaterialId + " given in the body request.";
+                string reason = "Invalid ID";
+                throwError(msg, reason);
             }
 
             var response = new HttpResponseMessage(HttpStatusCode.OK)
             {
-                Content = new StringContent(string.Format("Raw Material Amount was updated for ID: " + id + ". New amount is " + newAmount)),
+                Content = new StringContent(string.Format("Raw Material Amount was updated for [ID: " + id + "]. New amount is " + newAmount)),
                 ReasonPhrase = "Success",
             };
 
             return response;
-        }
-
-        private int calculateNewRawMaterialAmountForId(int id, int amountUsedUp)
-        {
-            int currentAmount = 0;
-
-            if (id < Database.RawMaterialsInventory.Count)
-            {
-                currentAmount = Database.RawMaterialsInventory[id].unitsOnHand;
-            }
-            else
-            {
-                var error = new HttpResponseMessage(HttpStatusCode.NotFound)
-                {
-                    Content = new StringContent(string.Format("No Raw Material Found for ID: " + id)),
-                    ReasonPhrase = "Invalid ID",
-                };
-
-                throw new HttpResponseException(error);
-            }
-
-            int newAmount = currentAmount - amountUsedUp;
-
-            if (newAmount < 0)
-            {
-                newAmount = 0;
-            }
-
-            return newAmount;
         }
 
         // POST api/inventory
@@ -126,7 +117,7 @@ namespace cs490_scm_API.Controllers
         {
             dynamic json = data;
 
-            int supplierId = 0;
+            int supplierId = 1;
             int destinationSiteId = json.destination_site_id ?? -1;
             int rawMaterialId = json.raw_material_id ?? -1;
             int amount = json.buy_amount ?? -1;
@@ -134,18 +125,13 @@ namespace cs490_scm_API.Controllers
 
             if (supplierId != -1 && destinationSiteId != -1 && rawMaterialId != -1 && amount > 0)
             {
-                orderId = Database.ProcurementOrders.Count;
-                External.addNewProcurementOrder(supplierId, destinationSiteId, rawMaterialId, amount);
+                addNewProcurementOrder(supplierId, destinationSiteId, rawMaterialId, amount);
             }
             else
             {
-                var error = new HttpResponseMessage(HttpStatusCode.NotFound)
-                {
-                    Content = new StringContent(string.Format("Missing or Invalid Order Parameters")),
-                    ReasonPhrase = "Invalid Order",
-                };
-
-                throw new HttpResponseException(error);
+                string msg = "Missing or Invalid Order Parameters";
+                string reason = "Invalid Order";
+                throwError(msg, reason);
             }
 
             var response = new HttpResponseMessage(HttpStatusCode.OK)
@@ -155,6 +141,56 @@ namespace cs490_scm_API.Controllers
             };
 
             return response;
+        }
+
+        // Helper Methods
+        private void throwError(string message, string reason)
+        {
+            var error = new HttpResponseMessage(HttpStatusCode.NotFound)
+            {
+                Content = new StringContent(string.Format(message)),
+                ReasonPhrase = reason,
+            };
+
+            throw new HttpResponseException(error);
+        }
+
+        private int calculateNewRawMaterialAmountForId(int id, int siteId, int amountUsedUp)
+        {
+            int currentAmount = 0;
+
+            string query = "SELECT [Units] FROM [Raw Material Inventory] " +
+                           "WHERE [Raw Material ID] = " + id + " AND [Site ID] = " + siteId + ";";
+
+            DataTable dt = ExternalService.executeSelectQuery(query);
+            if (dt.Rows.Count == 0)
+            {
+                string msg = "No Raw Material Found for ID: " + id + " at site ID: " + siteId;
+                string reason = "Invalid ID";
+                throwError(msg, reason);
+            }
+
+            currentAmount = int.Parse(dt.Rows[0]["Units"].ToString());
+            int newAmount = currentAmount - amountUsedUp;
+            if (newAmount < 0)
+            {
+                newAmount = 0;
+            }
+
+            return newAmount;
+        }
+
+        public void addNewProcurementOrder(int supplierId, int destinationSiteId, int rawMaterialId, int quantity)
+        {
+            string query = "insert into [Procurement Orders]([Supplier ID],[Destination Site ID], [Raw Material ID],[Quantity]) values('" + supplierId + "','" + destinationSiteId + "','" + rawMaterialId + "','" + quantity + "')";
+            try
+            {
+                ExternalService.executeInsertUpdateQuery(query);
+            }
+            catch (Exception e)
+            {
+                throwError(e.Message, e.Source);
+            }
         }
     }
 }

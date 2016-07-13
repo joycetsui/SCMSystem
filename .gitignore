@@ -1,5 +1,6 @@
 #connection string
 /access.cs
+/Access.cs
 
 # Compiled Object files
 *.slo
