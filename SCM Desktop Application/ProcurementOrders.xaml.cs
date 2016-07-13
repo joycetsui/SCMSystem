@@ -27,12 +27,12 @@ namespace SCM_Desktop_Application
             InitializeComponent();
             loadTable();
         }
-        string cnStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=../../../database/scm.accdb";
 
-        public void loadTable(/*object sender, RoutedEventArgs e*/)
+
+        public void loadTable()
         {
             string query = "Select * from [Procurement Orders]";
-            OleDbConnection conn = new OleDbConnection(cnStr);
+            OleDbConnection conn = new OleDbConnection(access.cnStr);
             if (conn.State != ConnectionState.Open)
             {
                 conn.Open();
@@ -48,13 +48,11 @@ namespace SCM_Desktop_Application
             procurementOrderDataGrid.ItemsSource = ds.AsDataView();
 
             conn.Close();
-
-            //procurementOrderDataGrid.ItemsSource = Database.ProcurementOrders;
+            
         }
 
         public void addNewOrder(object sender, RoutedEventArgs e)
         {
-            //ProcurementOrderItem item = new ProcurementOrderItem();
             ProcurementOrderDetails detailsWindow = new ProcurementOrderDetails(null, "Create New Order");
             detailsWindow.ShowDialog();
             loadTable();
@@ -74,7 +72,7 @@ namespace SCM_Desktop_Application
 
             DataRowView row = (DataRowView)procurementOrderDataGrid.SelectedItems[0];
 
-            OleDbConnection conn = new OleDbConnection(cnStr);
+            OleDbConnection conn = new OleDbConnection(access.cnStr);
             OleDbCommand cmd = new OleDbCommand();
             if (conn.State != ConnectionState.Open)
                 conn.Open();
@@ -82,9 +80,6 @@ namespace SCM_Desktop_Application
             cmd.CommandText = "delete from [Procurement Orders] where [Procurement Order ID]=" + row["Procurement Order ID"].ToString();
             cmd.ExecuteNonQuery();
             loadTable();
-
-            //ProcurementOrderItem item = (sender as Button).DataContext as ProcurementOrderItem;
-            //Database.ProcurementOrders.Remove(item);
         }
     }
 }

@@ -9,22 +9,8 @@ namespace SCM_Desktop_Application
     class access
     {
         
-
-        //string cnStr = 'Provider=Microsoft.Jet.OLEDB.4.0;Data Source="../database"';
-
-        //// Set connection string
-        //void queryDB(string query)
-        //{
-        //    ADODB.Connection cnn = new ADODB.Connection();
-        //    ADODB.Recordset rs = new ADODB.Recordset();
-        //    cnn.Open(cnStr, null, null, 0);
-        //    rs.Open(query, cnn, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic, -1);
-
-        //    rs.Close();
-        //    cnn.Close();
-
-        //}
-
+        // replace with your local path
+        public static string cnStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/Documents/GitHub/cs490-scm/database/scm.accdb";
 
     }
 }
