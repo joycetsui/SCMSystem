@@ -14,6 +14,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -25,25 +26,22 @@
         <!--<Label Name="supplierLb"  Grid.Row="1" Grid.Column="0" Content="Supplier" Margin="10,0, 10, 0" ></Label>
         <Label Name="destinationLb"  Grid.Row="2" Grid.Column="0" Content="Destination" Margin="10,0, 10, 0" ></Label>
         <Label Name="rawMaterialLb"  Grid.Row="3" Grid.Column="0" Content="Raw Material" Margin="10,0, 10, 0" ></Label>
-        <Label Name="quantityLb"  Grid.Row="4" Grid.Column="0" Content="Quantity" Margin="10,0, 10, 0"></Label>
-
-        <ComboBox Name="supplierCb"  Grid.Row="1" Grid.Column="1" Margin="10,0, 10, 0" ></ComboBox>
-        <ComboBox Name="destinationCb"  Grid.Row="2" Grid.Column="1" Margin="10,0, 10, 0" ></ComboBox>
-        <ComboBox Name="rawMaterialCb"  Grid.Row="3" Grid.Column="1" Margin="10,0, 10, 0" ></ComboBox>
-        <TextBox Name="quantityTb"  Grid.Row="4" Grid.Column="1" Margin="10,0, 10, 0" ></TextBox>-->
-
-        <Label Name="supplierLb"  Grid.Row="1" Grid.Column="0" Content="Order ID" Margin="10,0, 10, 0" ></Label>
-        <Label Name="destinationLb"  Grid.Row="2" Grid.Column="0" Content="Supplier ID" Margin="10,0, 10, 0" ></Label>
-        <Label Name="rawMaterialLb"  Grid.Row="3" Grid.Column="0" Content="Raw Material ID" Margin="10,0, 10, 0" ></Label>
-        <Label Name="quantityLb"  Grid.Row="4" Grid.Column="0" Content="Quantity" Margin="10,0, 10, 0"></Label>
+        <Label Name="quantityLb"  Grid.Row="4" Grid.Column="0" Content="Quantity" Margin="10,0, 10, 0"></Label>-->
 
         <TextBlock Name="orderTb" Grid.Row="1" Grid.Column="1" Margin="10,0, 10, 0"/>
-        <TextBox Name="supplierTb"  Grid.Row="2" Grid.Column="1" Margin="10,0, 10, 0"  ></TextBox>
-        <TextBox Name="rawmaterialTb"  Grid.Row="3" Grid.Column="1" Margin="10,0, 10, 0" ></TextBox>
-        <TextBox Name="quantityTb"  Grid.Row="4" Grid.Column="1" Margin="10,0, 10, 0" ></TextBox>
+        <ComboBox Name="supplierCb"  Grid.Row="2" Grid.Column="1" Margin="10,0, 10, 0" ></ComboBox>
+        <ComboBox Name="destinationCb"  Grid.Row="3" Grid.Column="1" Margin="10,0, 10, 0" ></ComboBox>
+        <ComboBox Name="rawMaterialCb"  Grid.Row="4" Grid.Column="1" Margin="10,0, 10, 0" ></ComboBox>
+        <TextBox Name="quantityTb"  Grid.Row="5" Grid.Column="1" Margin="10,0, 10, 0" ></TextBox>
+
+        <Label Name="orderLb"  Grid.Row="1" Grid.Column="0" Content="Order ID" Margin="10,0, 10, 0" ></Label>
+        <Label Name="supplierLb"  Grid.Row="2" Grid.Column="0" Content="Supplier" Margin="10,0, 10, 0" ></Label>
+        <Label Name="destinationLb"  Grid.Row="3" Grid.Column="0" Content="Destination" Margin="10,0, 10, 0" ></Label>
+        <Label Name="rawMaterialLb"  Grid.Row="4" Grid.Column="0" Content="Raw Material" Margin="10,0, 10, 0" ></Label>
+        <Label Name="quantityLb"  Grid.Row="5" Grid.Column="0" Content="Quantity" Margin="10,0, 10, 0"></Label>
 
         <Button Name="updateBtn" Tag="{Binding}" Click="updateOrder" Content="Update"
                 Margin="10"
-                Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
+                Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
     </Grid>
 </Window>

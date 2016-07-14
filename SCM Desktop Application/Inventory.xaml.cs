@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,18 +31,30 @@ namespace SCM_Desktop_Application
             string header = MainWindow.selectedTabName;
             PageTitle.Content = header;
 
+            string query = "";
+
             if (header == "Raw Material Inventory")
             {
-                inventoryDataGrid.DataContext = Database.RawMaterialsInventory;
+                query = "SELECT inv.[Raw Material ID] as [Raw Material ID],  r.[Type] as [Type], w.[Name] as [Site], inv.[Units] as [Units], inv.[Inbound Units] as [Inbound Units], inv.[Reorder Point] as [Reorder Point] " +
+                            "FROM (([Raw Material Inventory] as inv " +
+                            "INNER JOIN [Raw Materials] as r ON inv.[Raw Material ID] = r.[Raw Material ID]) " +
+                            "INNER JOIN [Warehouse] as w ON inv.[Site ID] = w.[Site ID]);";
             }
             else if (header == "WIP Inventory")
             {
-                inventoryDataGrid.DataContext = Database.WIPInventory;
+                query = "SELECT inv.[WIP Inventory ID] as [WIP Inventory ID],  inv.[Type] as [Type], w.[Name] as [Site], inv.[Quantity] as [Quantity], inv.[Inbound Units] as [Inbound Units] " +
+                            "FROM ([WIP Inventory] as inv " +
+                            "INNER JOIN [Warehouse] as w ON inv.[Site ID] = w.[Site ID]);";
             }
             else
             {
-                inventoryDataGrid.DataContext = Database.FinishedGoodsInventory;
+                query = "SELECT inv.[FG Inventory ID] as [FG Inventory ID],  inv.[Type] as [Type], w.[Name] as [Site], inv.[Quantity] as [Quantity], inv.[Inbound Units] as [Inbound Units] " +
+                            "FROM ([Finished Goods Inventory] as inv " +
+                            "INNER JOIN [Warehouse] as w ON inv.[Site ID] = w.[Site ID]);";
             }
+
+            DataTable dt = External.executeSelectQuery(query);
+            inventoryDataGrid.ItemsSource = dt.AsDataView();
         }
 
         public void requestTransfer(object sender, RoutedEventArgs e)

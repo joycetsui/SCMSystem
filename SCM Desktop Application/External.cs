@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +11,40 @@ namespace SCM_Desktop_Application
 {
     static public class External
     {
+        static public DataTable executeSelectQuery(string query)
+        {
+            OleDbConnection conn = new OleDbConnection(access.cnStr);
+            if (conn.State != ConnectionState.Open)
+            {
+                conn.Open();
+            }
+
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = query;
+            OleDbDataAdapter adapter = new OleDbDataAdapter(cmd);
+
+            DataTable ds = new DataTable();
+            adapter.Fill(ds);
+
+            conn.Close();
+            return ds;
+        }
+
+        static public void executeInsertUpdateQuery(string query)
+        {
+            OleDbConnection conn = new OleDbConnection(access.cnStr);
+            OleDbCommand cmd = new OleDbCommand();
+            if (conn.State != ConnectionState.Open)
+            {
+                conn.Open();
+            }
+            cmd.Connection = conn;
+            cmd.CommandText = query;
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
         static public ProcurementForecastItem[] getNewForecasts()
         {
             ProcurementForecastItem[] ProcurementForecasts = new[]
@@ -26,10 +62,8 @@ namespace SCM_Desktop_Application
 
         static public void addNewProcurementOrder(int supplierId, int destinationSiteId, int rawMaterialId, int quantity)
         {
-            int newOrderId = Database.ProcurementOrders.Last().orderId + 1;
-            Database.ProcurementOrders.Add(
-                new ProcurementOrderItem { orderId = newOrderId, supplierId = supplierId, destinationSiteId = destinationSiteId, rawMaterialId = rawMaterialId, Quantity = quantity }
-            );
+            string query = "insert into [Procurement Orders]([Supplier ID],[Destination Site ID], [Raw Material ID],[Quantity]) values('" + supplierId + "','" + destinationSiteId + "','" + rawMaterialId + "','" + quantity + "')";
+            executeInsertUpdateQuery(query);
         }
 
         static public void addNewInternalTransferOrder(int originSiteId, int destinationSiteId, int deliveryMethodId, string departureDate, string arrivalDate, int rawMaterialId, int quantity)
@@ -38,106 +72,6 @@ namespace SCM_Desktop_Application
             Database.InternalTransfer.Add(
                             new InternalTransfer { StockTransferId = newtransferId, OriginSiteId = originSiteId, DestinationSiteId = destinationSiteId, DeliveryMethodID = deliveryMethodId, TotalCost = 10, DepartureDate = departureDate, ArrivalDate = arrivalDate, Quantity = quantity }
             );
-        }
-
-
-        // Accounting API expenses helper methods
-        static public Expense[] Expenses = new[]
-        {
-                new Expense { Name = "Procurement Cost", amount = 500 },
-                new Expense {Name = "Transportation Cost", amount = 100 },
-                new Expense {Name = "Warehouse Rent Cost", amount = 5000 },
-        };
-
-        static public Expense[] getExpenses()
-        {
-            return Expenses;
-        }
-
-        static public Expense getProcurementCost()
-        {
-           for (int i = 0; i < Expenses.Length; i++)
-            {
-                if (Expenses[i].Name == "Procurement Cost")
-                {
-                    return Expenses[i];
-                }
-            }
-
-            return new Expense { Name = "Invalid", amount = 0 };
-        }
-
-        static public Expense getTransportationCost()
-        {
-            for (int i = 0; i < Expenses.Length; i++)
-            {
-                if (Expenses[i].Name == "Transportation Cost")
-                {
-                    return Expenses[i];
-                }
-            }
-
-            return new Expense { Name = "Invalid", amount = 0 };
-        }
-
-        // Production API helper methods
-
-        public struct InventoryResp
-        {
-            public string ItemName;
-            public int AmountOnHand;
-        };
-
-        static public InventoryResp getRawMaterialsOnHandForId(int rawMaterialId)
-        {
-            int amount = 0;
-            string itemName = "Invalid";
-
-            if (rawMaterialId < Database.RawMaterialsInventory.Count)
-            {
-                amount = Database.RawMaterialsInventory[rawMaterialId].unitsOnHand;
-                itemName = Database.RawMaterialsInventory[rawMaterialId].Type;
-            }
-
-            return new InventoryResp { ItemName = itemName, AmountOnHand = amount};
-        }
-
-        static public void updateRawMaterialsOnHandForId(int rawMaterialId, int newAmount)
-        {
-            if (rawMaterialId < Database.RawMaterialsInventory.Count)
-            {
-                Database.RawMaterialsInventory[rawMaterialId].unitsOnHand = newAmount;
-            }
-        }
-
-        // Sales API helper methods
-        public struct OrderStatusResp
-        {
-            public int OrderId;
-            public string Status;
-        };
-        static public OrderStatusResp getCustomerOrderStatus(int orderId)
-        {
-            string status = "Invalid";
-
-            if (orderId < Database.ProductOrders.Count && orderId < Database.CustomerShipping.Count)
-            {
-                status = Database.CustomerShipping[orderId].Status;
-            }
-
-            return new OrderStatusResp { OrderId = orderId, Status = status };
-        }
-
-        static public OrderStatusResp getRetailerOrderStatus(int orderId)
-        {
-            string status = "Invalid";
-
-            if (orderId < Database.DistributorShipping.Count)
-            {
-                status = Database.DistributorShipping[orderId].Status;
-            }
-
-            return new OrderStatusResp { OrderId = orderId, Status = status };
         }
 
         static public void addNewShippingCompany(string companyName, string shippingMethod, string contactInfo, double shippingRate)

@@ -31,24 +31,14 @@ namespace SCM_Desktop_Application
 
         public void loadTable()
         {
-            string query = "Select * from [Procurement Orders]";
-            OleDbConnection conn = new OleDbConnection(access.cnStr);
-            if (conn.State != ConnectionState.Open)
-            {
-                conn.Open();
-            }
-            OleDbCommand cmd = new OleDbCommand();
-            cmd.Connection = conn;
-            cmd.CommandText = query;
-            OleDbDataAdapter adapter = new OleDbDataAdapter(cmd);
+            string query = "SELECT po.[Procurement Order ID] as [Order ID],  r.[Type] as [Raw Material], s.[Company Name] as [Supplier], w.[Name] as [Site], po.[Quantity] as [Quantity], po.[Actual Arrival Date] as [Actual Arrival Date], po.[Expected Arrival Date] as [Expected Arrival Date], (r.[Unit Cost] * po.[Quantity]) as [Total Cost] " +
+                            "FROM ((([Procurement Orders] as po " +
+                            "INNER JOIN [Raw Materials] as r ON po.[Raw Material ID] = r.[Raw Material ID]) " +
+                            "INNER JOIN [Warehouse] as w ON po.[Destination Site ID] = w.[Site ID]) " +
+                            "INNER JOIN [Suppliers] as s ON po.[Supplier ID] = s.[Supplier ID]);";
 
-            DataTable ds = new DataTable();
-            // if error at next line, download this (32 bit) https://www.microsoft.com/en-us/download/details.aspx?id=13255
-            adapter.Fill(ds);
-            procurementOrderDataGrid.ItemsSource = ds.AsDataView();
-
-            conn.Close();
-            
+            DataTable dt = External.executeSelectQuery(query);
+            procurementOrderDataGrid.ItemsSource = dt.AsDataView();
         }
 
         public void addNewOrder(object sender, RoutedEventArgs e)
@@ -61,7 +51,6 @@ namespace SCM_Desktop_Application
         public void editRow(object sender, RoutedEventArgs e)
         {
             DataRowView item = (DataRowView)procurementOrderDataGrid.SelectedItems[0];
-            //ProcurementOrderItem item = (sender as Button).DataContext as ProcurementOrderItem;
             ProcurementOrderDetails detailsWindow = new ProcurementOrderDetails(item, "Update Order Details");
             detailsWindow.ShowDialog();
             loadTable();
@@ -69,16 +58,10 @@ namespace SCM_Desktop_Application
 
         public void deleteRow(object sender, RoutedEventArgs e)
         {
-
             DataRowView row = (DataRowView)procurementOrderDataGrid.SelectedItems[0];
 
-            OleDbConnection conn = new OleDbConnection(access.cnStr);
-            OleDbCommand cmd = new OleDbCommand();
-            if (conn.State != ConnectionState.Open)
-                conn.Open();
-            cmd.Connection = conn;
-            cmd.CommandText = "delete from [Procurement Orders] where [Procurement Order ID]=" + row["Procurement Order ID"].ToString();
-            cmd.ExecuteNonQuery();
+            string query = "delete from [Procurement Orders] where [Procurement Order ID]=" + row["Order ID"].ToString();
+            External.executeInsertUpdateQuery(query);
             loadTable();
         }
     }
