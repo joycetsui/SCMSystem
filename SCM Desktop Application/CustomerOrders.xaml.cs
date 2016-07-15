@@ -23,8 +23,7 @@ namespace SCM_Desktop_Application
     /// </summary>
     public partial class CustomerOrders : Page
     {
-
-        string cnStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=../../../database/scm.accdb";
+        
         
         public CustomerOrders()
         {
