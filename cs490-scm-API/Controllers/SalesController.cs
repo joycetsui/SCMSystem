@@ -1,5 +1,6 @@
 ﻿using cs490_scm_API.Models;
 using cs490_scm_API.Providers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,7 +17,7 @@ namespace cs490_scm_API.Controllers
     {
         // GET: Sales
         [System.Web.Http.Route("api/orders/status/{type}")]
-        public DataTable Get(string type)
+        public string Get(string type)
         {
             string query = "";
 
@@ -38,11 +39,13 @@ namespace cs490_scm_API.Controllers
             }
 
             DataTable dt = ExternalService.executeSelectQuery(query);
-            return dt;
+
+            string JSONresult = JsonConvert.SerializeObject(dt);
+            return JSONresult;
         }
 
         [System.Web.Http.Route("api/orders/status/{type}/{id}")]
-        public DataTable Get(string type, int id)
+        public string Get(string type, int id)
         {
             string query = "";
 
@@ -74,7 +77,8 @@ namespace cs490_scm_API.Controllers
                 throwError(msg, reason);
             }
 
-            return dt.Rows[0].Table;
+            string JSONresult = JsonConvert.SerializeObject(dt.Rows[0].Table);
+            return JSONresult;
         }
 
         // Helper Methods

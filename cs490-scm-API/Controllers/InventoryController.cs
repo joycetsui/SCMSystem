@@ -1,5 +1,6 @@
 ﻿using cs490_scm_API.Models;
 using cs490_scm_API.Providers;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -17,19 +18,23 @@ namespace cs490_scm_API.Controllers
     public class InventoryController : ApiController
     {
         // GET: Inventory
+        
         [System.Web.Http.Route("api/inventory/raw_materials")]
-        public DataTable Get()
+        public string Get()
         {
             string query = "SELECT inv.[Raw Material ID] as [Raw Material ID],  r.[Type] as [Type], w.[Name] as [Site], inv.[Units] as [Units], inv.[Inbound Units] as [Inbound Units] " +
                             "FROM (([Raw Material Inventory] as inv " +
                             "INNER JOIN [Raw Materials] as r ON inv.[Raw Material ID] = r.[Raw Material ID]) " +
                             "INNER JOIN [Warehouse] as w ON inv.[Site ID] = w.[Site ID]);";
+
             DataTable dt = ExternalService.executeSelectQuery(query);
-            return dt;
+
+            string JSONresult = JsonConvert.SerializeObject(dt);
+            return JSONresult;
         }
 
         [System.Web.Http.Route("api/inventory/raw_materials/{id}")]
-        public DataTable Get(int id)
+        public string Get(int id)
         {
             string query = "SELECT inv.[Raw Material ID] as [Raw Material ID],  r.[Type] as [Type], w.[Name] as [Site], inv.[Units] as [Units], inv.[Inbound Units] as [Inbound Units] " +
                             "FROM(([Raw Material Inventory]  inv " +
@@ -46,7 +51,8 @@ namespace cs490_scm_API.Controllers
                 throwError(msg, reason);
             }
 
-            return dt;
+            string JSONresult = JsonConvert.SerializeObject(dt);
+            return JSONresult;
         }
 
         /// <summary>

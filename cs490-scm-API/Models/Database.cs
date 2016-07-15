@@ -890,7 +890,7 @@ namespace cs490_scm_API.Models
         public class Expense
         {
             public string Name;
-            public int amount;
+            public double amount;
         }
 
         public static class Database

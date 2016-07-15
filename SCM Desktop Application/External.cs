@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.OleDb;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,36 +14,33 @@ namespace SCM_Desktop_Application
     {
         static public DataTable executeSelectQuery(string query)
         {
-            OleDbConnection conn = new OleDbConnection(access.cnStr);
-            if (conn.State != ConnectionState.Open)
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(access.cnStr))
             {
-                conn.Open();
+                try
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                    adapter.Fill(dt);
+                }
+                catch { }
             }
 
-            OleDbCommand cmd = new OleDbCommand();
-            cmd.Connection = conn;
-            cmd.CommandText = query;
-            OleDbDataAdapter adapter = new OleDbDataAdapter(cmd);
-
-            DataTable ds = new DataTable();
-            adapter.Fill(ds);
-
-            conn.Close();
-            return ds;
+            return dt;
         }
 
         static public void executeInsertUpdateQuery(string query)
         {
-            OleDbConnection conn = new OleDbConnection(access.cnStr);
-            OleDbCommand cmd = new OleDbCommand();
-            if (conn.State != ConnectionState.Open)
+            using (SqlConnection conn = new SqlConnection(access.cnStr))
             {
-                conn.Open();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+                catch { }
             }
-            cmd.Connection = conn;
-            cmd.CommandText = query;
-            cmd.ExecuteNonQuery();
-            conn.Close();
         }
 
         static public ProcurementForecastItem[] getNewForecasts()

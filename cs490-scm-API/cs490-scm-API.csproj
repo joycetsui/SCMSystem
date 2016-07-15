@@ -263,7 +263,6 @@
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\Access.cs" />
     <Compile Include="Providers\ExternalService.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />

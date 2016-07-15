@@ -1,8 +1,10 @@
 ﻿using cs490_scm_API.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.OleDb;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
@@ -10,40 +12,37 @@ namespace cs490_scm_API.Providers
 {
     public class ExternalService
     {
-        static string CNSTR = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + Access.DB_PATH;
+        //static string CNSTR = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + Access.DB_PATH;
+        static string CNSTR = ConfigurationManager.ConnectionStrings["cs490scm"].ConnectionString.ToString();
 
         static public DataTable executeSelectQuery(string query)
         {
-            OleDbConnection conn = new OleDbConnection(CNSTR);
-            if (conn.State != ConnectionState.Open)
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(CNSTR))
             {
-                conn.Open();
+                try {
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                    adapter.Fill(dt);
+                }
+                catch { }
             }
 
-            OleDbCommand cmd = new OleDbCommand();
-            cmd.Connection = conn;
-            cmd.CommandText = query;
-            OleDbDataAdapter adapter = new OleDbDataAdapter(cmd);
-
-            DataTable ds = new DataTable();
-            adapter.Fill(ds);
-
-            conn.Close();
-            return ds;
+            return dt;
         }
 
         static public void executeInsertUpdateQuery(string query)
         {
-            OleDbConnection conn = new OleDbConnection(CNSTR);
-            OleDbCommand cmd = new OleDbCommand();
-            if (conn.State != ConnectionState.Open)
+            using (SqlConnection conn = new SqlConnection(CNSTR))
             {
-                conn.Open();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+                catch { }
             }
-            cmd.Connection = conn;
-            cmd.CommandText = query;
-            cmd.ExecuteNonQuery();
-            conn.Close();
         }
 
         //static public void addNewProcurementOrder(int supplierId, int destinationSiteId, int rawMaterialId, int quantity)

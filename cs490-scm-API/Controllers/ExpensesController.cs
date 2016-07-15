@@ -39,25 +39,36 @@ namespace cs490_scm_API.Controllers
         static private Expense[] getExpenses()
         {
             string procurementOrderQuery = "SELECT Sum([Order Cost]) as [Total Cost] FROM " +
-                                            "(SELECT p.[Procurement Order ID], p.[Raw Material ID], r.[Type], r.[Unit Cost], p.[Quantity], p.[Quantity] * r.[Unit Cost] AS[Order Cost] " +
-                                            "FROM[Procurement Orders] as p INNER JOIN[Raw Materials] as r " +
-                                            "ON r.[Raw Material ID] = p.[Raw Material ID]);";
+                                            "(SELECT p.[Procurement Order ID], p.[Raw Material ID], r.[Type], r.[Unit Cost], p.[Quantity], p.[Quantity] * r.[Unit Cost] AS [Order Cost] " +
+                                            "FROM [Procurement Orders] as p INNER JOIN [Raw Materials] as r " +
+                                            "ON r.[Raw Material ID] = p.[Raw Material ID]) subq;";
 
             DataTable dt = ExternalService.executeSelectQuery(procurementOrderQuery);
-            int procurementCost = int.Parse(dt.Rows[0][0].ToString());
+
+            double procurementCost = 0;
+            if (dt.Rows.Count != 0 && dt.Rows[0]["Total Cost"].ToString() != "")
+            {
+                procurementCost = Double.Parse(dt.Rows[0]["Total Cost"].ToString());
+            }
 
             string warehouseRentQuery = "SELECT Sum([Rent Cost]) as [Total Cost] " +
-                                        "FROM[Warehouse];";
+                                        "FROM [Warehouse];";
             dt = ExternalService.executeSelectQuery(warehouseRentQuery);
-            int rentCost = int.Parse(dt.Rows[0][0].ToString());
+
+            double rentCost = 0;
+            if (dt.Rows.Count != 0 && dt.Rows[0]["Total Cost"].ToString() != "")
+            {
+                rentCost = Double.Parse(dt.Rows[0]["Total Cost"].ToString());
+            }
 
             string transportationCostQuery = "SELECT Sum(it.[Cost]) +  Sum(cs.[Shipping Cost]) as [Total Cost] " +
-                                        "FROM[Internal Transfers] as it, [Customer Shipping] as cs;";
+                                              "FROM [Internal Transfers] as it, [Customer Shipping] as cs;";
             dt = ExternalService.executeSelectQuery(transportationCostQuery);
-            int transportationCost = 0;
-            if (dt.Rows[0][0].ToString() != "")
+
+            double transportationCost = 0;
+            if (dt.Rows.Count != 0 && dt.Rows[0]["Total Cost"].ToString() != "")
             {
-                transportationCost = int.Parse(dt.Rows[0][0].ToString());
+                transportationCost = Double.Parse(dt.Rows[0]["Total Cost"].ToString());
             }
 
             Expense[] expenses = new[]
