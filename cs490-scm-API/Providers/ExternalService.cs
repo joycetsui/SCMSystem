@@ -13,37 +13,37 @@ namespace cs490_scm_API.Providers
     public class ExternalService
     {
         //static string CNSTR = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + Access.DB_PATH;
-        static string CNSTR = ConfigurationManager.ConnectionStrings["cs490scm"].ConnectionString.ToString();
+        //static string CNSTR = ConfigurationManager.ConnectionStrings["cs490scm"].ConnectionString.ToString();
 
-        static public DataTable executeSelectQuery(string query)
-        {
-            DataTable dt = new DataTable();
-            using (SqlConnection conn = new SqlConnection(CNSTR))
-            {
-                try {
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
-                    adapter.Fill(dt);
-                }
-                catch { }
-            }
+        //static public DataTable executeSelectQuery(string query)
+        //{
+        //    DataTable dt = new DataTable();
+        //    using (SqlConnection conn = new SqlConnection(CNSTR))
+        //    {
+        //        try {
+        //            SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+        //            adapter.Fill(dt);
+        //        }
+        //        catch { }
+        //    }
 
-            return dt;
-        }
+        //    return dt;
+        //}
 
-        static public void executeInsertUpdateQuery(string query)
-        {
-            using (SqlConnection conn = new SqlConnection(CNSTR))
-            {
-                try
-                {
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                }
-                catch { }
-            }
-        }
+        //static public void executeInsertUpdateQuery(string query)
+        //{
+        //    using (SqlConnection conn = new SqlConnection(CNSTR))
+        //    {
+        //        try
+        //        {
+        //            SqlCommand cmd = new SqlCommand(query, conn);
+        //            conn.Open();
+        //            cmd.ExecuteNonQuery();
+        //            conn.Close();
+        //        }
+        //        catch { }
+        //    }
+        //}
 
         //static public void addNewProcurementOrder(int supplierId, int destinationSiteId, int rawMaterialId, int quantity)
         //{

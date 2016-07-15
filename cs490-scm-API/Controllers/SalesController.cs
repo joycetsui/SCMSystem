@@ -1,5 +1,6 @@
 ﻿using cs490_scm_API.Models;
 using cs490_scm_API.Providers;
+using DataAccess;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,17 +20,15 @@ namespace cs490_scm_API.Controllers
         [System.Web.Http.Route("api/orders/status/{type}")]
         public string Get(string type)
         {
-            string query = "";
+            DataTable dt = new DataTable();
 
             if (type == "customer")
             {
-                query = "SELECT [Customer Order ID], [Tracking Number], [Status] " +
-                        "FROM[Customer Shipping];";
+                dt = ProductOrders.getCustomerOrders();
             }
             else if (type == "retailer")
             {
-                query = "SELECT [Product Order ID], [Stock Transfer ID], [Status] " +
-                        "FROM[Distributor Shipping];";
+                dt = ProductOrders.getRetailerOrders();
             }
             else
             {
@@ -38,8 +37,6 @@ namespace cs490_scm_API.Controllers
                 throwError(msg, reason);
             }
 
-            DataTable dt = ExternalService.executeSelectQuery(query);
-
             string JSONresult = JsonConvert.SerializeObject(dt);
             return JSONresult;
         }
@@ -47,19 +44,15 @@ namespace cs490_scm_API.Controllers
         [System.Web.Http.Route("api/orders/status/{type}/{id}")]
         public string Get(string type, int id)
         {
-            string query = "";
+            DataTable dt = new DataTable();
 
             if (type == "customer")
             {
-                query = "SELECT [Customer Order ID], [Tracking Number], [Status] " +
-                        "FROM[Customer Shipping] " +
-                        "WHERE[Customer Order ID] = " + id + ";";
+                dt = ProductOrders.getCustomerOrderById(id);
             }
             else if (type == "retailer")
             {
-                query = "SELECT [Product Order ID], [Stock Transfer ID], [Status] " +
-                        "FROM[Distributor Shipping] " +
-                        "WHERE[Product Order ID] = " + id + ";";
+                dt = ProductOrders.getRetailerOrderById(id);
             }
             else
             {
@@ -67,8 +60,6 @@ namespace cs490_scm_API.Controllers
                 string reason = "Invalid Order Type";
                 throwError(msg, reason);
             }
-
-            DataTable dt = ExternalService.executeSelectQuery(query);
 
             if (dt.Rows.Count == 0)
             {

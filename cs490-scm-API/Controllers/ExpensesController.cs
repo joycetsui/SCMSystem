@@ -1,5 +1,4 @@
-﻿using cs490_scm_API.Models;
-using cs490_scm_API.Providers;
+﻿using DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,96 +13,45 @@ namespace cs490_scm_API.Controllers
 {
     public class ExpensesController : ApiController
     {
-        Expense[] expenses = getExpenses();
 
         // GET: Expenses
         [System.Web.Http.Route("api/expenses")]
         public Expense[] Get()
         {
-            return expenses;
+            return getExpenses();
         }
 
         [System.Web.Http.Route("api/expenses/transportation_cost")]
         public Expense GetTransportationCost()
         {
-            return getTransportationCost();
+            return getTransportationExpense();
         }
 
         [System.Web.Http.Route("api/expenses/procurement_cost")]
         public Expense GetProcurementCost()
         {
-            return getProcurementCost();
+            return getProcurementExpense();
         }
 
         // Helper methods
         static private Expense[] getExpenses()
         {
-            string procurementOrderQuery = "SELECT Sum([Order Cost]) as [Total Cost] FROM " +
-                                            "(SELECT p.[Procurement Order ID], p.[Raw Material ID], r.[Type], r.[Unit Cost], p.[Quantity], p.[Quantity] * r.[Unit Cost] AS [Order Cost] " +
-                                            "FROM [Procurement Orders] as p INNER JOIN [Raw Materials] as r " +
-                                            "ON r.[Raw Material ID] = p.[Raw Material ID]) subq;";
+            Expense procurement = getProcurementExpense();
+            Expense transportation = getTransportationExpense();
+            Expense rent = new Expense { Name = "Warehouse Rent Cost", amount = Inventory.getWarehouseRent() };
 
-            DataTable dt = ExternalService.executeSelectQuery(procurementOrderQuery);
-
-            double procurementCost = 0;
-            if (dt.Rows.Count != 0 && dt.Rows[0]["Total Cost"].ToString() != "")
-            {
-                procurementCost = Double.Parse(dt.Rows[0]["Total Cost"].ToString());
-            }
-
-            string warehouseRentQuery = "SELECT Sum([Rent Cost]) as [Total Cost] " +
-                                        "FROM [Warehouse];";
-            dt = ExternalService.executeSelectQuery(warehouseRentQuery);
-
-            double rentCost = 0;
-            if (dt.Rows.Count != 0 && dt.Rows[0]["Total Cost"].ToString() != "")
-            {
-                rentCost = Double.Parse(dt.Rows[0]["Total Cost"].ToString());
-            }
-
-            string transportationCostQuery = "SELECT Sum(it.[Cost]) +  Sum(cs.[Shipping Cost]) as [Total Cost] " +
-                                              "FROM [Internal Transfers] as it, [Customer Shipping] as cs;";
-            dt = ExternalService.executeSelectQuery(transportationCostQuery);
-
-            double transportationCost = 0;
-            if (dt.Rows.Count != 0 && dt.Rows[0]["Total Cost"].ToString() != "")
-            {
-                transportationCost = Double.Parse(dt.Rows[0]["Total Cost"].ToString());
-            }
-
-            Expense[] expenses = new[]
-            {
-                new Expense { Name = "Procurement Cost", amount = procurementCost },
-                new Expense {Name = "Transportation Cost", amount = transportationCost },
-                new Expense {Name = "Warehouse Rent Cost", amount = rentCost },
-            };
+            Expense[] expenses = new[] { procurement, transportation, rent};
 
             return expenses;
         }
-        public Expense getProcurementCost()
+        public static Expense getProcurementExpense()
         {
-            for (int i = 0; i < expenses.Length; i++)
-            {
-                if (expenses[i].Name == "Procurement Cost")
-                {
-                    return expenses[i];
-                }
-            }
-
-            return new Expense { Name = "Invalid", amount = 0 };
+            return new Expense { Name = "Procurement Cost", amount = Procurement.getProcurementCost() };
         }
 
-        public Expense getTransportationCost()
+        public static Expense getTransportationExpense()
         {
-            for (int i = 0; i < expenses.Length; i++)
-            {
-                if (expenses[i].Name == "Transportation Cost")
-                {
-                    return expenses[i];
-                }
-            }
-
-            return new Expense { Name = "Invalid", amount = 0 };
+            return new Expense { Name = "Transportation Cost", amount = Transportation.getTransportationCost() };
         }
     }
 }
