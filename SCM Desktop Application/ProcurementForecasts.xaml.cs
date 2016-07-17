@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -60,7 +61,9 @@ namespace SCM_Desktop_Application
                         double unitCost = Database.RawMaterialsList[item.rawMaterialId].cost;
                         double totalCost = item.Quantity * unitCost;
 
-                        External.addNewProcurementOrder(supplierId, 0, item.rawMaterialId, quantity);
+                        int destinationId = 1;
+
+                        Procurement.addNewProcurementOrder(supplierId, destinationId, item.rawMaterialId, quantity);
                         Database.ProcurementForecasts.RemoveAt(i);
                     }
                     else

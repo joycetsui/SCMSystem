@@ -78,8 +78,8 @@
     <Compile Include="InternalTransfersDetails.xaml.cs">
       <DependentUpon>InternalTransfersDetails.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Inventory.xaml.cs">
-      <DependentUpon>Inventory.xaml</DependentUpon>
+    <Compile Include="InventoryList.xaml.cs">
+      <DependentUpon>InventoryList.xaml</DependentUpon>
     </Compile>
     <Compile Include="InventoryTransferDetails.xaml.cs">
       <DependentUpon>InventoryTransferDetails.xaml</DependentUpon>
@@ -141,7 +141,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Inventory.xaml">
+    <Page Include="InventoryList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -238,6 +238,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{f908f175-c329-432d-b4a6-063cb9aef661}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

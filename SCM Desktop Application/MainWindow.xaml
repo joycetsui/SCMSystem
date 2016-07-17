@@ -48,7 +48,7 @@
             </TabItem>
 
             <TabItem Header="Raw Material Inventory" Style="{StaticResource SideBarSubsectionStyle}">
-                <Frame Source="Inventory.xaml"></Frame>
+                <Frame Source="InventoryList.xaml"></Frame>
             </TabItem>
 
             <TabItem Header="Supplier List" Style="{StaticResource SideBarSubsectionStyle}">
@@ -68,11 +68,11 @@
 
                 <TabItem Header="Inventory" Style="{StaticResource SideBarSectionStyle}" />
             <TabItem Header="WIP Inventory" Style="{StaticResource SideBarSubsectionStyle}">
-                <Frame Source="Inventory.xaml"></Frame>
+                <Frame Source="InventoryList.xaml"></Frame>
             </TabItem>
 
             <TabItem Header="Finished Goods Inventory" Style="{StaticResource SideBarSubsectionStyle}">
-                <Frame Source="Inventory.xaml"></Frame>
+                <Frame Source="InventoryList.xaml"></Frame>
             </TabItem>
 
             <TabItem Header="Warehouses" Style="{StaticResource SideBarSubsectionStyle}">

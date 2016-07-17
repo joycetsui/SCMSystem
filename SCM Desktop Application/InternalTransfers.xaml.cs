@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DataAccess;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +30,13 @@ namespace SCM_Desktop_Application
 
         public void loadTable(object sender, RoutedEventArgs e)
         {
-            internalTransfersDataGrid.DataContext = Database.InternalTransfer;
+            loadTable();
+        }
+
+        public void loadTable()
+        {
+            DataTable dt = Transportation.getInternalTransfers();
+            internalTransfersDataGrid.ItemsSource = dt.AsDataView();
         }
 
         private DataGridRow selectedRow;
@@ -57,10 +65,10 @@ namespace SCM_Desktop_Application
         {
             if (selectedRow != null)
             {
-                int index = selectedRow.GetIndex();
-                InternalTransfersDetails detailsWindow = new InternalTransfersDetails(index, "Update Internal Transfer Details");
-                detailsWindow.Show();
-
+                DataRowView item = (DataRowView)internalTransfersDataGrid.SelectedItems[0];
+                InternalTransfersDetails detailsWindow = new InternalTransfersDetails(item, "Update Internal Transfer Details");
+                detailsWindow.ShowDialog();
+                loadTable();
             }
         }
 

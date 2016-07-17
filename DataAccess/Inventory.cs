@@ -10,11 +10,92 @@ namespace DataAccess
 {
     public static class Inventory
     {
+        // General Inventory
+        public static int getInventoryItemIdByType(string type, string inventoryType)
+        {
+            if (inventoryType == "Raw Material")
+            {
+                return getRawMaterialIdByType(type);
+            }
+            else {
+                return getProductIdByType(type);
+            }
+        }
+
+        public static void updateInventoryAmount(string inventoryType, int id, int siteId, int newAmount)
+        {
+            if (inventoryType == "Raw Material")
+            {
+                updateRawMaterialAmountForId(id, siteId, newAmount);
+            }
+            else if (inventoryType == "WIP") {
+                updateWIPAmountForId(id, siteId, newAmount);
+            }
+            else
+            {
+                updateFGAmountForId(id, siteId, newAmount);
+            }
+        }
+
+        public static void updateOrCreateInventoryItemInboudUnits(string inventoryType, int id, int siteId, int inboundUnits)
+        {
+            string tableName = "";
+            string idColumnName = "";
+            if (inventoryType == "Raw Material")
+            {
+                tableName = "Raw Material Inventory";
+                idColumnName = "RM Inventory ID";
+            }
+            else if (inventoryType == "WIP")
+            {
+                tableName = "WIP Inventory";
+                idColumnName = "WIP Inventory ID";
+            }
+            else
+            {
+                tableName = "Finished Goods Inventory";
+                idColumnName = "FG Inventory ID";
+            }
+
+            string query = "SELECT [" + idColumnName + "] FROM [" + tableName + "] WHERE [Material ID] = @materialId AND [Site ID] = @siteId;";
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("materialId", id));
+            pars.Add(new SqlParameter("siteId", siteId));
+
+            DataTable dt = Database.executeSelectQuery(query, pars);
+
+            List<SqlParameter> pars2 = new List<SqlParameter>();
+            if (dt.Rows.Count == 0)
+            {
+                // need to insert new item
+                int units = 0;
+                query = "insert into [" + tableName + "] ([Material ID],[Site ID], [Units],[Inbound Units]) " +
+                            "values( @materialId, @siteId, @units, @inboundUnits);";
+
+                pars2.Add(new SqlParameter("materialId", id));
+                pars2.Add(new SqlParameter("siteId", siteId));
+                pars2.Add(new SqlParameter("units", units));
+                pars2.Add(new SqlParameter("inboundUnits", inboundUnits));
+            }
+            else
+            {
+                // need to update inbound units of existing item
+                query = "update [" + tableName + "] set [Inbound Units] = [Inbound Units] + @inboundUnits where [Material ID]= @materialId AND [Site ID] = @siteId;";
+
+                pars2.Add(new SqlParameter("materialId", id));
+                pars2.Add(new SqlParameter("siteId", siteId));
+                pars2.Add(new SqlParameter("inboundUnits", inboundUnits));
+            }
+
+            Database.executeInsertUpdateQuery(query, pars2);
+        }
+
+        // Raw Materials
         public static DataTable getRawMaterials()
         {
-            string query = "SELECT inv.[Raw Material ID] as [Raw Material ID],  r.[Type] as [Type], w.[Name] as [Site], inv.[Units] as [Units], inv.[Inbound Units] as [Inbound Units] " +
+            string query = "SELECT inv.[Material ID] as [Material ID],  r.[Type] as [Type], inv.[Site ID], w.[Name] as [Site], inv.[Units] as [Units], inv.[Inbound Units] as [Inbound Units], inv.[Reorder Point] as [Reorder Point] " +
                             "FROM (([Raw Material Inventory] as inv " +
-                            "INNER JOIN [Raw Materials] as r ON inv.[Raw Material ID] = r.[Raw Material ID]) " +
+                            "INNER JOIN [Raw Materials] as r ON inv.[Material ID] = r.[Raw Material ID]) " +
                             "INNER JOIN [Warehouse] as w ON inv.[Site ID] = w.[Site ID]);";
 
             return Database.executeSelectQuery(query);
@@ -22,11 +103,11 @@ namespace DataAccess
 
         public static DataTable getRawMaterialById(int id)
         {
-            string query = "SELECT inv.[Raw Material ID] as [Raw Material ID],  r.[Type] as [Type], w.[Name] as [Site], inv.[Units] as [Units], inv.[Inbound Units] as [Inbound Units] " +
+            string query = "SELECT inv.[Material ID] as [Material ID],  r.[Type] as [Type], w.[Name] as [Site], inv.[Units] as [Units], inv.[Inbound Units] as [Inbound Units] " +
                             "FROM(([Raw Material Inventory]  inv " +
-                            "INNER JOIN[Raw Materials]  r ON inv.[Raw Material ID] = r.[Raw Material ID]) " +
+                            "INNER JOIN[Raw Materials]  r ON inv.[Material ID] = r.[Raw Material ID]) " +
                             "INNER JOIN[Warehouse]  w ON inv.[Site ID] = w.[Site ID]) " +
-                            "WHERE inv.[Raw Material ID] = @id;";
+                            "WHERE inv.[Material ID] = @id;";
 
             List<SqlParameter> pars = new List<SqlParameter>();
             pars.Add(new SqlParameter("id", id));
@@ -37,7 +118,7 @@ namespace DataAccess
         public static DataTable getRawMaterialByIdAndSiteId(int id, int siteId)
         {
             string query = "SELECT [Units] FROM [Raw Material Inventory] " +
-                           "WHERE [Raw Material ID] = @id AND [Site ID] = @siteId;";
+                           "WHERE [Material ID] = @id AND [Site ID] = @siteId;";
 
             List<SqlParameter> pars = new List<SqlParameter>();
             pars.Add(new SqlParameter("id", id));
@@ -46,9 +127,27 @@ namespace DataAccess
             return Database.executeSelectQuery(query, pars);
         }
 
+        public static DataTable getRawMaterialTypes()
+        {
+            string query = "select [Type] from [Raw Materials]";
+            return Database.executeSelectQuery(query);
+        }
+
+        public static int getRawMaterialIdByType(string type)
+        {
+            string query = "select [Raw Material ID] from [Raw Materials] where [Type]= @type;";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("type", type));
+
+            DataTable dt = Database.executeSelectQuery(query, pars);
+
+            return int.Parse(dt.Rows[0][0].ToString());
+        }
+
         public static void updateRawMaterialAmountForId(int id, int siteId, int newAmount)
         {
-            string query = "update [Raw Material Inventory] set [Units] = @units where [Raw Material ID]= @id AND [Site ID] = @siteId;";
+            string query = "update [Raw Material Inventory] set [Units] = @units where [Material ID]= @id AND [Site ID] = @siteId;";
 
             List<SqlParameter> pars = new List<SqlParameter>();
             pars.Add(new SqlParameter("units", newAmount));
@@ -56,6 +155,95 @@ namespace DataAccess
             pars.Add(new SqlParameter("siteId", siteId));
 
             Database.executeInsertUpdateQuery(query, pars);
+        }
+
+        // WIP
+        public static DataTable getWIP()
+        {
+            string query = "SELECT inv.[Material ID] as [Material ID],  p.[Type] as [Type], inv.[Site ID], w.[Name] as [Site], inv.[Units] as [Units], inv.[Inbound Units] as [Inbound Units] " +
+                            "FROM [WIP Inventory] as inv " +
+                            "INNER JOIN [Warehouse] as w ON inv.[Site ID] = w.[Site ID] " +
+                            "INNER JOIN [Products] as p ON inv.[Material ID] = p.[Product ID];";
+
+            return Database.executeSelectQuery(query);
+        }
+
+        public static DataTable getWIPTypes()
+        {
+            string query = "select [Type] from [Products]";
+            return Database.executeSelectQuery(query);
+        }
+
+        public static int getProductIdByType(string type)
+        {
+            string query = "select [Product ID] from [Products] where [Type]= @type;";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("type", type));
+
+            DataTable dt = Database.executeSelectQuery(query, pars);
+
+            return int.Parse(dt.Rows[0][0].ToString());
+        }
+
+        public static void updateWIPAmountForId(int id, int siteId, int newAmount)
+        {
+            string query = "update [WIP Inventory] set [Units] = @units where [Material ID]= @id AND [Site ID] = @siteId;";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("units", newAmount));
+            pars.Add(new SqlParameter("id", id));
+            pars.Add(new SqlParameter("siteId", siteId));
+
+            Database.executeInsertUpdateQuery(query, pars);
+        }
+
+        // Finished Goods
+        public static DataTable getFinishedGoods()
+        {
+            string query = "SELECT inv.[Material ID] as [Material ID],  p.[Type] as [Type], inv.[Site ID], w.[Name] as [Site], inv.[Units] as [Units], inv.[Inbound Units] as [Inbound Units] " +
+                            "FROM [Finished Goods Inventory] as inv " +
+                            "INNER JOIN [Warehouse] as w ON inv.[Site ID] = w.[Site ID] " +
+                            "INNER JOIN [Products] as p ON inv.[Material ID] = p.[Product ID];";
+
+            return Database.executeSelectQuery(query);
+        }
+
+        public static DataTable getProductTypes()
+        {
+            string query = "select [Type] from [Products]";
+            return Database.executeSelectQuery(query);
+        }
+
+        public static void updateFGAmountForId(int id, int siteId, int newAmount)
+        {
+            string query = "update [Finished Goods Inventory] set [Units] = @units where [Material ID]= @id AND [Site ID] = @siteId;";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("units", newAmount));
+            pars.Add(new SqlParameter("id", id));
+            pars.Add(new SqlParameter("siteId", siteId));
+
+            Database.executeInsertUpdateQuery(query, pars);
+        }
+
+        // Warehouses
+        public static DataTable getWarehouseNames()
+        {
+            string query = "select [Name] from [Warehouse]";
+            return Database.executeSelectQuery(query);
+        }
+
+        public static int getWarehouseIdByName(string name)
+        {
+            string query = "select [Site ID] from [Warehouse] where [Name]= @name;";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("name", name));
+
+            DataTable dt = Database.executeSelectQuery(query, pars);
+
+            return int.Parse(dt.Rows[0][0].ToString());
         }
 
         public static double getWarehouseRent()

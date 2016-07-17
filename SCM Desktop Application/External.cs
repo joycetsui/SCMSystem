@@ -58,20 +58,6 @@ namespace SCM_Desktop_Application
             return ProcurementForecasts;
         }
 
-        static public void addNewProcurementOrder(int supplierId, int destinationSiteId, int rawMaterialId, int quantity)
-        {
-            string query = "insert into [Procurement Orders]([Supplier ID],[Destination Site ID], [Raw Material ID],[Quantity]) values('" + supplierId + "','" + destinationSiteId + "','" + rawMaterialId + "','" + quantity + "')";
-            executeInsertUpdateQuery(query);
-        }
-
-        static public void addNewInternalTransferOrder(int originSiteId, int destinationSiteId, int deliveryMethodId, string departureDate, string arrivalDate, int rawMaterialId, int quantity)
-        {
-            int newtransferId = Database.InternalTransfer.Last().StockTransferId + 1;
-            Database.InternalTransfer.Add(
-                            new InternalTransfer { StockTransferId = newtransferId, OriginSiteId = originSiteId, DestinationSiteId = destinationSiteId, DeliveryMethodID = deliveryMethodId, TotalCost = 10, DepartureDate = departureDate, ArrivalDate = arrivalDate, Quantity = quantity }
-            );
-        }
-
         static public void addNewShippingCompany(string companyName, string shippingMethod, string contactInfo, double shippingRate)
         {
             int newCompanyId = Database.ShippingCompanies.Last().companyId + 1;

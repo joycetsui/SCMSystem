@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
@@ -28,16 +29,9 @@ namespace SCM_Desktop_Application
             loadTable();
         }
 
-
         public void loadTable()
         {
-            string query = "SELECT po.[Procurement Order ID] as [Order ID],  r.[Type] as [Raw Material], s.[Company Name] as [Supplier], w.[Name] as [Site], po.[Quantity] as [Quantity], po.[Actual Arrival Date] as [Actual Arrival Date], po.[Expected Arrival Date] as [Expected Arrival Date], (r.[Unit Cost] * po.[Quantity]) as [Total Cost] " +
-                            "FROM ((([Procurement Orders] as po " +
-                            "INNER JOIN [Raw Materials] as r ON po.[Raw Material ID] = r.[Raw Material ID]) " +
-                            "INNER JOIN [Warehouse] as w ON po.[Destination Site ID] = w.[Site ID]) " +
-                            "INNER JOIN [Suppliers] as s ON po.[Supplier ID] = s.[Supplier ID]);";
-
-            DataTable dt = External.executeSelectQuery(query);
+            DataTable dt = Procurement.getProcurementOrders();
             procurementOrderDataGrid.ItemsSource = dt.AsDataView();
         }
 
@@ -59,9 +53,8 @@ namespace SCM_Desktop_Application
         public void deleteRow(object sender, RoutedEventArgs e)
         {
             DataRowView row = (DataRowView)procurementOrderDataGrid.SelectedItems[0];
-
-            string query = "delete from [Procurement Orders] where [Procurement Order ID]=" + row["Order ID"].ToString();
-            External.executeInsertUpdateQuery(query);
+            int id = int.Parse(row["Order ID"].ToString());
+            Procurement.deleteProcurementOrder(id);
             loadTable();
         }
     }

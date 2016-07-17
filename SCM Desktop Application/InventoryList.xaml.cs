@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -19,41 +20,38 @@ namespace SCM_Desktop_Application
     /// <summary>
     /// Interaction logic for Inventory.xaml
     /// </summary>
-    public partial class Inventory : Page
+    public partial class InventoryList : Page
     {
-        public Inventory()
+        public InventoryList()
         {
             InitializeComponent();
         }
 
         public void loadTable(object sender, RoutedEventArgs e)
         {
+            loadTable();
+        }
+
+        public void loadTable()
+        {
             string header = MainWindow.selectedTabName;
             PageTitle.Content = header;
 
-            string query = "";
+            DataTable dt = new DataTable();
 
             if (header == "Raw Material Inventory")
             {
-                query = "SELECT inv.[Raw Material ID] as [Raw Material ID],  r.[Type] as [Type], w.[Name] as [Site], inv.[Units] as [Units], inv.[Inbound Units] as [Inbound Units], inv.[Reorder Point] as [Reorder Point] " +
-                            "FROM (([Raw Material Inventory] as inv " +
-                            "INNER JOIN [Raw Materials] as r ON inv.[Raw Material ID] = r.[Raw Material ID]) " +
-                            "INNER JOIN [Warehouse] as w ON inv.[Site ID] = w.[Site ID]);";
+                dt = Inventory.getRawMaterials();
             }
             else if (header == "WIP Inventory")
             {
-                query = "SELECT inv.[WIP Inventory ID] as [WIP Inventory ID],  inv.[Type] as [Type], w.[Name] as [Site], inv.[Quantity] as [Quantity], inv.[Inbound Units] as [Inbound Units] " +
-                            "FROM ([WIP Inventory] as inv " +
-                            "INNER JOIN [Warehouse] as w ON inv.[Site ID] = w.[Site ID]);";
+                dt = Inventory.getWIP();
             }
             else
             {
-                query = "SELECT inv.[FG Inventory ID] as [FG Inventory ID],  inv.[Type] as [Type], w.[Name] as [Site], inv.[Quantity] as [Quantity], inv.[Inbound Units] as [Inbound Units] " +
-                            "FROM ([Finished Goods Inventory] as inv " +
-                            "INNER JOIN [Warehouse] as w ON inv.[Site ID] = w.[Site ID]);";
+                dt = Inventory.getFinishedGoods();
             }
 
-            DataTable dt = External.executeSelectQuery(query);
             inventoryDataGrid.ItemsSource = dt.AsDataView();
         }
 
@@ -77,7 +75,8 @@ namespace SCM_Desktop_Application
             }
 
             InventoryTransferDetails details = new InventoryTransferDetails(title);
-            details.Show();
+            details.ShowDialog();
+            loadTable();
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DataAccess;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,74 +22,38 @@ namespace SCM_Desktop_Application
     public partial class InternalTransfersDetails : Window
     {
 
-        int index;
+        DataRowView item;
         private string title = "";
-        public InternalTransfersDetails(int j, string title)
+        public InternalTransfersDetails(DataRowView item, string title)
         {
             InitializeComponent();
 
-            index = j;
+            this.item = item;
             this.title = title;
 
-            TransferIdTextBlock.Text = Database.InternalTransfer[index].StockTransferId.ToString();
+            TransferIdTextBlock.Text = item["Stock Transfer ID"].ToString();
 
-            for (int i = 0; i < Database.InternalShippingMethod.Length; i++)
+            DataTable dt = Transportation.getInternalShippingMethods();
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ComboBoxItem cboxitem = new ComboBoxItem();
-                cboxitem.Content = Database.InternalShippingMethod[i];
-                DeliveryMethodComboBox.Items.Add(cboxitem);
-                if (Database.InternalTransfer[index].DeliveryMethod == Database.InternalShippingMethod[i])
-                {
-                    DeliveryMethodComboBox.SelectedIndex = i;
-                }
+                DeliveryMethodComboBox.Items.Add(dt.Rows[i]["Method"].ToString());
             }
 
-            if (Database.InternalTransfer[index].TotalCost != -1)
-            {
-                TotalCostTextBox.Text = Database.InternalTransfer[index].TotalCost.ToString();
-            }
-
-            if (Database.InternalTransfer[index].DepartureDate != null)
-            {
-                DepartureDate.Text = Database.InternalTransfer[index].DepartureDate;
-            }
-
-            if (Database.InternalTransfer[index].ArrivalDate != null)
-            {
-                ArrivalDate.Text = Database.InternalTransfer[index].ArrivalDate;
-            }
+            DeliveryMethodComboBox.Text = item["Method"].ToString();
+            TotalCostTextBox.Text = item["Cost"].ToString();
+            DepartureDate.Text = item["Departure Date"].ToString();
+            ArrivalDate.Text = item["Arrival Date"].ToString();
         }
 
         void updateTransferDetails(object sender, RoutedEventArgs e)
         {
+            int deliveryMethodId = Transportation.getInternalShippingMethodIdByType(DeliveryMethodComboBox.Text);
+            double totalCost = Double.Parse(TotalCostTextBox.Text);
+            string departureDate = DepartureDate.Text;
+            string arrivalDate = ArrivalDate.Text;
+            int stockId = int.Parse(TransferIdTextBlock.Text);
 
-            if (DeliveryMethodComboBox.Text != "")
-            {
-                int i;
-                for (i = 0; i < Database.InternalShippingMethod.Length; i++)
-                {
-                    if (DeliveryMethodComboBox.Text == Database.InternalShippingMethod[i])
-                    {
-                        Database.InternalTransfer[index].DeliveryMethodID = i;
-                        break;
-                    }
-                }
-            }
-
-            if (TotalCostTextBox.Text != null)
-            {
-                Database.InternalTransfer[index].TotalCost = double.Parse(TotalCostTextBox.Text);
-            }
-
-            if (DepartureDate.Text != null)
-            {
-                Database.InternalTransfer[index].DepartureDate = DepartureDate.Text;
-            }
-
-            if (ArrivalDate.Text != null)
-            {
-                Database.InternalTransfer[index].ArrivalDate = ArrivalDate.Text;
-            }
+            Transportation.updateInternalTransferOrder(stockId, deliveryMethodId, totalCost, departureDate, arrivalDate);
 
             this.Close();
         }
