@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analytics.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Procurement.cs" />

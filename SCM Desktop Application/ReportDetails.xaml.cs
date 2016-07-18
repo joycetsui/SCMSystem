@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,15 +21,14 @@ namespace SCM_Desktop_Application
     public partial class ReportDetails : Window
     {
         public string reportDate;
-        public ReportDetails(int counter)
+        public ReportDetails(DataRowView report)
         {
             InitializeComponent();
-            reportDate = Database.Analytics[counter].date.ToString();
-            Date.Text = reportDate;
-            SupplierTime.Text = Database.Analytics[counter].supplierResponseTime.ToString();
-            ProductionTime.Text = Database.Analytics[counter].productionTime.ToString();
-            OrderFullfillment.Text = Database.Analytics[counter].orderFullfillmentTime.ToString();
-            SCMCost.Text = Database.Analytics[counter].scmCost.ToString();
+            Date.Text = report["Date"].ToString();
+            SupplierTime.Text = report["Supplier Response Time"].ToString();
+            ProductionTime.Text = report["Production Time"].ToString();
+            OrderFullfillment.Text = report["Order Fullfillment Time"].ToString();
+            SCMCost.Text = report["Supply Chain Cost"].ToString();
         }
 
     }

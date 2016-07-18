@@ -8,21 +8,27 @@
 	Title="Reports">
 
     <Grid>
-        <Label Content="Reports" HorizontalAlignment="Left" Margin="123,29,0,0" VerticalAlignment="Top"/>
-        <Button Content="Generate Report" HorizontalAlignment="Left" Margin="90,204,0,0" VerticalAlignment="Top" Width="120" Click="Button_Click"/>
-        <ListView HorizontalAlignment="Left" Height="115" Margin="53,69,0,0" VerticalAlignment="Top" Width="200" Name="ReportList">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
-                </GridView>
-            </ListView.View>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <EventSetter Event="MouseDoubleClick" Handler="openReport" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label Content="Reports" Grid.Row="0" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"/>
+        <Button Grid.Row="2" Content="Generate Report" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto" Click="generateReport"/>
+        <DataGrid Grid.Row="1" HorizontalAlignment="Stretch" Height="Auto" Margin="10" VerticalAlignment="Stretch" Width="Auto"
+                  Name="ReportList"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False"
+                  Loaded="loadTable">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="openReport"/>
                 </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
-        
-
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Width="*" Binding="{Binding Date}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>
