@@ -60,7 +60,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="access.cs" />
     <Compile Include="CustomerOrderDetails.xaml.cs">
       <DependentUpon>CustomerOrderDetails.xaml</DependentUpon>
     </Compile>

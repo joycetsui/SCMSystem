@@ -228,6 +228,12 @@ namespace DataAccess
         }
 
         // Warehouses
+        public static DataTable getWarehouses()
+        {
+            string query = "select * from [Warehouse]";
+            return Database.executeSelectQuery(query);
+        }
+
         public static DataTable getWarehouseNames()
         {
             string query = "select [Name] from [Warehouse]";
@@ -244,6 +250,83 @@ namespace DataAccess
             DataTable dt = Database.executeSelectQuery(query, pars);
 
             return int.Parse(dt.Rows[0][0].ToString());
+        }
+
+        public static DataTable getWarehouseRawMaterialsInventoryItems(int warehouseId)
+        {
+            DataTable dt = new DataTable();
+
+            string query = "SELECT inv.[Material ID], rm.[Type], inv.[Units], inv.[Inbound Units] " +
+                           "FROM [Raw Material Inventory] inv " +
+                           "INNER JOIN [Raw Materials] rm ON inv.[Material ID] = rm.[Raw Material ID] " +
+                           "WHERE inv.[Site ID] = @siteId;";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("siteId", warehouseId));
+
+            return Database.executeSelectQuery(query, pars);
+        }
+
+        public static DataTable getWarehouseWIPInventoryItems(int warehouseId)
+        {
+            DataTable dt = new DataTable();
+
+            string query = "SELECT inv.[Material ID], rm.[Type], inv.[Units], inv.[Inbound Units] " +
+                           "FROM [WIP Inventory] inv " +
+                           "INNER JOIN [Products] rm ON inv.[Material ID] = rm.[Product ID] " +
+                           "WHERE inv.[Site ID] = @siteId;";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("siteId", warehouseId));
+
+            return Database.executeSelectQuery(query, pars);
+        }
+
+        public static DataTable getWarehouseFGInventoryItems(int warehouseId)
+        {
+            DataTable dt = new DataTable();
+
+            string query = "SELECT inv.[Material ID], rm.[Type], inv.[Units], inv.[Inbound Units] " +
+                           "FROM [Finished Goods Inventory] inv " +
+                           "INNER JOIN [Products] rm ON inv.[Material ID] = rm.[Product ID] " +
+                           "WHERE inv.[Site ID] = @siteId;";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("siteId", warehouseId));
+
+            return Database.executeSelectQuery(query, pars);
+        }
+
+        public static int getWarehouseStockLevel(int warehouseId)
+        {
+            int stockLevel = 0;
+
+            string query = "SELECT SUM([Count]) as [Stock Level] " +
+                           "FROM (" +
+                               "SELECT SUM(inv.[Units]) as [Count] " +
+                               "FROM [Raw Material Inventory] inv " +
+                               "INNER JOIN [Raw Materials] rm ON inv.[Material ID] = rm.[Raw Material ID] " +
+                               "WHERE inv.[Site ID] = @siteId " +
+                               "Union " +
+                               "SELECT SUM(inv.[Units])  " +
+                               "FROM [WIP Inventory] inv " +
+                               "INNER JOIN [Products] rm ON inv.[Material ID] = rm.[Product ID] " +
+                               "WHERE inv.[Site ID] = @siteId " +
+                               "Union " +
+                               "SELECT SUM(inv.[Units]) " +
+                               "FROM [Finished Goods Inventory] inv " +
+                               "INNER JOIN [Products] rm ON inv.[Material ID] = rm.[Product ID] " +
+                               "WHERE inv.[Site ID] = @siteId " +
+                            ") as sub;";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("siteId", warehouseId));
+
+            DataTable dt = Database.executeSelectQuery(query, pars);
+
+            stockLevel = int.Parse(dt.Rows[0]["Stock Level"].ToString());
+
+            return stockLevel;
         }
 
         public static double getWarehouseRent()

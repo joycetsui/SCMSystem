@@ -41,7 +41,7 @@
                 AutoGenerateColumns="True"
                 CanUserAddRows="False"
                 IsReadOnly="True"/>
-        <Label Name="finishedGoods"  Grid.Row="5" Content="FnishedGoods" Margin="10,0, 10, 0" ></Label>
+        <Label Name="finishedGoods"  Grid.Row="5" Content="Fnished Goods" Margin="10,0, 10, 0" ></Label>
         <DataGrid x:Name="finishedGoodsDataGrid" 
                 Grid.Row="6"
                 HorizontalAlignment="Stretch" Width="Auto" Margin="10"

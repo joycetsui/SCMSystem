@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DataAccess;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,18 +25,25 @@ namespace SCM_Desktop_Application
         public Warehouses()
         {
             InitializeComponent();
+            loadTable();
         }
 
         public void loadTable(object sender, RoutedEventArgs e)
         {
-            warehousesDataGrid.ItemsSource = Database.WarehouseList;
+            loadTable();
+        }
+
+        public void loadTable()
+        {
+            DataTable dt = Inventory.getWarehouses();
+            warehousesDataGrid.ItemsSource = dt.AsDataView();
         }
 
         public void row_DoubleClick(object sender, RoutedEventArgs e)
         {
-            Warehouse item = (sender as DataGridRow).DataContext as Warehouse;
+            DataRowView item = (DataRowView)warehousesDataGrid.SelectedItems[0];
             WarehouseDetails detailsWindow = new WarehouseDetails(item);
-            detailsWindow.Show();
+            detailsWindow.ShowDialog();
         }
     }
 }

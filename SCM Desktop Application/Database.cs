@@ -949,7 +949,7 @@ namespace SCM_Desktop_Application
         // Procurement Forecasts Table
         public static ObservableCollection<ProcurementForecastItem> ProcurementForecasts = new ObservableCollection<ProcurementForecastItem>
         {
-            new ProcurementForecastItem { Year = 2016, Week = 1, rawMaterialId = 0, Quantity = 400},
+            new ProcurementForecastItem { Year = 2016, Week = 1, rawMaterialId = 3, Quantity = 400},
             new ProcurementForecastItem { Year = 2016, Week = 2, rawMaterialId = 1, Quantity = 100},
             new ProcurementForecastItem { Year = 2016, Week = 3, rawMaterialId = 2, Quantity = 25},
             new ProcurementForecastItem { Year = 2016, Week = 4, rawMaterialId = 3, Quantity = 340},

@@ -12,42 +12,42 @@ namespace SCM_Desktop_Application
 {
     static public class External
     {
-        static public DataTable executeSelectQuery(string query)
-        {
-            DataTable dt = new DataTable();
-            using (SqlConnection conn = new SqlConnection(access.cnStr))
-            {
-                try
-                {
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
-                    adapter.Fill(dt);
-                }
-                catch { }
-            }
+        //static public DataTable executeSelectQuery(string query)
+        //{
+        //    DataTable dt = new DataTable();
+        //    using (SqlConnection conn = new SqlConnection(access.cnStr))
+        //    {
+        //        try
+        //        {
+        //            SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+        //            adapter.Fill(dt);
+        //        }
+        //        catch { }
+        //    }
 
-            return dt;
-        }
+        //    return dt;
+        //}
 
-        static public void executeInsertUpdateQuery(string query)
-        {
-            using (SqlConnection conn = new SqlConnection(access.cnStr))
-            {
-                try
-                {
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                }
-                catch { }
-            }
-        }
+        //static public void executeInsertUpdateQuery(string query)
+        //{
+        //    using (SqlConnection conn = new SqlConnection(access.cnStr))
+        //    {
+        //        try
+        //        {
+        //            SqlCommand cmd = new SqlCommand(query, conn);
+        //            conn.Open();
+        //            cmd.ExecuteNonQuery();
+        //            conn.Close();
+        //        }
+        //        catch { }
+        //    }
+        //}
 
         static public ProcurementForecastItem[] getNewForecasts()
         {
             ProcurementForecastItem[] ProcurementForecasts = new[]
             {
-                new ProcurementForecastItem { Year = 2016, Week = 7, rawMaterialId = 0, Quantity = 30},
+                new ProcurementForecastItem { Year = 2016, Week = 7, rawMaterialId = 3, Quantity = 30},
                 new ProcurementForecastItem { Year = 2016, Week = 8, rawMaterialId = 1, Quantity = 100},
                 new ProcurementForecastItem { Year = 2016, Week = 9, rawMaterialId = 2, Quantity = 42},
                 new ProcurementForecastItem { Year = 2016, Week = 10, rawMaterialId = 3, Quantity = 13},

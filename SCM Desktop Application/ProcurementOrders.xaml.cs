@@ -29,6 +29,11 @@ namespace SCM_Desktop_Application
             loadTable();
         }
 
+        public void loadTable(object sender, RoutedEventArgs e)
+        {
+            loadTable();
+        }
+
         public void loadTable()
         {
             DataTable dt = Procurement.getProcurementOrders();

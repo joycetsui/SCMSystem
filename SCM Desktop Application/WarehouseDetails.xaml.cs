@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DataAccess;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,15 +21,17 @@ namespace SCM_Desktop_Application
     /// </summary>
     public partial class WarehouseDetails : Window
     {
-        public WarehouseDetails(Warehouse item)
+        public WarehouseDetails(DataRowView item)
         {
             InitializeComponent();
+            pageTitle.Content = item["Name"] + " Content Details";
 
-            pageTitle.Content = item.Name + " Content Details";
+            int warehouseId = int.Parse(item["Site ID"].ToString());
 
-            rawMaterialsDataGrid.ItemsSource = item.rawMaterials;
-            WIPDataGrid.ItemsSource = item.WIPs;
-            finishedGoodsDataGrid.ItemsSource = item.FinishedGoods;
+            DataTable dt = Inventory.getWarehouseRawMaterialsInventoryItems(warehouseId);
+            rawMaterialsDataGrid.ItemsSource = dt.AsDataView();
+            WIPDataGrid.ItemsSource = Inventory.getWarehouseWIPInventoryItems(warehouseId).AsDataView();
+            finishedGoodsDataGrid.ItemsSource = Inventory.getWarehouseFGInventoryItems(warehouseId).AsDataView();
         }
     }
 }
