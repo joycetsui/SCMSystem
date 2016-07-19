@@ -22,7 +22,7 @@ namespace SCM_Desktop_Application
     public partial class CustomerOrderDetails : Window
     {
         private DataRowView row;
-       // private string title = "";
+
         public CustomerOrderDetails(DataRowView item)
         {
             InitializeComponent();

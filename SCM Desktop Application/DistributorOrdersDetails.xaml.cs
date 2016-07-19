@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DataAccess;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,23 +21,21 @@ namespace SCM_Desktop_Application
     /// </summary>
     public partial class DistributorOrdersDetails : Window
     {
-        int index;
-        private string title = "";
-        public DistributorOrdersDetails(int j, string title)
+        private DataRowView row;
+        public DistributorOrdersDetails(DataRowView item)
         {
             InitializeComponent();
 
-            index = j;
-            this.title = title;
+            row = item;
 
-            OrderIdTextBlock.Text = Database.DistributorShipping[index].OrderId.ToString();
+            pageTitle.Content = "Update Distributor/Retailer Order Details";
 
-            if (Database.DistributorShipping[index].StockTransferID != -1)
-            {
-                InternalTranferIdTextBox.Text = Database.DistributorShipping[index].StockTransferID.ToString();
-            }
+            OrderIdTextBlock.Text = item["Distributor Order ID"].ToString();
 
-            if (Database.DistributorShipping[index].Status == "Shipped")
+            InternalTranferIdTextBox.Text = item["Stock Transfer ID"].ToString();
+            
+
+            if (item["Status"].ToString() == "Shipped")
             {
                 dShippingStatus.IsChecked = true;
             }
@@ -45,20 +45,22 @@ namespace SCM_Desktop_Application
 
         void updateDetails(object sender, RoutedEventArgs e)
         {
-            if (InternalTranferIdTextBox.Text != "")
-            {
-                Database.DistributorShipping[index].StockTransferID = int.Parse(InternalTranferIdTextBox.Text);
-            }
+            int id = int.Parse(row["Distributor Order ID"].ToString());
+            int stock = int.Parse(InternalTranferIdTextBox.Text);
+
+            string status;
             if (dShippingStatus.IsChecked == true)
             {
-                Database.DistributorShipping[index].Status = "Shipped";
+                status = "Shipped";
 
             }
-            if (dShippingStatus.IsChecked == false)
+            else
             {
-                Database.DistributorShipping[index].Status = "Not Shipped";
+                status = "Not Shipped";
 
             }
+
+            ProductOrders.updateRetailerOrder(id, stock, status);
 
             this.Close();
         }

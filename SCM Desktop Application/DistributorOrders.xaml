@@ -8,57 +8,44 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="DistributorOrders">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <Label x:Name="PageTitle" Content="Retail and Distributor Orders" 
-               Grid.Row="0"
-               HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
-
-        <Grid x:Name="distributorOrderDetails" Grid.Row ="1" Margin="10">
+    <ScrollViewer>
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Grid.Row="0" Grid.Column="0">Order Details</TextBlock>
-            <TextBlock Grid.Row="1" Grid.Column="0">Order ID:</TextBlock>
-            <TextBlock Grid.Row="2" Grid.Column="0">Delivery Method:</TextBlock>
-            <TextBlock Grid.Row="3" Grid.Column="0">Date Shipped:</TextBlock>
-
-            <Button Grid.Row="0" Grid.Column="1" x:Name="daddOrderBtn" Content="Update" 
-                HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="Auto" Click="openDetailsWindow"/>
-
-            <TextBlock x:Name="dOrderIdTextBlock" Grid.Row="1" Grid.Column="1"/>
-            <TextBlock x:Name="dShippingMethodTextBlock" x:FieldModifier="public" Grid.Row="2" Grid.Column="1" Text=""/>
-            <TextBlock x:Name="dDepartureDateTextBox" x:FieldModifier="public" Grid.Row="3" Grid.Column="1"/>
-
-        </Grid>
-
-
-        <DataGrid x:Name="distributorOrderDataGrid" 
+            <Label x:Name="PageTitle" Content="Retail and Distributor Orders" 
+               Grid.Row="0"
+               HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
+            <DataGrid x:Name="distributorOrderDataGrid" 
                   Grid.Row="2"
-                  HorizontalAlignment="Stretch" Width="Auto"
+                  HorizontalAlignment="Stretch" Width="Auto" Margin="10"
                   ColumnWidth="*"
                   ItemsSource="{Binding}"
                   AutoGenerateColumns="True"
                   Loaded="loadTable"
-                  Margin="10"
-                  IsReadOnly="True" >
+                  CanUserAddRows="False"
+                  IsReadOnly="True">
 
-        </DataGrid>
-
-    </Grid>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="" Width="40">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="X" Tag="{Binding}" Click="deleteRow"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="" Width="40">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Edit" Tag="{Binding}" Click="editRow"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </ScrollViewer>
 </Page>

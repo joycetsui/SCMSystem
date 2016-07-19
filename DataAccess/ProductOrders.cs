@@ -61,7 +61,7 @@ namespace DataAccess
 
         public static DataTable getRetailerOrders()
         {
-            string query = "SELECT [Product Order ID], [Stock Transfer ID], [Status] " +
+            string query = "SELECT [Distributor Order ID], [Product Order ID], [Stock Transfer ID], [Status] " +
                             "FROM[Distributor Shipping];";
 
             return Database.executeSelectQuery(query);
@@ -77,6 +77,21 @@ namespace DataAccess
             pars.Add(new SqlParameter("id", id));
 
             return Database.executeSelectQuery(query, pars);
+        }
+
+        public static void updateRetailerOrder(int id, int stock, string status)
+        {
+            string query = "update [Distributor Shipping] " +
+                           "set [Stock Transfer ID] = @stock, " +
+                               "[Status] = @status " +
+                           "where [Distributor Order ID]= @id";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("stock", stock));
+            pars.Add(new SqlParameter("status", status));
+            pars.Add(new SqlParameter("id", id));
+
+            Database.executeInsertUpdateQuery(query, pars);
         }
     }
 }

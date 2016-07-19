@@ -14,6 +14,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -21,16 +22,19 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0">Order Details</TextBlock>
-            <TextBlock Grid.Row="1" Grid.Column="0">Order ID:</TextBlock>
-            <TextBlock Grid.Row="2" Grid.Column="0">Internal Transfer ID:</TextBlock>
+        <Label Name="pageTitle" Margin="10"
+               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"></Label>
             
-            <Button Grid.Row="4" Grid.Column="1" x:Name="addOrderBtn" Content="Update" 
+        <TextBlock Grid.Row="1" Grid.Column="0">Order Details</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="0">Order ID:</TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="0">Internal Transfer ID:</TextBlock>
+            
+            <Button Grid.Row="5" Grid.Column="1" x:Name="addOrderBtn" Content="Update" 
                 HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="Auto" Click="updateDetails"/>
 
-            <TextBlock x:Name="OrderIdTextBlock" Grid.Row="1" Grid.Column="1"/>
-            <TextBox x:Name="InternalTranferIdTextBox" Grid.Row="2" Grid.Column="1" Text=""/>
-            <CheckBox x:Name="dShippingStatus" Grid.Row="3" Grid.Column="0">Shipped</CheckBox>
+            <TextBlock x:Name="OrderIdTextBlock" Grid.Row="2" Grid.Column="1"/>
+            <TextBox x:Name="InternalTranferIdTextBox" Grid.Row="3" Grid.Column="1" Text=""/>
+            <CheckBox x:Name="dShippingStatus" Grid.Row="4" Grid.Column="0">Shipped</CheckBox>
 
 
     </Grid>
