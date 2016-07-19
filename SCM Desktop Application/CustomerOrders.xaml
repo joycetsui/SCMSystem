@@ -8,60 +8,44 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="CustomerOrders">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <Label x:Name="PageTitle" Content="Customer Orders" 
-               Grid.Row="0"
-               HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
-
-        <Grid x:Name="customerOrderDetails" Grid.Row ="1" Margin="10">
+    <ScrollViewer>
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="400"/>
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Grid.Row="0" Grid.Column="0">Order Details</TextBlock>
-            <TextBlock Grid.Row="1" Grid.Column="0">Order ID:</TextBlock>
-            <TextBlock Grid.Row="2" Grid.Column="0">Tracking #:</TextBlock>
-            <TextBlock Grid.Row="3" Grid.Column="0">Shipping Company:</TextBlock>
-            <TextBlock Grid.Row="4" Grid.Column="0">Date Shipped:</TextBlock>
-            
-            
-            <Button Grid.Row="0" Grid.Column="1" x:Name="addOrderBtn" Content="Edit" 
-                HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" Width="Auto" Click="openDetailsWindow"/>
-
-            <TextBlock x:Name="OrderIdTextBlock" Grid.Row="1" Grid.Column="1"></TextBlock>
-            <TextBlock x:Name="TrackingTextBlock" Grid.Row="2" Grid.Column="1"></TextBlock>
-            <TextBlock x:Name="ShippingCompanyTextBlock" Grid.Row="3" Grid.Column="1" Text=""/>
-            <TextBlock x:Name="DateShippedTextBlock" Grid.Row="4" Grid.Column="1"></TextBlock>
-        </Grid>
-        
-       
-        <DataGrid x:Name="customerOrderDataGrid" 
+            <Label x:Name="PageTitle" Content="Customer Orders" 
+               Grid.Row="0"
+               HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Width="Auto"/>
+            <DataGrid x:Name="customerOrderDataGrid" 
                   Grid.Row="2"
-                  HorizontalAlignment="Stretch" Width="Auto"
+                  HorizontalAlignment="Stretch" Width="Auto" Margin="10"
                   ColumnWidth="*"
                   ItemsSource="{Binding}"
                   AutoGenerateColumns="True"
                   Loaded="loadTable"
-                  Margin="10"
-                  IsReadOnly="True" >
+                  CanUserAddRows="False"
+                  IsReadOnly="True">
 
-        </DataGrid>
-
-    </Grid>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="" Width="40">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="X" Tag="{Binding}" Click="deleteRow"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="" Width="40">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Edit" Tag="{Binding}" Click="editRow"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </ScrollViewer>
 </Page>

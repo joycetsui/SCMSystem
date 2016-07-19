@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -13,7 +13,7 @@ namespace DataAccess
         public static DataTable getCustomerOrders()
         {
             string query = "SELECT [Customer Order ID], [Tracking Number], [Status] " +
-                            "FROM[Customer Shipping];";
+                            "FROM [Customer Shipping];";
 
             return Database.executeSelectQuery(query);
         }
@@ -28,6 +28,16 @@ namespace DataAccess
             pars.Add(new SqlParameter("id", id));
 
             return Database.executeSelectQuery(query, pars);
+        }
+
+        public static void deleteCustomerOrder(int id)
+        {
+            string query = "delete from [Customer Shipping] where [Customer Order ID]= @id";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("id", id));
+
+            Database.executeInsertUpdateQuery(query, pars);
         }
 
         public static DataTable getRetailerOrders()
