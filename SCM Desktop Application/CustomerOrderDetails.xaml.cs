@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DataAccess;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,33 +21,33 @@ namespace SCM_Desktop_Application
     /// </summary>
     public partial class CustomerOrderDetails : Window
     {
-        int index;
-        private string title = "";
-        public CustomerOrderDetails(int j, string title)
+        private DataRowView row;
+       // private string title = "";
+        public CustomerOrderDetails(DataRowView item)
         {
             InitializeComponent();
 
-            index = j;
-            this.title = title;
+            row = item;
 
-            OrderIdTextBlock2.Text = Database.CustomerShipping[index].OrderId.ToString();
+            pageTitle.Content = "Update Customer Order Details";
 
-            TrackingTextBox.Text = Database.CustomerShipping[index].TrackingNumber.ToString();
+            OrderIdTextBlock2.Text = item["Customer Order ID"].ToString();
 
-            for (int i = 0; i < Database.ShippingCompanies.Count; i++)
+            TrackingTextBox.Text = item["Tracking Number"].ToString();
+
+            DataTable dt = Transportation.getShippingCompanyNames();
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ComboBoxItem cboxitem = new ComboBoxItem();
-                cboxitem.Content = Database.ShippingCompanies[i].CompanyName;
-                ShippingCompanyComboBox.Items.Add(cboxitem);
-                if (Database.CustomerShipping[index].ShippingCompany == Database.ShippingCompanies[i].CompanyName)
-                {
-                    ShippingCompanyComboBox.SelectedIndex = i;
-                }
+                ShippingCompanyComboBox.Items.Add(dt.Rows[i][0].ToString());
+                //if (Database.CustomerShipping[index].ShippingCompany == Database.ShippingCompanies[i].CompanyName)
+                //{
+                //    ShippingCompanyComboBox.SelectedIndex = i;
+                //}
             }
 
-            DateShippedTextBox.Text = Database.CustomerShipping[index].DateShipped;
+            DateShippedTextBox.Text = Transportation.getCustomerDateShipped(int.Parse(item["Customer Order ID"].ToString()));
 
-            if (Database.CustomerShipping[index].Status == "Shipped")
+            if (Transportation.getCustomerShippingStatus(int.Parse(item["Customer Order ID"].ToString())) == "Shipped")
             {
                 cShippingStatus.IsChecked = true;
             }
@@ -56,41 +58,29 @@ namespace SCM_Desktop_Application
         // Update database
         void updateDetails(object sender, RoutedEventArgs e)
         {
-            
-            if (TrackingTextBox.Text != "")
-            {
-                Database.CustomerShipping[index].TrackingNumber = int.Parse(TrackingTextBox.Text);
-            }
 
-            if (ShippingCompanyComboBox.Text != "")
-            {
-                int i;
-                for (i = 0; i < Database.ShippingCompanies.Count; i++)
-                {
-                    if (ShippingCompanyComboBox.Text == Database.ShippingCompanies[i].CompanyName)
-                    {
-                        Database.CustomerShipping[index].ShippingCompanyId = Database.ShippingCompanies[i].companyId;
-                        break;
-                    }
-                }
+            int id = int.Parse(row["Customer Order ID"].ToString());
+
+            int tracking = int.Parse(TrackingTextBox.Text);
+
+            int ship = Transportation.getShippingCompanyID(ShippingCompanyComboBox.Text);
+
+            DateTime date = DateTime.Parse(DateShippedTextBox.Text);
 
 
-            }
-            if (DateShippedTextBox.Text != "")
-            {
-                Database.CustomerShipping[index].DateShipped = DateShippedTextBox.Text;
-
-            }
+            string status;
             if (cShippingStatus.IsChecked == true)
             {
-                Database.CustomerShipping[index].Status = "Shipped";
+                status = "Shipped";
 
             }
-            if (cShippingStatus.IsChecked == false)
+            else
             {
-                Database.CustomerShipping[index].Status = "Not Shipped";
+               status = "Not Shipped";
 
             }
+
+            ProductOrders.updateCustomerOrder(id, tracking, ship, date, status);
 
             this.Close();
 

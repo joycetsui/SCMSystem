@@ -40,6 +40,25 @@ namespace DataAccess
             Database.executeInsertUpdateQuery(query, pars);
         }
 
+        public static void updateCustomerOrder(int id, int tracking, int ship, DateTime date, string status)
+        {
+            string query = "update [Customer Shipping] " +
+                           "set [Tracking Number] = @tracking, " +
+                               "[Shipping Company ID] = @ship, " +
+                               "[Date Shipped] = @date, " +
+                               "[Status] = @status " +
+                           "where [Customer Order ID]= @id";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("tracking", tracking));
+            pars.Add(new SqlParameter("ship", ship));
+            pars.Add(new SqlParameter("date", date));
+            pars.Add(new SqlParameter("status", status));
+            pars.Add(new SqlParameter("id", id));
+
+            Database.executeInsertUpdateQuery(query, pars);
+        }
+
         public static DataTable getRetailerOrders()
         {
             string query = "SELECT [Product Order ID], [Stock Transfer ID], [Status] " +
