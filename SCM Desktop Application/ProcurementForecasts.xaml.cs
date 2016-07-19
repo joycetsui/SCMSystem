@@ -1,6 +1,7 @@
 ﻿using DataAccess;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,13 @@ namespace SCM_Desktop_Application
 
         public void loadTable(object sender, RoutedEventArgs e)
         {
-            procurementForecastDataGrid.DataContext = Database.ProcurementForecasts;
+            loadTable();
+        }
+
+        public void loadTable()
+        {
+            DataTable dt = Procurement.getProcurementForecasts();
+            procurementForecastDataGrid.ItemsSource = dt.AsDataView();
         }
 
         public void updateForecats(object sender, RoutedEventArgs e)
@@ -36,11 +43,13 @@ namespace SCM_Desktop_Application
             ProcurementForecastItem[] newForecats = External.getNewForecasts();
             for (int i = 0; i < newForecats.Length; i++)
             {
-                Database.ProcurementForecasts.Add(newForecats[i]);
+                Procurement.addNewProcurementForecast(newForecats[i].Year, newForecats[i].Week, newForecats[i].rawMaterialId, newForecats[i].Quantity);
             }
+
+            loadTable();
         }
 
-        private int currentWeek = 0;
+        private int currentWeek = 5;
 
         public void placeOrders(object sender, RoutedEventArgs e)
         {

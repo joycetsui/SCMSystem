@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace DataAccess
 {
@@ -32,7 +35,48 @@ namespace DataAccess
 
             int id = Database.executeInsertQueryAndReturnId(query, pars);
 
+            query = "SELECT po.[Procurement Order ID] as [Order ID],  r.[Type] as [Raw Material], s.[Company Name] as [Supplier], s.[Location] as [Address], s.[Payment Details], po.[Quantity] as [Quantity], (r.[Unit Cost] * po.[Quantity]) as [Total Cost] " +
+                    "FROM[Procurement Orders] as po " +
+                    "INNER JOIN[Raw Materials] as r ON po.[Raw Material ID] = r.[Raw Material ID] " +
+                    "INNER JOIN[Suppliers] as s ON po.[Supplier ID] = s.[Supplier ID] " +
+                    "WHERE po.[Procurement Order ID] = @id; ";
+
+            List<SqlParameter> pars2 = new List<SqlParameter>();
+            pars2.Add(new SqlParameter("id", id));
+
+            DataTable dt = Database.executeSelectQuery(query, pars2);
+
+            sendPurchaseOrderToAIS(dt.Rows[0]["Raw Material"].ToString(), dt.Rows[0]["Supplier"].ToString(), dt.Rows[0]["Address"].ToString(), dt.Rows[0]["Payment Details"].ToString(), int.Parse(dt.Rows[0]["Quantity"].ToString()), Double.Parse(dt.Rows[0]["Total Cost"].ToString()));
+
             return id;
+        }
+
+        private static void sendPurchaseOrderToAIS(string rawMaterial, string supplierName, string supplierAddress, string supplierPaymentDetails, int quantity, double totalCost)
+        {
+            Payee_details details = new Payee_details { name = supplierName, address = supplierAddress };
+
+            AISRequestObject obj = new AISRequestObject();
+            obj.team_name = "scm";
+            obj.items_bought = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>(rawMaterial, quantity),
+            };
+            obj.payee_details = details;
+            obj.value = totalCost;
+
+            string json = JsonConvert.SerializeObject(obj);
+            Console.WriteLine(json);
+
+            string url = "http://cs490ais.herokuapp.com/api/purchase";
+            string result = "";
+
+            using (var client = new WebClient())
+            {
+                client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                result = client.UploadString(url, "POST", json);
+            }
+
+            Console.WriteLine(result);
         }
 
         public static void updateProcurementOrder(int orderId, int supplierId, int destinationId, int rawMaterialId, int quantity)
@@ -75,6 +119,29 @@ namespace DataAccess
             }
 
             return procurementCost;
+        }
+
+        public static DataTable getProcurementForecasts()
+        {
+            string query = "SELECT pf.[Forecast Year] as [Year], pf.[Week Number], r.[Type] as [Raw Material], pf.[Quantity] " +
+                            "FROM [Procurement Forecast] as pf " +
+                            "INNER JOIN [Raw Materials] as r ON pf.[Raw Material ID] = r.[Raw Material ID];";
+
+            return Database.executeSelectQuery(query);
+        }
+
+        public static void addNewProcurementForecast(int year, int week, int rawMaterialId, int quantity)
+        {
+            string query = "insert into [Procurement Forecast]([Forecast Year],[Week Number], [Raw Material ID],[Quantity]) " +
+                            "values( @year, @week, @rawMaterialId, @quantity);";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("year", year));
+            pars.Add(new SqlParameter("week", week));
+            pars.Add(new SqlParameter("rawMaterialId", rawMaterialId));
+            pars.Add(new SqlParameter("quantity", quantity));
+
+            Database.executeInsertUpdateQuery(query, pars);
         }
 
         public static DataTable getSuppliersNames()

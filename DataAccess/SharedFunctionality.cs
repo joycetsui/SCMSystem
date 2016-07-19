@@ -15,17 +15,31 @@ namespace DataAccess
         public double amount;
     }
 
-    public static class SharedFunctionality
+    public struct Payee_details
     {
-        public static void throwError(string message, string reason)
-        {
-            var error = new HttpResponseMessage(HttpStatusCode.NotFound)
-            {
-                Content = new StringContent(string.Format(message)),
-                ReasonPhrase = reason,
-            };
-
-            throw new Exception(message);
-        }
+        public string name;
+        public string address;
     }
+
+    public class AISRequestObject
+    {
+        public string team_name;
+        public List <KeyValuePair<string, int>> items_bought;
+        public double value;
+        public Payee_details payee_details;
+    }
+
+    //public static class SharedFunctionality
+    //{
+    //    public static void throwError(string message, string reason)
+    //    {
+    //        var error = new HttpResponseMessage(HttpStatusCode.NotFound)
+    //        {
+    //            Content = new StringContent(string.Format(message)),
+    //            ReasonPhrase = reason,
+    //        };
+
+    //        throw new Exception(message);
+    //    }
+    //}
 }
