@@ -57,7 +57,7 @@ namespace DataAccess
 
         public static DataTable getInternalShippingMethods()
         {
-            string query = "SELECT [Method] FROM [Internal Transportation];";
+            string query = "SELECT [Method] FROM [Internal Transportation] WHERE [id] <> 1;";
             return Database.executeSelectQuery(query);
         }
 
@@ -105,7 +105,7 @@ namespace DataAccess
 
         public static DataTable getShippingCompanyNames()
         {
-            string namesQuery = "Select [Company Name] from [Shipping Company]";
+            string namesQuery = "Select [Company Name] from [Shipping Company] Where [Shipping Company ID] <> 1 ;";
             DataTable dt = Database.executeSelectQuery(namesQuery);
             return dt;
         }
@@ -121,25 +121,25 @@ namespace DataAccess
 
         }
         
-        public static string getCustomerDateShipped(int id)
-        {
-            string query = "Select [Date Shipped] from [Customer Shipping] where [Customer Order ID] = @id";
-            List<SqlParameter> pars = new List<SqlParameter>();
-            pars.Add(new SqlParameter("id", id));
+        //public static string getCustomerDateShipped(int id)
+        //{
+        //    string query = "Select [Date Shipped] from [Customer Shipping] where [Customer Order ID] = @id";
+        //    List<SqlParameter> pars = new List<SqlParameter>();
+        //    pars.Add(new SqlParameter("id", id));
 
-            DataTable dt = Database.executeSelectQuery(query, pars);
-            return dt.Rows[0]["Date Shipped"].ToString();
-        }
+        //    DataTable dt = Database.executeSelectQuery(query, pars);
+        //    return dt.Rows[0]["Date Shipped"].ToString();
+        //}
 
-        public static string getCustomerShippingStatus(int id)
-        {
-            string query = "Select [Status] from [Customer Shipping] where [Customer Order ID] = @id";
-            List<SqlParameter> pars = new List<SqlParameter>();
-            pars.Add(new SqlParameter("id", id));
+        //public static string getCustomerShippingStatus(int id)
+        //{
+        //    string query = "Select [Status] from [Customer Shipping] where [Customer Order ID] = @id";
+        //    List<SqlParameter> pars = new List<SqlParameter>();
+        //    pars.Add(new SqlParameter("id", id));
 
-            DataTable dt = Database.executeSelectQuery(query, pars);
-            return dt.Rows[0]["Status"].ToString();
-        }
+        //    DataTable dt = Database.executeSelectQuery(query, pars);
+        //    return dt.Rows[0]["Status"].ToString();
+        //}
 
 
     }

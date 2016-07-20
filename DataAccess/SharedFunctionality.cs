@@ -19,6 +19,7 @@ namespace DataAccess
     {
         public string name;
         public string address;
+        public string paymentDetails;
     }
 
     public class AISRequestObject
@@ -27,6 +28,14 @@ namespace DataAccess
         public List <KeyValuePair<string, int>> items_bought;
         public double value;
         public Payee_details payee_details;
+    }
+
+    public class ProcurementForecastItem
+    {
+        public int rawMaterialId;
+        public int year;
+        public int week;
+        public int quantity;
     }
 
     //public static class SharedFunctionality

@@ -96,26 +96,26 @@ namespace SCM_Desktop_Application
         public int reorderPoint { get; set; }
     }
 
-    public class ProcurementForecastItem
-    {
-        public int rawMaterialId;
+    //public class ProcurementForecastItem
+    //{
+    //    public int rawMaterialId;
 
-        public int Year { get; set; }
-        public int Week { get; set; }
+    //    public int Year { get; set; }
+    //    public int Week { get; set; }
 
-        public string rawMaterial {
-            get
-            {
-                return Database.RawMaterials[this.rawMaterialId];
-            }
+    //    public string rawMaterial {
+    //        get
+    //        {
+    //            return Database.RawMaterials[this.rawMaterialId];
+    //        }
 
-            set
-            {
-                this.rawMaterial = value;
-            }
-        }
-        public int Quantity { get; set; }
-    }
+    //        set
+    //        {
+    //            this.rawMaterial = value;
+    //        }
+    //    }
+    //    public int Quantity { get; set; }
+    //}
 
     /*public class SupplierItem : INotifyPropertyChanged
     {
@@ -947,15 +947,15 @@ namespace SCM_Desktop_Application
         };
 
         // Procurement Forecasts Table
-        public static ObservableCollection<ProcurementForecastItem> ProcurementForecasts = new ObservableCollection<ProcurementForecastItem>
-        {
-            new ProcurementForecastItem { Year = 2016, Week = 1, rawMaterialId = 3, Quantity = 400},
-            new ProcurementForecastItem { Year = 2016, Week = 2, rawMaterialId = 1, Quantity = 100},
-            new ProcurementForecastItem { Year = 2016, Week = 3, rawMaterialId = 2, Quantity = 25},
-            new ProcurementForecastItem { Year = 2016, Week = 4, rawMaterialId = 3, Quantity = 340},
-            new ProcurementForecastItem { Year = 2016, Week = 5, rawMaterialId = 1, Quantity = 490},
-            new ProcurementForecastItem { Year = 2016, Week = 6, rawMaterialId = 1, Quantity = 510},
-        };
+        //public static ObservableCollection<ProcurementForecastItem> ProcurementForecasts = new ObservableCollection<ProcurementForecastItem>
+        //{
+        //    new ProcurementForecastItem { Year = 2016, Week = 1, rawMaterialId = 3, Quantity = 400},
+        //    new ProcurementForecastItem { Year = 2016, Week = 2, rawMaterialId = 1, Quantity = 100},
+        //    new ProcurementForecastItem { Year = 2016, Week = 3, rawMaterialId = 2, Quantity = 25},
+        //    new ProcurementForecastItem { Year = 2016, Week = 4, rawMaterialId = 3, Quantity = 340},
+        //    new ProcurementForecastItem { Year = 2016, Week = 5, rawMaterialId = 1, Quantity = 490},
+        //    new ProcurementForecastItem { Year = 2016, Week = 6, rawMaterialId = 1, Quantity = 510},
+        //};
 
         // Procurement Orders Table
         public static ObservableCollection<ProcurementOrderItem> ProcurementOrders = new ObservableCollection<ProcurementOrderItem>

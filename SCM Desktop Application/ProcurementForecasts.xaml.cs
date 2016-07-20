@@ -40,16 +40,16 @@ namespace SCM_Desktop_Application
 
         public void updateForecats(object sender, RoutedEventArgs e)
         {
-            ProcurementForecastItem[] newForecats = External.getNewForecasts();
+            ProcurementForecastItem[] newForecats = Procurement.getNewForecasts();
             for (int i = 0; i < newForecats.Length; i++)
             {
-                Procurement.addNewProcurementForecast(newForecats[i].Year, newForecats[i].Week, newForecats[i].rawMaterialId, newForecats[i].Quantity);
+                Procurement.addNewProcurementForecast(newForecats[i].year, newForecats[i].week, newForecats[i].rawMaterialId, newForecats[i].quantity);
             }
 
             loadTable();
         }
 
-        private int currentWeek = 5;
+        private int currentWeek = 25;
 
         public void placeOrders(object sender, RoutedEventArgs e)
         {
@@ -60,28 +60,26 @@ namespace SCM_Desktop_Application
                 int beginForecast = currentWeek;
                 int endForecast = currentWeek + 4;
 
-                for (int i = 0; i < Database.ProcurementForecasts.Count;)
+                DataTable dt = Procurement.getProcurementForecastsForWeekRange(beginForecast, endForecast);
+
+                for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    ProcurementForecastItem item = Database.ProcurementForecasts[i];
-                    if (item.Week > beginForecast && item.Week <= endForecast)
-                    {
-                        int supplierId = Database.RawMaterialsList[item.rawMaterialId].supplierId;
-                        int quantity = item.Quantity;
-                        double unitCost = Database.RawMaterialsList[item.rawMaterialId].cost;
-                        double totalCost = item.Quantity * unitCost;
+                    DataRow item = dt.Rows[i];
+                    int rawMaterialId = int.Parse(item["Raw Material ID"].ToString());
+                    int supplierId = Procurement.getSupplierIdByRawMaterialId(rawMaterialId);
+                    int quantity = int.Parse(item["Quantity"].ToString());
+                    int destinationId = 1;
 
-                        int destinationId = 1;
-
-                        Procurement.addNewProcurementOrder(supplierId, destinationId, item.rawMaterialId, quantity);
-                        Database.ProcurementForecasts.RemoveAt(i);
-                    }
-                    else
-                    {
-                        i++;
-                    }
+                    Procurement.addNewProcurementOrder(supplierId, destinationId, rawMaterialId, quantity);
                 }
 
+                currentWeek = endForecast;
+
+                Procurement.deleteProcurementForecastsForWeekRange(beginForecast, endForecast);
+
                 MessageBoxResult msg = MessageBox.Show("Created Orders from week " + (currentWeek+1) + " to week " + (currentWeek + 4) + ". Forecasts for these weeks will be removed from the Forecast table.", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Question);
+
+                loadTable();
             }
         }
     }

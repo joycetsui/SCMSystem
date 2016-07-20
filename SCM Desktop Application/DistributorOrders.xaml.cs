@@ -52,7 +52,7 @@ namespace SCM_Desktop_Application
         {
             DataRowView row = (DataRowView)distributorOrderDataGrid.SelectedItems[0];
             int id = int.Parse(row["Distributor Order ID"].ToString());
-            ProductOrders.deleteCustomerOrder(id);
+            ProductOrders.deleteDistributorOrder(id);
             loadTable();
         }
     }

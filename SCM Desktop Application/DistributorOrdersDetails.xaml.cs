@@ -32,35 +32,42 @@ namespace SCM_Desktop_Application
 
             OrderIdTextBlock.Text = item["Distributor Order ID"].ToString();
 
-            InternalTranferIdTextBox.Text = item["Stock Transfer ID"].ToString();
-            
+            DataTable dt = Transportation.getInternalShippingMethods();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                InternalTransportationComboBox.Items.Add(dt.Rows[i][0].ToString());
+            }
+            InternalTransportationComboBox.Text = item["Method"].ToString();
+
+            DateShippedTextBox.Text = item["Date Shipped"].ToString();
 
             if (item["Status"].ToString() == "Shipped")
             {
                 dShippingStatus.IsChecked = true;
             }
-
         }
 
 
         void updateDetails(object sender, RoutedEventArgs e)
         {
             int id = int.Parse(row["Distributor Order ID"].ToString());
-            int stock = int.Parse(InternalTranferIdTextBox.Text);
+            int stockTransferId = Transportation.getInternalShippingMethodIdByType(InternalTransportationComboBox.Text);
+
+            string date = DateTime.Parse(DateShippedTextBox.Text).ToLongDateString();
 
             string status;
             if (dShippingStatus.IsChecked == true)
             {
                 status = "Shipped";
-
             }
             else
             {
                 status = "Not Shipped";
-
+                stockTransferId = 1;
+                date = "";
             }
 
-            ProductOrders.updateRetailerOrder(id, stock, status);
+            ProductOrders.updateRetailerOrder(id, stockTransferId, status, date);
 
             this.Close();
         }

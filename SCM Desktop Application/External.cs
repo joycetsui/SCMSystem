@@ -43,20 +43,20 @@ namespace SCM_Desktop_Application
         //    }
         //}
 
-        static public ProcurementForecastItem[] getNewForecasts()
-        {
-            ProcurementForecastItem[] ProcurementForecasts = new[]
-            {
-                new ProcurementForecastItem { Year = 2016, Week = 7, rawMaterialId = 3, Quantity = 30},
-                new ProcurementForecastItem { Year = 2016, Week = 8, rawMaterialId = 1, Quantity = 100},
-                new ProcurementForecastItem { Year = 2016, Week = 9, rawMaterialId = 2, Quantity = 42},
-                new ProcurementForecastItem { Year = 2016, Week = 10, rawMaterialId = 3, Quantity = 13},
-                new ProcurementForecastItem { Year = 2016, Week = 11, rawMaterialId = 1, Quantity = 44},
-                new ProcurementForecastItem { Year = 2016, Week = 12, rawMaterialId = 1, Quantity = 445},
-            };
+        //static public ProcurementForecastItem[] getNewForecasts()
+        //{
+        //    ProcurementForecastItem[] ProcurementForecasts = new[]
+        //    {
+        //        new ProcurementForecastItem { Year = 2016, Week = 7, rawMaterialId = 3, Quantity = 30},
+        //        new ProcurementForecastItem { Year = 2016, Week = 8, rawMaterialId = 1, Quantity = 100},
+        //        new ProcurementForecastItem { Year = 2016, Week = 9, rawMaterialId = 2, Quantity = 42},
+        //        new ProcurementForecastItem { Year = 2016, Week = 10, rawMaterialId = 3, Quantity = 13},
+        //        new ProcurementForecastItem { Year = 2016, Week = 11, rawMaterialId = 1, Quantity = 44},
+        //        new ProcurementForecastItem { Year = 2016, Week = 12, rawMaterialId = 1, Quantity = 445},
+        //    };
 
-            return ProcurementForecasts;
-        }
+        //    return ProcurementForecasts;
+        //}
 
         static public void addNewShippingCompany(string companyName, string shippingMethod, string contactInfo, double shippingRate)
         {

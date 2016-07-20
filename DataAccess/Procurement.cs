@@ -53,7 +53,7 @@ namespace DataAccess
 
         private static void sendPurchaseOrderToAIS(string rawMaterial, string supplierName, string supplierAddress, string supplierPaymentDetails, int quantity, double totalCost)
         {
-            Payee_details details = new Payee_details { name = supplierName, address = supplierAddress };
+            Payee_details details = new Payee_details { name = supplierName, address = supplierAddress, paymentDetails = supplierPaymentDetails };
 
             AISRequestObject obj = new AISRequestObject();
             obj.team_name = "scm";
@@ -125,9 +125,50 @@ namespace DataAccess
         {
             string query = "SELECT pf.[Forecast Year] as [Year], pf.[Week Number], r.[Type] as [Raw Material], pf.[Quantity] " +
                             "FROM [Procurement Forecast] as pf " +
-                            "INNER JOIN [Raw Materials] as r ON pf.[Raw Material ID] = r.[Raw Material ID];";
+                            "INNER JOIN [Raw Materials] as r ON pf.[Raw Material ID] = r.[Raw Material ID] " +
+                            "ORDER BY pf.[Forecast Year], pf.[Week Number]";
 
             return Database.executeSelectQuery(query);
+        }
+
+        public static DataTable getProcurementForecastsForWeekRange(int startWeek, int endWeek)
+        {
+            string query = "SELECT * " +
+                            "FROM [Procurement Forecast]" +
+                            "WHERE [Week Number] >= @startWeek AND [Week Number] <= @endWeek";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("startWeek", startWeek));
+            pars.Add(new SqlParameter("endWeek", endWeek));
+
+            return Database.executeSelectQuery(query, pars);
+        }
+
+        public static void deleteProcurementForecastsForWeekRange(int startWeek, int endWeek)
+        {
+            string query = "Delete FROM [Procurement Forecast]" +
+                            "WHERE [Week Number] >= @startWeek AND [Week Number] <= @endWeek";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("startWeek", startWeek));
+            pars.Add(new SqlParameter("endWeek", endWeek));
+
+            Database.executeInsertUpdateQuery(query, pars);
+        }
+
+        static public ProcurementForecastItem[] getNewForecasts()
+        {
+            ProcurementForecastItem[] ProcurementForecasts = new[]
+            {
+                new ProcurementForecastItem { year = 2016, week = 29, rawMaterialId = 3, quantity = 30},
+                new ProcurementForecastItem { year = 2016, week = 30, rawMaterialId = 1, quantity = 100},
+                new ProcurementForecastItem { year = 2016, week = 31, rawMaterialId = 2, quantity = 42},
+                new ProcurementForecastItem { year = 2016, week = 32, rawMaterialId = 3, quantity = 13},
+                new ProcurementForecastItem { year = 2016, week = 33, rawMaterialId = 1, quantity = 44},
+                new ProcurementForecastItem { year = 2016, week = 34, rawMaterialId = 1, quantity = 445},
+            };
+
+            return ProcurementForecasts;
         }
 
         public static void addNewProcurementForecast(int year, int week, int rawMaterialId, int quantity)
@@ -156,6 +197,18 @@ namespace DataAccess
 
             List<SqlParameter> pars = new List<SqlParameter>();
             pars.Add(new SqlParameter("name", name));
+
+            DataTable dt = Database.executeSelectQuery(query, pars);
+
+            return int.Parse(dt.Rows[0][0].ToString());
+        }
+
+        public static int getSupplierIdByRawMaterialId(int rawMaterialId)
+        {
+            string query = "select [Supplier ID] from [Raw Materials] where [Raw Material ID]= @rawMaterialId;";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("rawMaterialId", rawMaterialId));
 
             DataTable dt = Database.executeSelectQuery(query, pars);
 

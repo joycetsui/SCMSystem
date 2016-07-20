@@ -98,15 +98,17 @@ namespace cs490_scm_API.Controllers
         {
             dynamic json = data;
 
-            int supplierId = 1;
             int destinationSiteId = json.destination_site_id ?? -1;
             int rawMaterialId = json.raw_material_id ?? -1;
             int amount = json.buy_amount ?? -1;
             int orderId = -1;
 
-            if (supplierId != -1 && destinationSiteId != -1 && rawMaterialId != -1 && amount > 0)
+            if (destinationSiteId != -1 && rawMaterialId != -1 && amount > 0)
             {
-                try {
+                int supplierId = Procurement.getSupplierIdByRawMaterialId(rawMaterialId);
+
+                try
+                {
                     orderId = Procurement.addNewProcurementOrder(supplierId, destinationSiteId, rawMaterialId, amount);
                 }
                 catch (Exception e)

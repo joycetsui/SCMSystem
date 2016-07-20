@@ -39,19 +39,15 @@ namespace SCM_Desktop_Application
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 ShippingCompanyComboBox.Items.Add(dt.Rows[i][0].ToString());
-                //if (Database.CustomerShipping[index].ShippingCompany == Database.ShippingCompanies[i].CompanyName)
-                //{
-                //    ShippingCompanyComboBox.SelectedIndex = i;
-                //}
             }
+            ShippingCompanyComboBox.Text = item["Shipping Company"].ToString();
 
-            DateShippedTextBox.Text = Transportation.getCustomerDateShipped(int.Parse(item["Customer Order ID"].ToString()));
+            DateShippedTextBox.Text = item["Date Shipped"].ToString();
 
-            if (Transportation.getCustomerShippingStatus(int.Parse(item["Customer Order ID"].ToString())) == "Shipped")
+            if (item["Status"].ToString() == "Shipped")
             {
                 cShippingStatus.IsChecked = true;
             }
-
         }
     
 
@@ -63,27 +59,26 @@ namespace SCM_Desktop_Application
 
             int tracking = int.Parse(TrackingTextBox.Text);
 
-            int ship = Transportation.getShippingCompanyID(ShippingCompanyComboBox.Text);
+            int shippingCompanyId = Transportation.getShippingCompanyID(ShippingCompanyComboBox.Text);
 
-            DateTime date = DateTime.Parse(DateShippedTextBox.Text);
-
+            string date = DateTime.Parse(DateShippedTextBox.Text).ToLongDateString();
 
             string status;
+
             if (cShippingStatus.IsChecked == true)
             {
                 status = "Shipped";
-
             }
             else
             {
-               status = "Not Shipped";
-
+                status = "Not Shipped";
+                shippingCompanyId = 1;
+                date = "";
             }
 
-            ProductOrders.updateCustomerOrder(id, tracking, ship, date, status);
+            ProductOrders.updateCustomerOrder(id, tracking, shippingCompanyId, date, status);
 
             this.Close();
-
         }
     }
 }

@@ -12,8 +12,10 @@ namespace DataAccess
     {
         public static DataTable getCustomerOrders()
         {
-            string query = "SELECT [Customer Order ID], [Tracking Number], [Status] " +
-                            "FROM [Customer Shipping];";
+            string query = "SELECT [Customer Order ID], [Tracking Number], cs.[Product Order ID], po.[Customer ID], po.[Type], [Status], sc.[Company Name] as [Shipping Company], po.[Destination], [Date Shipped] " +
+                            "FROM [Customer Shipping] as cs " +
+                            "INNER JOIN [Shipping Company] as sc ON cs.[Shipping Company ID] = sc.[Shipping Company ID] " +
+                            "INNER JOIN [Product Orders] as po ON cs.[Product Order ID] = po.[Product Order ID];";
 
             return Database.executeSelectQuery(query);
         }
@@ -40,18 +42,18 @@ namespace DataAccess
             Database.executeInsertUpdateQuery(query, pars);
         }
 
-        public static void updateCustomerOrder(int id, int tracking, int ship, DateTime date, string status)
+        public static void updateCustomerOrder(int id, int tracking, int shippingCompanyId, string date, string status)
         {
             string query = "update [Customer Shipping] " +
                            "set [Tracking Number] = @tracking, " +
-                               "[Shipping Company ID] = @ship, " +
-                               "[Date Shipped] = @date, " +
+                               "[Shipping Company ID] = @shippingCompanyId, " +
+                               "[Date Shipped] = CASE @date WHEN '' THEN NULL ELSE @date END, " +
                                "[Status] = @status " +
                            "where [Customer Order ID]= @id";
 
             List<SqlParameter> pars = new List<SqlParameter>();
             pars.Add(new SqlParameter("tracking", tracking));
-            pars.Add(new SqlParameter("ship", ship));
+            pars.Add(new SqlParameter("shippingCompanyId", shippingCompanyId));
             pars.Add(new SqlParameter("date", date));
             pars.Add(new SqlParameter("status", status));
             pars.Add(new SqlParameter("id", id));
@@ -61,8 +63,10 @@ namespace DataAccess
 
         public static DataTable getRetailerOrders()
         {
-            string query = "SELECT [Distributor Order ID], [Product Order ID], [Stock Transfer ID], [Status] " +
-                            "FROM[Distributor Shipping];";
+            string query = "SELECT [Distributor Order ID], [Stock Transfer ID], ds.[Product Order ID], po.[Customer ID], po.[Type], [Status], it.[Method], po.[Destination], [Date Shipped] " +
+                            "FROM [Distributor Shipping] as ds " +
+                            "INNER JOIN [Internal Transportation] as it ON ds.[Stock Transfer ID] = it.[id] " +
+                            "INNER JOIN [Product Orders] as po ON ds.[Product Order ID] = po.[Product Order ID];";
 
             return Database.executeSelectQuery(query);
         }
@@ -79,16 +83,28 @@ namespace DataAccess
             return Database.executeSelectQuery(query, pars);
         }
 
-        public static void updateRetailerOrder(int id, int stock, string status)
+        public static void updateRetailerOrder(int id, int stock, string status, string date)
         {
             string query = "update [Distributor Shipping] " +
                            "set [Stock Transfer ID] = @stock, " +
-                               "[Status] = @status " +
+                               "[Status] = @status, " +
+                               "[Date Shipped] = CASE @date WHEN '' THEN NULL ELSE @date END " +
                            "where [Distributor Order ID]= @id";
 
             List<SqlParameter> pars = new List<SqlParameter>();
             pars.Add(new SqlParameter("stock", stock));
             pars.Add(new SqlParameter("status", status));
+            pars.Add(new SqlParameter("date", date));
+            pars.Add(new SqlParameter("id", id));
+
+            Database.executeInsertUpdateQuery(query, pars);
+        }
+
+        public static void deleteDistributorOrder(int id)
+        {
+            string query = "delete from [Distributor Shipping] where [Distributor Order ID]= @id";
+
+            List<SqlParameter> pars = new List<SqlParameter>();
             pars.Add(new SqlParameter("id", id));
 
             Database.executeInsertUpdateQuery(query, pars);
