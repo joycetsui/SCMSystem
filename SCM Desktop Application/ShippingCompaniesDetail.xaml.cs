@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DataAccess;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,22 +22,21 @@ namespace SCM_Desktop_Application
     public partial class ShippingCompaniesDetail : Window
     {
 
-        private ShippingCompany company;
+        private DataRowView company;
         private string title = "";
-        public ShippingCompaniesDetail(ShippingCompany item, string title)
+        public ShippingCompaniesDetail(DataRowView item, string title)
         {
             InitializeComponent();
 
             company = item;
             this.title = title;
 
-            CompanyNameTextBox.Text = item.CompanyName;
-            ShippingMethodTextBox.Text = item.ShippingMethod;
-            ContactInfoTextBox.Text = item.ContactInfo;
-            ShippingRateTextBox.Text = item.ShippingRate.ToString();
-
             if (title == "Update Shipping Company")
             {
+                CompanyNameTextBox.Text = item["Company Name"].ToString();
+                ContactInfoTextBox.Text = item["Contact Info"].ToString();
+                ShippingRateTextBox.Text = item["Standard Shipping Rate"].ToString();
+
                 addBtn.Content = "Update";
             }
             else
@@ -46,48 +47,18 @@ namespace SCM_Desktop_Application
 
         public void updateCompany(object sender, RoutedEventArgs e)
         {
+            string name = CompanyNameTextBox.Text;
+            string contactInfo = ContactInfoTextBox.Text;
+            double shippingRate = Double.Parse(ShippingRateTextBox.Text);
+
             if (title == "Update Shipping Company")
             {
-                int index = Database.ShippingCompanies.IndexOf(company);
-                int i;
-                for (i = 0; i < Database.ShippingCompanies.Count; i++)
-                {
-                    if (Database.ShippingCompanies[i].companyId == company.companyId)
-                    {
-                        break;
-                    }
-                }
-
-                if (CompanyNameTextBox.Text != "")
-                {
-                    Database.ShippingCompaniesName[Database.ShippingCompanies[i].companyId] = CompanyNameTextBox.Text;
-                    Database.ShippingCompanies[i].CompanyName = CompanyNameTextBox.Text;
-                }
-
-                if (ShippingMethodTextBox.Text != "")
-                {
-                    Database.ShippingCompanies[i].ShippingMethod = ShippingMethodTextBox.Text;
-                }
-
-                if (ContactInfoTextBox.Text != "")
-                {
-                    Database.ShippingCompanies[i].ContactInfo = ContactInfoTextBox.Text;
-                }
-
-                if (ShippingRateTextBox.Text != "")
-                {
-                    Database.ShippingCompanies[i].ShippingRate = double.Parse(ShippingRateTextBox.Text);
-                }
-
+                int id = int.Parse(company["Shipping Company ID"].ToString());
+                Shipping.updateShippingCompany(id, name, contactInfo, shippingRate);
             }
-
             else
             {
-                string companyName = CompanyNameTextBox.Text;
-                string shippingMethod = ShippingMethodTextBox.Text;
-                string contactInfo = ContactInfoTextBox.Text;
-                double shippingRate = double.Parse(ShippingRateTextBox.Text);
-                External.addNewShippingCompany(companyName, shippingMethod, contactInfo, shippingRate);
+                Shipping.addShippingCompany(name, contactInfo, shippingRate);
             }
 
             this.Close();

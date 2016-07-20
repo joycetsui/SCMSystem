@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace DataAccess
 {
-    class Suppliers
+    public static class Suppliers
     {
         public static DataTable getSupplier()
         {
-            string query = "SELECT [Company Name], [Location], [Payment Details],  " +
+            string query = "SELECT *  " +
                             "FROM [Suppliers];";
 
             return Database.executeSelectQuery(query);
@@ -38,8 +38,7 @@ namespace DataAccess
         public static void addSupplier(String companyName, String location, String paymentDetails)
         {
             String query = "insert into [Suppliers]([Company Name], [Location],[Payment Details]) " +
-                            "values( @id, @companyName, @location, @paymentDetails) " +
-                            "SELECT scope_identity();";
+                            "values( @companyName, @location, @paymentDetails);";
 
             List<SqlParameter> pars = new List<SqlParameter>();
             pars.Add(new SqlParameter("companyName", companyName));
@@ -51,7 +50,7 @@ namespace DataAccess
 
         public static void deleteSupplier(int id)
         {
-            string query = "delete from [Suppliers] where [Suppilier ID]= @id";
+            string query = "delete from [Suppliers] where [Supplier ID]= @id";
 
             List<SqlParameter> pars = new List<SqlParameter>();
             pars.Add(new SqlParameter("id", id));

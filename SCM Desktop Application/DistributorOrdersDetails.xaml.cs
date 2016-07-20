@@ -53,7 +53,7 @@ namespace SCM_Desktop_Application
             int id = int.Parse(row["Distributor Order ID"].ToString());
             int stockTransferId = Transportation.getInternalShippingMethodIdByType(InternalTransportationComboBox.Text);
 
-            string date = DateTime.Parse(DateShippedTextBox.Text).ToLongDateString();
+            string date = DateShippedTextBox.Text;
 
             string status;
             if (dShippingStatus.IsChecked == true)

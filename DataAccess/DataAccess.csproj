@@ -53,6 +53,8 @@
     <Compile Include="ProductOrders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharedFunctionality.cs" />
+    <Compile Include="Shipping.cs" />
+    <Compile Include="Suppliers.cs" />
     <Compile Include="Transportation.cs" />
   </ItemGroup>
   <ItemGroup>

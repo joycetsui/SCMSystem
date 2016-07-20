@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DataAccess;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +21,9 @@ namespace SCM_Desktop_Application
     /// </summary>
     public partial class SupplierDetail : Window
     {
-        private Supplier supplier;
+        private DataRowView supplier;
         private string title = "";
-        public SupplierDetail(Supplier item, string title)
+        public SupplierDetail(DataRowView item, string title)
         {
             InitializeComponent();
 
@@ -31,8 +33,9 @@ namespace SCM_Desktop_Application
             if (title == "Update Supplier Details")
             {
                 updateBtn.Content = "Update";
-                nametbx.Text = supplier.Name;
-                locationtbx.Text = supplier.Location;
+                nametbx.Text = supplier["Company Name"].ToString();
+                locationtbx.Text = supplier["Location"].ToString();
+                paymentDetails.Text = supplier["Payment Details"].ToString();
             }
             else
             {
@@ -44,29 +47,16 @@ namespace SCM_Desktop_Application
         {
             string name = nametbx.Text;
             string location = locationtbx.Text;
+            string details = paymentDetails.Text;
+
             if (title == "Update Supplier Details")
             {
-                int index = Database.SuppliersList.IndexOf(supplier);
-                if (name != "")
-                {
-                    int nameIndex = Database.SuppliersListName.IndexOf(supplier.Name);
-                    Database.SuppliersListName[nameIndex] = name;
-                }
-                else
-                {
-                    name = supplier.Name;
-                }
-                if (location == "")
-                {
-                    location = supplier.Location;
-                }
-                Supplier newItem = new Supplier {SupplierId = supplier.SupplierId, Name = name, Location = location};
-                Database.SuppliersList[index] = newItem;
+                int id = int.Parse(supplier["Supplier ID"].ToString());
+                Suppliers.updateSupplier(id, name, location, details);
             }
             else
             {
-                Database.SuppliersListName.Add(name);
-                External.addNewSupplier(name, location);
+                Suppliers.addSupplier(name, location, details);
             }
             this.Close();
         }

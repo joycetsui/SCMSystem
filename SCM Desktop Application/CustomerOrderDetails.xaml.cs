@@ -35,7 +35,7 @@ namespace SCM_Desktop_Application
 
             TrackingTextBox.Text = item["Tracking Number"].ToString();
 
-            DataTable dt = Transportation.getShippingCompanyNames();
+            DataTable dt = Shipping.getShippingCompanyNames();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 ShippingCompanyComboBox.Items.Add(dt.Rows[i][0].ToString());
@@ -59,9 +59,9 @@ namespace SCM_Desktop_Application
 
             int tracking = int.Parse(TrackingTextBox.Text);
 
-            int shippingCompanyId = Transportation.getShippingCompanyID(ShippingCompanyComboBox.Text);
+            int shippingCompanyId = Shipping.getShippingCompanyID(ShippingCompanyComboBox.Text);
 
-            string date = DateTime.Parse(DateShippedTextBox.Text).ToLongDateString();
+            string date = DateShippedTextBox.Text;
 
             string status;
 

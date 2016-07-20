@@ -9,14 +9,32 @@ using System.Threading.Tasks;
 
 namespace DataAccess
 {
-    class Shipping
+    public static class Shipping
     {
         public static DataTable getShippingCompanies()
         {
-            string query = "SELECT [Company Name], [Contact Info], [Standard Shipping Rate] " +
-                            "FROM [Shipping Company];";
+            string query = "SELECT * " +
+                            "FROM [Shipping Company] Where [Shipping Company ID] <> 1;";
             
             return Database.executeSelectQuery(query);
+        }
+
+        public static DataTable getShippingCompanyNames()
+        {
+            string namesQuery = "Select [Company Name] from [Shipping Company] Where [Shipping Company ID] <> 1 ;";
+            DataTable dt = Database.executeSelectQuery(namesQuery);
+            return dt;
+        }
+
+        public static int getShippingCompanyID(string name)
+        {
+            string query = "select [Shipping Company ID] from [Shipping Company] where [Company Name] = @name";
+            List<SqlParameter> pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("name", name));
+
+            DataTable dt = Database.executeSelectQuery(query, pars);
+            return int.Parse(dt.Rows[0]["Shipping Company ID"].ToString());
+
         }
 
         public static void updateShippingCompany(int id, String companyName, String contactInfo, double rate)
@@ -36,17 +54,15 @@ namespace DataAccess
             Database.executeInsertUpdateQuery(query, pars);
         }
 
-        public static void addShippingCompany(int id, String companyName, String contactInfo, double rate)
+        public static void addShippingCompany(String companyName, String contactInfo, double rate)
         {
-            String query = "insert into [Shipping Company]([Shipping Company ID],[Company Name], [Contact Info],[Standard Shipping Rate]) " +
-                            "values( @id, @companyName, @contactInfo, @rate) " +
-                            "SELECT scope_identity();";
+            String query = "insert into [Shipping Company]([Company Name], [Contact Info],[Standard Shipping Rate]) " +
+                           "values(@companyName, @contactInfo, @rate);";
 
             List<SqlParameter> pars = new List<SqlParameter>();
             pars.Add(new SqlParameter("companyName", companyName));
             pars.Add(new SqlParameter("contactInfo", contactInfo));
             pars.Add(new SqlParameter("rate", rate));
-            pars.Add(new SqlParameter("id", id));
 
             Database.executeInsertUpdateQuery(query, pars);
         }
@@ -60,6 +76,5 @@ namespace DataAccess
 
             Database.executeInsertUpdateQuery(query, pars);
         }
-
     }
 }

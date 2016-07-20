@@ -19,9 +19,11 @@
                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"></Label>
         <Label Name="suppliernameLb"  Grid.Row="1" Grid.Column="0" Content="Name" Margin="10,0, 10, 0" ></Label>
         <Label Name="locationLb"  Grid.Row="2" Grid.Column="0" Content="Location" Margin="10,0, 10, 0" ></Label>
+        <Label Name="paymentLb"  Grid.Row="3" Grid.Column="0" Content="Payment Details" Margin="10,0, 10, 0" ></Label>
 
         <TextBox Name="nametbx" Grid.Column="1" Margin="9.8,30,-208,26.2" Grid.RowSpan="3" />
         <TextBox Name="locationtbx"  Grid.Row="2" Grid.Column="1" Margin="9.8,0.2,-208,0.2" ></TextBox>
+        <TextBox Name="paymentDetails"  Grid.Row="3" Grid.Column="1" Margin="9.8,0.2,-208,0.2" ></TextBox>
 
         <Button Name="updateBtn" Tag="{Binding}"  Click="updateSupplier" Content="Update"
                 Margin="10"

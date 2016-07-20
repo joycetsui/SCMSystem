@@ -73,7 +73,11 @@ namespace DataAccess
             using (var client = new WebClient())
             {
                 client.Headers[HttpRequestHeader.ContentType] = "application/json";
-                result = client.UploadString(url, "POST", json);
+                try
+                {
+                    result = client.UploadString(url, "POST", json);
+                }
+                catch { }
             }
 
             Console.WriteLine(result);

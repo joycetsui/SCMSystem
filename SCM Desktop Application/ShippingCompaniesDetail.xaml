@@ -21,7 +21,6 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0">Company Name:</TextBlock>
-        <TextBlock Grid.Row="1" Grid.Column="0">Shipping Method:</TextBlock>
         <TextBlock Grid.Row="2" Grid.Column="0">Contact Info:</TextBlock>
         <TextBlock Grid.Row="3" Grid.Column="0">Shipping Rate:</TextBlock>
 
@@ -29,7 +28,6 @@
                 HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="Auto" Click="updateCompany"/>
 
         <TextBox x:Name="CompanyNameTextBox" Grid.Row="0" Grid.Column="1"/>
-        <TextBox x:Name="ShippingMethodTextBox" Grid.Row="1" Grid.Column="1" Text=""/>
         <TextBox x:Name="ContactInfoTextBox" Grid.Row="2" Grid.Column="1"/>
         <TextBox x:Name="ShippingRateTextBox" Grid.Row="3" Grid.Column="1"/>
 

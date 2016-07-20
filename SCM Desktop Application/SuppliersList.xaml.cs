@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DataAccess;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,28 +29,36 @@ namespace SCM_Desktop_Application
 
         public void loadTable(object sender, RoutedEventArgs e)
         {
-            suppliersDataGrid.ItemsSource = Database.SuppliersList;
+            loadTable();
+        }
+
+        public void loadTable()
+        {
+            DataTable dt = Suppliers.getSupplier();
+            suppliersDataGrid.ItemsSource = dt.AsDataView();
         }
 
         public void addNewSupplier(object sender, RoutedEventArgs e)
         {
-            Supplier item = new Supplier();
-            SupplierDetail detail = new SupplierDetail(item, "Create New Supplier");
-            detail.Show();
+            SupplierDetail detailsWindow = new SupplierDetail(null, "Create New Supplier");
+            detailsWindow.ShowDialog();
+            loadTable();
         }
 
         public void editSupplier(object sender, RoutedEventArgs e)
         {
-            Supplier item = (sender as Button).DataContext as Supplier ;
+            DataRowView item = (DataRowView)suppliersDataGrid.SelectedItems[0];
             SupplierDetail detail = new SupplierDetail(item, "Update Supplier Details");
-            detail.Show();
+            detail.ShowDialog();
+            loadTable();
         }
 
         public void deleteSupplier(object sender, RoutedEventArgs e)
         {
-            Supplier item = (sender as Button).DataContext as Supplier;
-            Database.SuppliersList.Remove(item);
-            Database.SuppliersListName.Remove(item.Name);
+            DataRowView row = (DataRowView)suppliersDataGrid.SelectedItems[0];
+            int id = int.Parse(row["Supplier ID"].ToString());
+            Suppliers.deleteSupplier(id);
+            loadTable();
         }
     }
 }
