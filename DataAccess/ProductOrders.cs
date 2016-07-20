@@ -1,8 +1,10 @@
-﻿ using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +12,29 @@ namespace DataAccess
 {
     public static class ProductOrders
     {
+        //public static SalesCustomer getCustomerInfo()
+        //{
+        //    string result = "";
+
+        //    using (var client = new WebClient())
+        //    {
+        //        string url = "http://afternoon-basin-47187.herokuapp.com/sales/customers?salesperson=aaron";
+
+        //        client.Headers[HttpRequestHeader.ContentType] = "application/json";
+        //        try
+        //        {
+        //            result = client.DownloadString(url);
+        //        }
+        //        catch { }
+        //    }
+
+        //    Console.WriteLine(result);
+
+        //    SalesCustomer customerInfo = JsonConvert.DeserializeObject<SalesCustomer>(result);
+
+        //    return customerInfo;
+        //}
+
         public static DataTable getCustomerOrders()
         {
             string query = "SELECT [Customer Order ID], [Tracking Number], cs.[Product Order ID], po.[Customer ID], po.[Type], [Status], sc.[Company Name] as [Shipping Company], po.[Destination], [Date Shipped] " +

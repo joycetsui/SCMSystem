@@ -17,7 +17,7 @@ namespace DataAccess
 
     public struct Payee_details
     {
-        public string name;
+        public string company;
         public string address;
         public string paymentDetails;
     }
@@ -28,6 +28,19 @@ namespace DataAccess
         public List <KeyValuePair<string, int>> items_bought;
         public double value;
         public Payee_details payee_details;
+    }
+
+    public class SalesCustomer
+    {
+        public SalesCustomerInfo customer;
+    }
+
+    public class SalesCustomerInfo
+    {
+        public string name;
+        public string shipping_addr;
+        public string email;
+        public string billing_addr;
     }
 
     public class ProcurementForecastItem

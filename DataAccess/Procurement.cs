@@ -53,7 +53,7 @@ namespace DataAccess
 
         private static void sendPurchaseOrderToAIS(string rawMaterial, string supplierName, string supplierAddress, string supplierPaymentDetails, int quantity, double totalCost)
         {
-            Payee_details details = new Payee_details { name = supplierName, address = supplierAddress, paymentDetails = supplierPaymentDetails };
+            Payee_details details = new Payee_details { company = supplierName, address = supplierAddress, paymentDetails = supplierPaymentDetails };
 
             AISRequestObject obj = new AISRequestObject();
             obj.team_name = "scm";
